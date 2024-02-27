@@ -1,0 +1,271 @@
+@keyframes constant-spin {
+    0% {
+        transform: rotate(0)
+    }
+    
+    100% {
+        transform: rotate(360deg)
+    }
+    
+    }
+    
+    @keyframes colors-transition {
+    0% {
+        background-color: #04cbd6
+    }
+    
+    25% {
+        background-color: #fede44
+    }
+    
+    50% {
+        background-color: #0cc2dc
+    }
+    
+    75% {
+        background-color: #f3754d
+    }
+    
+    100% {
+        background-color: #ff9e30
+    }
+    
+    }
+    
+    @keyframes blink-sometimes {
+    0% {
+        opacity: 0
+    }
+    
+    10% {
+        opacity: 0
+    }
+    
+    10.01% {
+        opacity: 1
+    }
+    
+    11% {
+        opacity: 1
+    }
+    
+    12% {
+        opacity: 0
+    }
+    
+    77% {
+        opacity: 0
+    }
+    
+    77.01% {
+        opacity: 1
+    }
+    
+    81% {
+        opacity: 1
+    }
+    
+    82% {
+        opacity: 0
+    }
+    
+    100% {
+        opacity: 0
+    }
+    
+    }
+    .tv-shape {
+        width: 900px;
+        height: 900px;
+        background: linear-gradient(135deg, #49a1e5 0, #1e5799 100%);
+        position: absolute;
+        z-index: 8;
+        left: -550px;
+        overflow: hidden;
+        box-shadow: -1px -1px 0 2px #fff inset;
+        z-index: -1;
+    }
+    
+    .tv-shape.footer {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -700px
+    }
+    
+    .tv-shape .mask {
+        position: absolute;
+        z-index: 11;
+        background-image: url(../img/shape-mask.png);
+        background-position: center center;
+        background-size: 100% 100%;
+        transform: rotate(7deg);
+        top: -200px;
+        left: -200px;
+        width: 1300px;
+        height: 1300px
+    }
+    
+    .tv-shape .mask.animated {
+        animation: constant-spin 120s linear infinite
+    }
+    
+    .tv-shape .object {
+        position: absolute;
+        z-index: 2
+    }
+    
+    .tv-shape.funny-guy {
+        position: relative;
+        width: 320px;
+        height: 320px;
+        background-image: url(../img/funny-guy.png);
+        background-position: center center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        box-shadow: none;
+        left: 50px;
+        top: -55px
+    }
+    
+    .tv-shape.funny-guy .mask {
+        display: none
+    }
+    
+    .tv-shape.static {
+        position: relative !important;
+        width: 600px;
+        height: 600px;
+        left: 0
+    }
+    
+    .tv-shape.static .mask {
+        width: 1000px;
+        height: 1000px;
+        top: -200px;
+        z-index: 10;
+        left: -200px
+    }
+    
+    .tv-shape.transitioned {
+        animation: colors-transition 30s linear infinite alternate;
+        background-image: none
+    }
+    
+    .tv-shape.transitioned .object {
+        animation: blink-sometimes 10s linear infinite alternate;
+        background-image: url(../img/city/noise.gif);
+        height: 100%;
+        width: 100%;
+        z-index: 5
+    }
+    
+    .tv-shape.transitioned .mask {
+        z-index: 35
+    }
+    
+    .tv-shape.navy {
+        background: linear-gradient(135deg, #2a4f70 0, #0a344b 100%)
+    }
+    
+    .tv-shape.cyan {
+        background: linear-gradient(to bottom right, #6ed8d1, #3398c0)
+    }
+    
+    .tv-shape.green {
+        background: linear-gradient(135deg, #a5e8c2 0, #5bcdc9 100%)
+    }
+    
+    .tv-shape.gray {
+        background: linear-gradient(135deg, #515f64 0, #313e42 100%)
+    }
+    
+    .tv-shape.yellow {
+        background: linear-gradient(135deg, #fee097 0, #fed269 100%)
+    }
+    
+    .tv-shape.red {
+        background: linear-gradient(135deg, #f39a8b 0, #dd7488 100%)
+    }
+    
+    .tv-shape.orange {
+        background: linear-gradient(to bottom right, #feb468, #fe9c67)
+    }
+    
+    .tv-shape.noise {
+        background-image: url(../img/noise.gif)
+    }
+    
+    .tv-shape.noise .object {
+        background-image: url(..//img/tv-white.png);
+        width: 160px;
+        height: 160px;
+        position: absolute;
+        background-position: center center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%)
+    }
+    
+    .tv-shape .object.web-design-phone {
+        background-image: url(../img/web-design-phone.png);
+        width: 100%;
+        position: absolute;
+        height: 100%;
+        top: 10%;
+        left: 4%;
+        background-size: 78% auto;
+        background-repeat: no-repeat;
+        transform: rotate(-30deg);
+        background-position: center center
+    }
+    
+    .tv-shape.top {
+        top: -200px
+    }
+    
+    .tv-shape.bottom {
+        top: unset;
+        bottom: -200px
+    }
+    
+    .tv-shape.center {
+        top: -30%
+    }
+    
+    .tv-shape.left {
+        left: -600px
+    }
+    
+    .tv-shape.right {
+        left: unset;
+        right: -600px
+    }
+    
+    .tv-shape.right .mask {
+        transform: rotate(-7deg)
+    }
+    
+    /*end of tv shape*/
+    .ie-mode .ground-normal {
+        opacity: 0
+    }
+    
+    .ie-mode .city-ie {
+        position: absolute;
+        z-index: 0 !important;
+        top: -85px
+    }
+    
+    .city-ie-wrap img {
+        opacity: 1
+    }
+    
+    .ie-mode .ie-mode-only {
+        display: block
+    }
+    
+    .ie-mode .hide-on-ie {
+        display: none
+    }

@@ -1,0 +1,265 @@
+/*
+-
+-
+-
+-
+- TechVertu theme - mobile view
+- Powered by : TechVertu;
+- Coded by: Saman Tohidian 
+- Version : 1.0
+- December 2023
+-
+-
+-
+-
+-
+*/
+$miniDesktop: 920px;
+$desktopmax: 1200px;
+$tablet: 780px;
+$mobile: 480px;
+@media only screen and (min-width:993px){
+    .ast-separate-container #primary, .ast-separate-container.ast-left-sidebar #primary, .ast-separate-container.ast-right-sidebar #primary{
+        margin: 2em 0;
+    }
+}
+@media only screen and (min-width: $desktopmax) and (max-width: 1500px) {
+
+}
+@media only screen and (min-width: $miniDesktop) and (max-width: $desktopmax) {
+    .tutorials-list-block{
+		column-count:2;
+	}
+}
+@media only screen and (max-width: $miniDesktop) {
+    .footer-column{
+        padding: 0 30px;
+        width: 100%;
+        &:first-child{
+            width:100%;
+        }
+    }
+    .tutorials-list-block{
+		column-count:2;
+	}
+    .techvertu-contact-footer {
+        ul {
+            li{
+                width:51%;
+            }
+        }
+    }
+    .social-pages{
+        width:100%;
+        margin-top:0;
+        text-align: center;
+    }
+    .copyright-texts {
+        p{
+            text-align: center;
+        }
+    }
+    .socket-nav{
+        width:100%;
+    }
+    .ast-separate-container .site-content .ast-single-post-featured-section + article{
+        margin-top:0;
+    }
+    html .ast-separate-container #primary, html .ast-separate-container.ast-left-sidebar #primary, html .ast-separate-container.ast-right-sidebar #primary{
+        margin: 0;
+    }
+}
+@media only screen and (max-width: $tablet) {
+    html .comment-form-wrapper {
+        .centerize {
+            .comment-column{
+                width:100%;
+            }
+        }
+    }
+    html .left-solution {
+        padding: 80px 20px;
+        width: 98%;
+    }
+    html .right-solution{
+        max-width:98%;
+        width:98%;
+        position: static;
+    }
+    .wp-block-latest-posts {
+        > li {
+            > a{
+                width:75%;
+            }
+        }
+    }
+    .inline-lit-box-items {
+        .wp-block-uagb-icon-list-child{
+            width:100%;
+            span.uagb-icon-list__label{
+                width:70%
+            }
+        }
+    }
+    .inline-lit-box-items.two-column {
+        .wp-block-uagb-icon-list-child{
+            width:100%;
+            span.uagb-icon-list__label{
+                width:64%;
+            }
+        }
+    }
+    html .wp-block-uagb-container.uagb-block-9588c663{
+        padding-right:0 !important;
+    }
+    .wp-block-image figure {
+        width: 100%;
+        overflow: hidden;
+        height: 170px;
+        border-radius: 10px;
+      }
+      .wp-block-image figure img {
+        transform: scale(2);
+        margin-top: 5%;
+      }
+      .techvertu-post-image-wrapper {
+        width: 100%;
+        overflow: hidden;
+        height: 170px;
+        border-radius: 10px;
+      }
+      .techvertu-post-image-wrapper img {
+        transform: scale(2);
+        margin-top: 5%;
+      }
+      .ast-breadcrumbs-inner {
+        font-size: 13px;
+        line-height: 1.7em;
+        opacity: 0.7;
+      }
+}
+@media only screen and (max-width: $mobile) {
+    .tutorials-list-block{
+		column-count:1;
+	}
+    .techvertu-contact-footer {
+        ul {
+            li{
+                width: 100%;
+                i{
+                    img{
+                        width: 22px;
+                    }
+                }
+            }
+        }
+    }
+    .socket-nav {
+        ul{
+            margin-left:0;
+        }
+    }
+    .footer-wrapper{
+        padding-bottom: 20px;
+    }
+    .social-pages {
+        a{
+            overflow: hidden;
+        }
+    }
+    .ast-separate-container .ast-article-single{
+        padding:3em;
+    }
+    html .mobile-no-padding{
+        padding:13px !important;
+    }
+    ol{
+        margin-left: 0 30px;
+    }
+    .footer-column{
+        &:first-child{
+            width:100%;
+        }
+    }
+    html .entry-content {
+        h2{
+            font-size: 22px !important;
+        }
+        h3{
+            font-size: 20px !important;
+        }
+    }
+    html .city-perspective{
+        right: 0;
+        top: 0;
+    }
+    html .comment-form-wrapper {
+        .centerize {
+            .comment-column{
+                width:100%;
+                padding:0 17px;
+                &:first-child{
+                    padding-right: 17px;
+                }
+            }
+        }
+    }
+    
+    .sharer {
+        .social-share{
+            width: 100%;
+            a{
+                width:42px;
+            }
+        }
+        .share-icon{
+            display: none;
+        }
+    }
+    html .comment-header {
+        text-align: center;
+        .header-texts{
+            width:100%;
+            text-align: center;
+        }
+        .image-wrapper{
+            border:0;
+        }
+    }
+    .wp-block-categories-list {
+        li {
+            span.cat-post-count{
+                vertical-align: middle;
+            }
+            a{
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
+    }
+    .alert-text-box .uagb-infobox-icon-left.uagb-infobox__content-wrap {
+        display: block;
+    }
+    .ast-separate-container .ast-article-single {
+        padding: 1em;
+        padding-right: 1em;
+        padding-left: 1em;
+      }
+      html .ast-single-post header.entry-header h1 {
+        font-family: "Lato";
+        color: #0B406A;
+        font-size: 28px;
+        line-height: 1.3em;
+        font-weight: 900;
+      }
+}
+@media only screen and (max-width: 350px) {
+    
+    
+}
+
+@media (min-width: 922px){
+    .single-post .site-content > .ast-container {
+        max-width: 1600px;
+    }
+}

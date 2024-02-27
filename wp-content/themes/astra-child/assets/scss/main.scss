@@ -1,0 +1,30 @@
+$borderRadiusSmall:10px;
+$borderRadiusSmallLight:5px;
+$borderRadiusLarg:20px;
+$fontFamily:'inter';
+$greenBackgroundSolution:#f1f9ea;
+$greenSolutionTitle:#70BB25;
+$greenDark:#47731B;
+$darkBlue:#0B406A;
+$lightGray:#E4E6F1;
+$lightBlack:#76778B;
+$mainBlue:#028DAE;
+$buttonColor:rgba(120, 183, 57, 0.2);
+
+@mixin techvertuWidgetBox(){
+    background-color: #fff;
+    padding:30px;
+    border-radius: $borderRadiusLarg;
+    box-shadow: 0px 0px 13px 3px rgba(0, 37, 77, 0.06);
+}
+
+@import 'body';
+@import 'shapeAnimation';
+@import 'mediaqueries';
+@import 'anim';
+@import 'single';
+@import 'solutionSection';
+@import 'comments';
+@import 'scrollbar';
+
+

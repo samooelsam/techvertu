@@ -1,0 +1,158 @@
+.comment-form-wrapper{
+    background-color: #fff;
+    padding-top: 20px;
+    .comment-respond{
+        padding-left:0;
+        padding-right:0;
+    }
+    .ast-width-lg-33{
+        width:50%;
+        input{
+            width:100%;
+        }
+    }
+    .comment-form-cookies-consent, .form-submit{
+        padding-left: 20px;
+        padding-right: 20px;
+
+    }
+    input[type="text"], input[type="email"], textarea{
+        background-color: #fff;
+        border:1px solid rgba(235, 237, 246, 0.5);
+        border-radius: $borderRadiusSmall;
+        font-size:14px;
+        font-family: $fontFamily;
+        padding: 15px;
+        box-sizing: border-box;
+        color:#CCCDE8;
+        &::placeholder{
+            color:#CCCDE8;
+        }
+    }
+    input[type="text"], input[type="email"]{
+        background-color: #fff;
+    }
+    input[type="text"]{
+        background: url('../img/fi-rr-user.svg') no-repeat;
+        background-size: 20px;
+        background-position: 96% center;
+    }
+    input#email{
+        background: url('../img/fi-rr-envelope.svg') no-repeat;
+        background-size: 20px;
+        background-position: 96% center;
+    }
+    textarea{
+        height: 140px;
+        resize: none;
+    }
+}
+
+.comment-header{
+    margin-top:20px;
+    .image-wrapper{
+        display: inline-block;
+        padding-right: 2%;
+        vertical-align: middle;
+        border-right: 1px solid #cecece;
+    }
+    .header-texts{
+        display: inline-block;
+        width:80%;
+        vertical-align: middle;
+        padding-left: 20px;
+        h3{
+            font-size: 56px;
+            color:$darkBlue;
+            margin:10px 0;
+            font-family: $fontFamily;
+        }
+        span{
+            color:$mainBlue;
+            font-family: $fontFamily;
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: 600;
+            display: block;
+            letter-spacing: 2px;
+        }
+        p{
+            font-size:15px;
+            color:$lightBlack;
+            font-family: $fontFamily;
+        }
+    }
+}
+.comment-notes{
+    display: none;
+}
+.form-submit{
+    input[type="submit"]#submit{
+        width:100%;
+        background-color: $buttonColor;
+        text-align: center;
+        font-family: $fontFamily;
+        border-color:$buttonColor;
+        border:0 solid $buttonColor;
+        color:$greenSolutionTitle;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+}
+.comment-form-wrapper{
+    .comment-respond{
+        background: transparent;
+    }
+    .comment{
+        background-color:rgba(235, 237, 246, 0.24);
+        padding: 20px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        border-radius: $borderRadiusSmall;
+        .reply{
+            float:right;
+
+        }
+        .comment-reply-link{
+            background: url('../img/fi-rr-redo.svg') no-repeat;
+            padding-top: 20px;
+            font-size: 7px;
+            background-size: 16px;
+            background-position: center 0;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color:$darkBlue;
+        }
+        .comment-author{
+            .fn, .says{
+                color:rgba(118, 119, 139, 0.5);
+                font-size: 13px;
+                font-family: $fontFamily;
+            }
+        }
+        p{
+            font-size: 12px;
+            line-height: 20px;
+            color:$lightBlack;
+            margin-top:10px;
+        }
+    }
+    .centerize{
+        .comment-column{
+            display: inline-block;
+            vertical-align: top;
+            width:48%;
+            &:first-child{
+                border-right:1px solid rgba(118, 119, 139, 0.2); 
+                padding-right: 50px;
+            }
+            &:nth-child(2n){
+                padding:50px;
+                box-sizing: border-box;
+            }
+        }
+    }
+}

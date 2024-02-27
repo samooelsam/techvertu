@@ -1,0 +1,60 @@
+.techvertu-post-image-wrapper{
+    border-radius: $borderRadiusLarg;
+    overflow: hidden;
+    margin-bottom: 20px;
+    img{
+        width:100%;
+    }
+}
+.ast-separate-container:not(.page) {
+    .ast-article-single:not(.ast-related-post){
+        background: none;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+html {
+    .ast-single-post {
+        header.entry-header {
+            h1{
+                font-family: $fontFamily;
+                color:#038eae;
+                font-size: 36px;
+                font-weight: 900;
+                margin-bottom: 2em;
+            }
+        }
+    }
+    .entry-content {
+        p{
+            font-size: 18px;
+            font-family: $fontFamily;
+            color: $lightBlack;
+            line-height: 1.7em;
+        }
+        h2{
+            font-size: 32px;
+            font-family: $fontFamily;
+            color:$mainBlue;
+        }
+        h3{
+            font-size: 28px;
+            font-family: $fontFamily;
+            color:$mainBlue;
+        }
+    }
+    .logged-in{
+        .form-submit{
+            padding: 0;
+        }
+    }
+}
+p.read-more {
+    a{
+        font-weight: 900;
+        font-size: 15px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        padding: 1em 1em 1em 0;
+    }
+}

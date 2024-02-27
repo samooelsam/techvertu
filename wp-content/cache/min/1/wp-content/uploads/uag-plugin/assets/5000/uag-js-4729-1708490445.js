@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",function(){window.addEventListener('load',function(){UAGBTableOfContents._run({"mappingHeaders":[!0,!0,!0,!0,!0,!0],"scrollToTop":!1,"makeCollapsible":!1},'.uagb-block-3fe34741')})})
