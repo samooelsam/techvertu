@@ -1,5 +1,5 @@
 <?php
-define( 'WP_CACHE', true ); // Added by WP Rocket
+define( 'WP_CACHE', false ); // Added by WP Rocket
 
 /**
  * The base configuration for WordPress
@@ -23,16 +23,16 @@ define( 'WP_CACHE', true ); // Added by WP Rocket
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', 'wp_vyrr1' );
+define( 'DB_NAME', 'techvertu' );
 
 /** Database username */
-define( 'DB_USER', 'wp_letny' );
+define( 'DB_USER', 'root' );
 
 /** Database password */
-define( 'DB_PASSWORD', 'eVBt$M76ji@j3J~N' );
+define( 'DB_PASSWORD', '' );
 
 /** Database hostname */
-define( 'DB_HOST', 'localhost:3306' );
+define( 'DB_HOST', 'localhost' );
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
@@ -90,6 +90,9 @@ define('WP_ALLOW_MULTISITE', true);
 if ( ! defined( 'WP_DEBUG' ) ) {
 	define( 'WP_DEBUG', false );
 }
+define('WP_DEBUG_DISPLAY', false);
+ini_set('display_errors','Off');
+ini_set('error_reporting', E_ALL );
 define( 'WP_MEMORY_LIMIT', '512M' );
 
 /* That's all, stop editing! Happy publishing. */

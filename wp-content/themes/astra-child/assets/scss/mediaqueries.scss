@@ -24,14 +24,31 @@ $mobile: 480px;
     }
 }
 @media only screen and (min-width: $desktopmax) and (max-width: 1500px) {
-
+    :not(.is-grid).uagb-post-grid.uagb-post__columns-tablet-2 article{
+        width:23%;
+    }
 }
 @media only screen and (min-width: $miniDesktop) and (max-width: $desktopmax) {
     .tutorials-list-block{
 		column-count:2;
 	}
+    :not(.is-grid).uagb-post-grid.uagb-post__columns-tablet-2 article{
+        width:48%;
+    }
+    .uagb-block-eaa1e721.wp-block-uagb-info-box .uagb-ifb-desc, .uagb-block-eaa1e721.wp-block-uagb-info-box .uagb-ifb-title{
+        margin-right:0;
+    }
 }
 @media only screen and (max-width: $miniDesktop) {
+    .wp-block-uagb-container.uagb-is-root-container .uagb-block-e2571534{
+        max-width: 100%;
+    }
+    .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column{
+        flex-basis: 40% !important;
+    }
+    .uagb-block-1eab74da .wp-block-uagb-image__figure{
+        max-width: 44%;
+    }
     .footer-column{
         padding: 0 30px;
         width: 100%;
@@ -67,6 +84,15 @@ $mobile: 480px;
     }
     html .ast-separate-container #primary, html .ast-separate-container.ast-left-sidebar #primary, html .ast-separate-container.ast-right-sidebar #primary{
         margin: 0;
+    }
+    :not(.is-grid).uagb-post-grid.uagb-post__columns-tablet-2 article{
+        width:48%;
+    }
+    .uagb-block-eaa1e721.wp-block-uagb-info-box .uagb-ifb-desc, .uagb-block-eaa1e721.wp-block-uagb-info-box .uagb-ifb-title{
+        margin-right:0;
+    }
+    .wp-block-uagb-container.uagb-is-root-container .uagb-block-514f203b{
+        max-width: inherit !important;
     }
 }
 @media only screen and (max-width: $tablet) {
@@ -136,6 +162,14 @@ $mobile: 480px;
         font-size: 13px;
         line-height: 1.7em;
         opacity: 0.7;
+      }
+      .techvertu-new-articles {
+        .uagb-post__inner-wrap{
+            width:100%;
+        }
+      }
+      :not(.is-grid).uagb-post-grid.uagb-post__columns-tablet-2 article{
+        width:100%;
       }
 }
 @media only screen and (max-width: $mobile) {
