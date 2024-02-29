@@ -1006,7 +1006,10 @@ html .entry-content ul li, html .entry-content ol li {
     color: #0B406A;
     font-size: 28px;
     line-height: 1.3em;
-    font-weight: 900; } }
+    font-weight: 900; }
+
+  .sk_reviews_grid-item {
+    width: 100% !important; } }
 @media (min-width: 922px) {
   .single-post .site-content > .ast-container {
     max-width: 1600px; } }
