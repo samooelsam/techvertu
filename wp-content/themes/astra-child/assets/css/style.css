@@ -794,10 +794,40 @@ html .entry-content ul li, html .entry-content ol li {
 @media only screen and (min-width: 993px) {
   .ast-separate-container #primary, .ast-separate-container.ast-left-sidebar #primary, .ast-separate-container.ast-right-sidebar #primary {
     margin: 2em 0; } }
+@media only screen and (min-width: 1200px) and (max-width: 1500px) {
+  .techvertu-new-articles .uagb-post-grid.uagb-post__columns-4 .uagb-post__inner-wrap {
+    width: 23%; } }
 @media only screen and (min-width: 920px) and (max-width: 1200px) {
   .tutorials-list-block {
-    column-count: 2; } }
+    column-count: 2; }
+
+  .techvertu-new-articles .uagb-post-grid.uagb-post__columns-4 .uagb-post__inner-wrap {
+    width: 48%; }
+
+  .uagb-block-eaa1e721.wp-block-uagb-info-box .uagb-ifb-desc, .uagb-block-eaa1e721.wp-block-uagb-info-box .uagb-ifb-title {
+    margin-right: 0; } }
 @media only screen and (max-width: 920px) {
+  .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
+    flex-basis: 100%; }
+
+  .wp-block-uagb-container.uagb-is-root-container .uagb-block-e2571534 {
+    max-width: 100%; }
+
+  .wp-block-uagb-container.uagb-is-root-container .uagb-block-46904379 {
+    max-width: 100%; }
+
+  .sk_reviews_grid-item {
+    width: 45% !important; }
+
+  .uagb-block-1eab74da .wp-block-uagb-image__figure {
+    max-width: 44%; }
+
+  .techvertu-licences {
+    text-align: center; }
+
+  .copyright-texts p {
+    text-align: center; }
+
   .footer-column {
     padding: 0 30px;
     width: 100%; }
@@ -825,7 +855,16 @@ html .entry-content ul li, html .entry-content ol li {
     margin-top: 0; }
 
   html .ast-separate-container #primary, html .ast-separate-container.ast-left-sidebar #primary, html .ast-separate-container.ast-right-sidebar #primary {
-    margin: 0; } }
+    margin: 0; }
+
+  .techvertu-new-articles .uagb-post-grid.uagb-post__columns-4 .uagb-post__inner-wrap {
+    width: 48%; }
+
+  .uagb-block-eaa1e721.wp-block-uagb-info-box .uagb-ifb-desc, .uagb-block-eaa1e721.wp-block-uagb-info-box .uagb-ifb-title {
+    margin-right: 0; }
+
+  .wp-block-uagb-container.uagb-is-root-container .uagb-block-514f203b {
+    max-width: inherit !important; } }
 @media only screen and (max-width: 780px) {
   html .comment-form-wrapper .centerize .comment-column {
     width: 100%; }
@@ -878,7 +917,16 @@ html .entry-content ul li, html .entry-content ol li {
   .ast-breadcrumbs-inner {
     font-size: 13px;
     line-height: 1.7em;
-    opacity: 0.7; } }
+    opacity: 0.7; }
+
+  .techvertu-new-articles .uagb-post__inner-wrap {
+    width: 100%; }
+
+  .techvertu-new-articles .uagb-post-grid.uagb-post__columns-4 .uagb-post__inner-wrap {
+    width: 100%; }
+
+  .wp-block-uagb-container.uagb-is-root-container .uagb-block-3a98e30e {
+    margin-bottom: 20px; } }
 @media only screen and (max-width: 480px) {
   .tutorials-list-block {
     column-count: 1; }
