@@ -658,24 +658,26 @@ html .entry-content ul li, html .entry-content ol li{
     font-weight: 600;
   }
   .techvertu-new-articles{
-      .uagb-post__inner-wrap {
-        background: #fff !important;
-        border-radius: 15px;
-        padding: 0px !important;
-        margin: 1%;
-        box-sizing: border-box;
-        width: 23%;
-        border: 1px solid #e8edf7;
-        overflow: hidden;
-        box-shadow: 0 10px 25px -15px #d6e1ec;
-        transition: all 0.5s !important;
-        &:hover{
-            box-shadow: 0 10px 35px -6px #d6e1ec;
-            border-color: #cfd7e6;
-            margin: 0% 1%;
-            margin-bottom: 0%;
+    .uagb-post-grid.uagb-post__columns-4{
+        .uagb-post__inner-wrap {
+          background: #fff !important;
+          border-radius: 15px;
+          padding: 0px !important;
+          margin: 1%;
+          box-sizing: border-box;
+          width: 23%;
+          border: 1px solid #e8edf7;
+          overflow: hidden;
+          box-shadow: 0 10px 25px -15px #d6e1ec;
+          transition: all 0.5s !important;
+          &:hover{
+              box-shadow: 0 10px 35px -6px #d6e1ec;
+              border-color: #cfd7e6;
+              margin: 0% 1%;
+              margin-bottom: 0%;
+          }
         }
-      }
+    }
   }
   .comment-reply-title{
     display: none;
