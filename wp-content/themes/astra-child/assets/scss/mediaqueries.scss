@@ -187,6 +187,9 @@ $mobile: 480px;
       .wp-block-uagb-container.uagb-is-root-container .uagb-block-3a98e30e{
         margin-bottom: 20px;
       }
+      .sk_reviews_grid-item{
+        width:100% !important;
+      }
 }
 @media only screen and (max-width: $mobile) {
     .tutorials-list-block{
@@ -302,9 +305,7 @@ $mobile: 480px;
         line-height: 1.3em;
         font-weight: 900;
       }
-      .sk_reviews_grid-item{
-        width:100% !important;
-      }
+      
 }
 @media only screen and (max-width: 350px) {
     
