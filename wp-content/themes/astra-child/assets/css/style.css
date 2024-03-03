@@ -575,7 +575,7 @@ html .entry-content ul li, html .entry-content ol li {
 .comment-reply-title {
   display: none; }
 
-.wp-block-uagb-container.uagb-is-root-container.alignfull.uagb-block-f99952d0 > .uagb-container-inner-blocks-wrap {
+.home .wp-block-uagb-container.uagb-is-root-container.alignfull.uagb-block-f99952d0 > .uagb-container-inner-blocks-wrap {
   --inner-content-custom-width:min( 100%, 100%) ; }
 
 .page-template-default .wp-block-uagb-container.uagb-is-root-container.alignfull.uagb-block-f99952d0 > .uagb-container-inner-blocks-wrap {
