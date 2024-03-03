@@ -1055,7 +1055,7 @@ html .entry-content ul li, html .entry-content ol li {
     display: block; }
 
   .ast-separate-container .ast-article-single {
-    padding: 1em !important;
+    padding: 1em;
     padding-right: 1em;
     padding-left: 1em; }
 
