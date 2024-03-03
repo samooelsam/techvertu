@@ -152,9 +152,7 @@ html .ast-builder-menu .main-navigation {
   border-radius: 0; }
 
 .ast-separate-container .ast-article-single {
-  padding: 3.34em 3.67em; }
-
-.ast-separate-container .ast-article-post {
+  padding: 3.34em 3.67em;
   background: transparent; }
 
 .ast-separate-container .ast-article-single.post-3248, .ast-separate-container .ast-article-single.post-3724 {
@@ -982,7 +980,7 @@ html .entry-content ul li, html .entry-content ol li {
     flex-basis: 40% !important; }
 
   html .ast-separate-container .ast-article-single.post-3248, html .ast-separate-container .ast-article-single.post-3724 {
-    padding: 1em; } }
+    padding: 1em !important; } }
 @media only screen and (max-width: 480px) {
   .tutorials-list-block {
     column-count: 1; }

@@ -233,11 +233,11 @@ $mobile: 480px;
         padding-left:0 !important;
         padding-right:0 !important;
       }
-      .service-icon.wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column{
+      .service-icon.wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column {
             flex-basis:40% !important
      }
      html .ast-separate-container .ast-article-single.post-3248, html .ast-separate-container .ast-article-single.post-3724{
-        padding:1em;
+        padding:1em !important;
     }
 }
 @media only screen and (max-width: $mobile) {
