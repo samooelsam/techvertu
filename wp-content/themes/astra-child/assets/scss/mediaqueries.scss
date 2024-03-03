@@ -38,6 +38,9 @@ $mobile: 480px;
     .uagb-block-eaa1e721.wp-block-uagb-info-box .uagb-ifb-desc, .uagb-block-eaa1e721.wp-block-uagb-info-box .uagb-ifb-title{
         margin-right:0;
     }
+    .wp-block-uagb-container.uagb-is-root-container .uagb-block-514f203b{
+        max-width: inherit !important;
+    }
     
 }
 @media only screen and (max-width: $miniDesktop) {

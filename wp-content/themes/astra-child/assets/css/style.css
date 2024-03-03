@@ -805,7 +805,10 @@ html .entry-content ul li, html .entry-content ol li {
     width: 48%; }
 
   .uagb-block-eaa1e721.wp-block-uagb-info-box .uagb-ifb-desc, .uagb-block-eaa1e721.wp-block-uagb-info-box .uagb-ifb-title {
-    margin-right: 0; } }
+    margin-right: 0; }
+
+  .wp-block-uagb-container.uagb-is-root-container .uagb-block-514f203b {
+    max-width: inherit !important; } }
 @media only screen and (max-width: 920px) {
   .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
     flex-basis: 100%; }
