@@ -229,6 +229,10 @@ $mobile: 480px;
       .wp-block-cover{
         padding:23px !important;
       }
+      .padding-fixture{
+        padding-left:0 !important;
+        padding-right:0 !important;
+      }
 }
 @media only screen and (max-width: $mobile) {
     .tutorials-list-block{

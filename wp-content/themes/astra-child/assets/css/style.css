@@ -972,7 +972,11 @@ html .entry-content ul li, html .entry-content ol li {
     flex-basis: 40% !important; }
 
   .wp-block-cover {
-    padding: 23px !important; } }
+    padding: 23px !important; }
+
+  .padding-fixture {
+    padding-left: 0 !important;
+    padding-right: 0 !important; } }
 @media only screen and (max-width: 480px) {
   .tutorials-list-block {
     column-count: 1; }
