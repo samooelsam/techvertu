@@ -226,6 +226,9 @@ $mobile: 480px;
       .our-partners-logos .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column{
         flex-basis:40% !important
       }
+      .wp-block-cover{
+        padding:23px !important;
+      }
 }
 @media only screen and (max-width: $mobile) {
     .tutorials-list-block{

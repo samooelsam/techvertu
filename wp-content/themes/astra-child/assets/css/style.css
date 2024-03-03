@@ -969,7 +969,10 @@ html .entry-content ul li, html .entry-content ol li {
     width: 100% !important; }
 
   .our-partners-logos .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
-    flex-basis: 40% !important; } }
+    flex-basis: 40% !important; }
+
+  .wp-block-cover {
+    padding: 23px !important; } }
 @media only screen and (max-width: 480px) {
   .tutorials-list-block {
     column-count: 1; }
