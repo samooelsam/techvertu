@@ -978,7 +978,7 @@ html .entry-content ul li, html .entry-content ol li {
     padding-left: 0 !important;
     padding-right: 0 !important; }
 
-  .service-icon .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
+  .service-icon.wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
     flex-basis: 40% !important; } }
 @media only screen and (max-width: 480px) {
   .tutorials-list-block {
