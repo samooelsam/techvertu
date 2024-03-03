@@ -44,6 +44,31 @@ $mobile: 480px;
     .wp-block-uagb-container.uagb-is-root-container .uagb-block-46904379{
         max-width: 100%;
     }
+    .wp-block-uagb-container.uagb-is-root-container .uagb-block-e2571534{
+        max-width: 100%;
+    }
+    .footer-column:first-child{
+        width:100%;
+        ul{
+            margin-right:0;
+        }
+    }
+    .footer-column{
+        width: 100%;
+        padding: 30px;
+    }
+    .techvertu-licences{
+        text-align: center;
+        div{
+            width:12%;
+            &:last-child{
+                width: 14.2%;
+            }
+        }
+    }
+    .copyright-texts p{
+        text-align: center;
+    }
     
 }
 @media only screen and (max-width: $miniDesktop) {
