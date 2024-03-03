@@ -952,3 +952,4 @@ www.google.com
 www.google.com
 www.google.com
 www.google.com
+http://localhost/techvertu/wp-admin/

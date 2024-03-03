@@ -929,7 +929,10 @@ html .entry-content ul li, html .entry-content ol li {
     margin-bottom: 20px; }
 
   .sk_reviews_grid-item {
-    width: 100% !important; } }
+    width: 100% !important; }
+
+  .our-partners-logos .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
+    width: 40% !important; } }
 @media only screen and (max-width: 480px) {
   .tutorials-list-block {
     column-count: 1; }
@@ -2713,8 +2716,8 @@ p .upslide {
 
 .city-perspective .building.build .level-7 .unflip {
   position: absolute;
-  width: 110%;
-  top: 37%;
+  width: 111%;
+  top: 29%;
   color: #fff;
   font-weight: 700;
   font-size: 1.25rem;

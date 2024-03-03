@@ -37,7 +37,10 @@ wp-config.php
 
 # Uploads
 /wp-content/uploads/
-
+/wp-content/themes/astra-child/assets/.sass-cache
+/wp-content/cache/
+/wp-content/astra-local-fonts/
+/wp-maintenance/
 # Log files
 *.log
 
