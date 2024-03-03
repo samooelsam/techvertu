@@ -41,8 +41,11 @@ wp-config.php
 /wp-content/cache/
 /wp-content/astra-local-fonts/
 /wp-maintenance/
+/wp-content/uploads/uag-plugin
 # Log files
 *.log
+file.txt
+/file.txt
 
 # htaccess
 /.htaccess

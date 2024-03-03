@@ -932,7 +932,7 @@ html .entry-content ul li, html .entry-content ol li {
     width: 100% !important; }
 
   .our-partners-logos .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
-    width: 40% !important; } }
+    flex-basis: 40% !important; } }
 @media only screen and (max-width: 480px) {
   .tutorials-list-block {
     column-count: 1; }
