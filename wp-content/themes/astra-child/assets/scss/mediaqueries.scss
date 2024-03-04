@@ -140,6 +140,9 @@ $mobile: 480px;
     .wp-block-uagb-container.uagb-is-root-container .uagb-block-514f203b{
         max-width: inherit !important;
     }
+    #page{
+        overflow: hidden;
+    }
 }
 @media only screen and (max-width: $tablet) {
     html .comment-form-wrapper {
