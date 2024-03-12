@@ -124,8 +124,18 @@ $mobile: 480px;
         padding-left: 0px;
         padding-right: 7px;
     }
+    .fully-managed-it-support-heading .wp-block-column{
+        flex-basis: 100% !important;
+    }
+    .fully-managed-it-support-heading.wp-block-columns{
+        flex-wrap: wrap!important;
+    }
 }
 @media only screen and (max-width: $miniDesktop) {
+    .uagb-block-eaa1e721.wp-block-uagb-info-box .uagb-ifb-title{
+        margin-top: 80px;
+        font-size: 32px;
+    }
     .fully-managed-it-support-heading .wp-block-column{
         flex-basis: 100% !important;
     }
