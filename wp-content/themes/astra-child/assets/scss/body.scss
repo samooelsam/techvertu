@@ -141,7 +141,7 @@ html {
     position: relative;
 }
 .footer-color{
-    padding:20px 20px 0 20px;
+    padding:70px 20px 0 20px;
 }
 .each-social-wrapper {
     width: 40px;
@@ -769,4 +769,7 @@ html .ast-builder-menu .main-navigation{
 
 .ast-mobile-header-wrap .ast-button-wrap .menu-toggle.main-header-menu-toggle{
     margin-right:30px;
+}
+.ast-main-header-nav-open .ast-mobile-header-wrap .top-menu-action {
+    display: none;
 }
