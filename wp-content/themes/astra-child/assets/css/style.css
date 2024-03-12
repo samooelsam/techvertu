@@ -821,8 +821,14 @@ html .entry-content ul li, html .entry-content ol li {
   .techvertu-new-articles {
     padding: 0 20px !important; } }
 @media only screen and (min-width: 920px) and (max-width: 1200px) {
+  .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
+    flex-basis: 100%; }
+
   .padding-on-mobile {
     padding: 20px !important; }
+
+  .wp-block-uagb-container.uagb-block-2addbd19 {
+    padding-left: 0 !important; }
 
   .tutorials-list-block {
     column-count: 2; }
@@ -874,7 +880,10 @@ html .entry-content ul li, html .entry-content ol li {
     margin-right: 20px !important; }
 
   .footer-color {
-    padding: 50px 50px 0 50px; } }
+    padding: 50px 50px 0 50px; }
+
+  .main-header-menu > .menu-item > .menu-link, #astra-footer-menu > .menu-item > .menu-link {
+    padding: 0px 10px; } }
 @media only screen and (max-width: 920px) {
   .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
     flex-basis: 100%; }
