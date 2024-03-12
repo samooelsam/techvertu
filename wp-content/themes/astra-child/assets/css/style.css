@@ -4,6 +4,15 @@ ul {
 body, .ast-separate-container {
   background-color: #fff !important; }
 
+::-moz-selection {
+  /* Code for Firefox */
+  color: #000;
+  background-color: rgba(0, 0, 0, 0.2); }
+
+::selection {
+  color: #000;
+  background-color: rgba(0, 0, 0, 0.2); }
+
 .site-content {
   background-color: var(--ast-global-color-4); }
 
@@ -106,7 +115,7 @@ html .ast-builder-menu .main-navigation {
   position: relative; }
 
 .footer-color {
-  padding: 50px 0 0 0; }
+  padding: 20px 20px 0 20px; }
 
 .each-social-wrapper {
   width: 40px;
@@ -583,6 +592,28 @@ html .entry-content ul li, html .entry-content ol li {
 .mobile-overflow-hide {
   overflow: hidden !important; }
 
+.blog .entry-title a {
+  font-family: inter;
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1em;
+  background: #028dae;
+  background: -moz-linear-gradient(left, #028dae 0%, #0b406a 80%, #0b406a 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, #028dae), color-stop(80%, #0b406a), color-stop(100%, #0b406a));
+  background: -webkit-linear-gradient(left, #028dae 0%, #0b406a 80%, #0b406a 100%);
+  background: -o-linear-gradient(left, #028dae 0%, #0b406a 80%, #0b406a 100%);
+  background: -ms-linear-gradient(left, #028dae 0%, #0b406a 80%, #0b406a 100%);
+  background: linear-gradient(to right, #028dae 0%, #0b406a 80%, #0b406a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0; }
+
+.padding-on-mobile {
+  padding: 20px !important; }
+
+.techvertu-new-articles {
+  padding: 0 20px !important; }
+
 @keyframes constant-spin {
   0% {
     transform: rotate(0); }
@@ -889,7 +920,7 @@ html .entry-content ul li, html .entry-content ol li {
     padding: 0px 10px; }
 
   .wp-block-uagb-container.uagb-is-root-container .uagb-block-2addbd19 {
-    padding-left: 0 !important; }
+    padding-left: 30px !important; }
 
   .inline-lit-box-items .wp-block-uagb-icon-list-child {
     width: 48%; }
@@ -899,7 +930,7 @@ html .entry-content ul li, html .entry-content ol li {
     padding-right: 7px; } }
 @media only screen and (max-width: 920px) {
   .wp-block-uagb-container.uagb-is-root-container .uagb-block-2addbd19 {
-    padding-left: 0 !important; }
+    padding-left: 30px !important; }
 
   .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
     flex-basis: 100%; }
