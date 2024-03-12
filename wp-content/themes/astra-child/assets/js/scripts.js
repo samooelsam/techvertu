@@ -46,4 +46,7 @@ jQuery(document).ready(function(){
         alert("Copied the text");
         event.preventDefault();
     });
+    jQuery('.top-menu-action').click(function(event){
+        jQuery('.menu-top-menu-container').toggleClass('block');
+    });
 });

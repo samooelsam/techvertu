@@ -43,7 +43,7 @@ $mobile: 480px;
         padding:0 20px !important
     }
     .wp-block-uagb-container.uagb-is-root-container .uagb-block-2addbd19{
-        padding-left:0 !important
+        padding-left:25px !important
     }
 }
 @media only screen and (min-width: $miniDesktop) and (max-width: $desktopmax) {
@@ -197,6 +197,21 @@ $mobile: 480px;
     }
     #page{
         overflow: hidden;
+    }
+    .top-menu-bar{
+        text-align: left;
+        ul{
+            li{
+                display: block;
+                width:100%;
+            }
+        }
+    }
+    .menu-top-menu-container{
+        display: none;
+    }
+    .menu-top-menu-container.block{
+        display: block;
     }
 }
 @media only screen and (max-width: $tablet) {

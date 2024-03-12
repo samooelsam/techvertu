@@ -614,6 +614,44 @@ html .entry-content ul li, html .entry-content ol li {
 .techvertu-new-articles {
   padding: 0 20px !important; }
 
+.top-menu-bar {
+  border-bottom: 1px solid #cecece;
+  text-align: right; }
+  .top-menu-bar ul li {
+    list-style: none;
+    display: inline-block;
+    font-size: 12px; }
+    .top-menu-bar ul li a {
+      font-size: 12px;
+      padding: 6px 10px;
+      color: #fafafa;
+      display: block;
+      font-weight: bold; }
+
+header .custom-logo-link img {
+  margin-top: -23px; }
+
+html .ast-builder-menu .main-navigation {
+  margin-top: 0; }
+
+.menu-top-menu-container {
+  background-color: #57b5b4; }
+
+.top-menu-action {
+  background: url("../img/three-dots.svg") no-repeat;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  position: absolute;
+  top: 36%;
+  z-index: 10;
+  right: 18px;
+  font-size: 0;
+  cursor: pointer; }
+
+.ast-mobile-header-wrap .ast-button-wrap .menu-toggle.main-header-menu-toggle {
+  margin-right: 30px; }
+
 @keyframes constant-spin {
   0% {
     transform: rotate(0); }
@@ -853,7 +891,7 @@ html .entry-content ul li, html .entry-content ol li {
     padding: 0 20px !important; }
 
   .wp-block-uagb-container.uagb-is-root-container .uagb-block-2addbd19 {
-    padding-left: 0 !important; } }
+    padding-left: 25px !important; } }
 @media only screen and (min-width: 920px) and (max-width: 1200px) {
   .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
     flex-basis: 100%; }
@@ -992,7 +1030,19 @@ html .entry-content ul li, html .entry-content ol li {
     max-width: inherit !important; }
 
   #page {
-    overflow: hidden; } }
+    overflow: hidden; }
+
+  .top-menu-bar {
+    text-align: left; }
+    .top-menu-bar ul li {
+      display: block;
+      width: 100%; }
+
+  .menu-top-menu-container {
+    display: none; }
+
+  .menu-top-menu-container.block {
+    display: block; } }
 @media only screen and (max-width: 780px) {
   html .comment-form-wrapper .centerize .comment-column {
     width: 100%; }

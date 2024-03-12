@@ -15,3 +15,6 @@ add_action(
 
 add_filter('comment_form_field_url', '__return_false');
 
+register_nav_menus( array(
+	'top-nav' => 'Top navigation for techvertu',
+) );

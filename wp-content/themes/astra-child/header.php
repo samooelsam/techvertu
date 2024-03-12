@@ -64,7 +64,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 >
 <div class="techvertu-top-menu-bar clearfix">
 	<div class="centerize grid_12 clearfix">
-		<div class="top-menu-bar"></div>
+		<div class="top-menu-bar">
+			<?php wp_nav_menu( array( 'theme_location' => 'top-nav') );?>
+		</div>
 	</div>
 </div>
 	<?php
