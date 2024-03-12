@@ -27,8 +27,26 @@ $mobile: 480px;
     .techvertu-new-articles .uagb-post-grid.uagb-post__columns-4 .uagb-post__inner-wrap{
         width:23%;
     }
+    .footer-color{
+        padding:20px 20px 0 20px;
+    }
+    .managed-box-query{
+        padding: 0 20px;
+    }
+    .wp-block-uagb-container.uagb-block-bfe1bccf{
+        margin-right: 20px !important;
+    }
+    .padding-on-mobile {
+        padding: 20px !important;
+    }
+    .techvertu-new-articles{
+        padding:0 20px !important
+    }
 }
 @media only screen and (min-width: $miniDesktop) and (max-width: $desktopmax) {
+    .padding-on-mobile {
+        padding: 20px !important;
+    }
     .tutorials-list-block{
 		column-count:2;
 	}
@@ -81,6 +99,10 @@ $mobile: 480px;
     .wp-block-uagb-container.uagb-block-bfe1bccf{
         margin-right: 20px !important;
     }
+    .footer-color{
+        padding:50px 50px 0 50px;
+    }
+    
 }
 @media only screen and (max-width: $miniDesktop) {
     .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column{

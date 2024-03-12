@@ -689,3 +689,6 @@ html .entry-content ul li, html .entry-content ol li{
         --inner-content-custom-width:min( 100%, 80%)
     }
   }
+  .mobile-overflow-hide{
+    overflow: hidden !important;     
+  }

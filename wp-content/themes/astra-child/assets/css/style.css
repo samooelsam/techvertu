@@ -580,6 +580,9 @@ html .entry-content ul li, html .entry-content ol li {
 .page-template-default .wp-block-uagb-container.uagb-is-root-container.alignfull.uagb-block-f99952d0 > .uagb-container-inner-blocks-wrap {
   --inner-content-custom-width:min( 100%, 80%) ; }
 
+.mobile-overflow-hide {
+  overflow: hidden !important; }
+
 @keyframes constant-spin {
   0% {
     transform: rotate(0); }
@@ -801,8 +804,26 @@ html .entry-content ul li, html .entry-content ol li {
     margin: 2em 0; } }
 @media only screen and (min-width: 1200px) and (max-width: 1500px) {
   .techvertu-new-articles .uagb-post-grid.uagb-post__columns-4 .uagb-post__inner-wrap {
-    width: 23%; } }
+    width: 23%; }
+
+  .footer-color {
+    padding: 20px 20px 0 20px; }
+
+  .managed-box-query {
+    padding: 0 20px; }
+
+  .wp-block-uagb-container.uagb-block-bfe1bccf {
+    margin-right: 20px !important; }
+
+  .padding-on-mobile {
+    padding: 20px !important; }
+
+  .techvertu-new-articles {
+    padding: 0 20px !important; } }
 @media only screen and (min-width: 920px) and (max-width: 1200px) {
+  .padding-on-mobile {
+    padding: 20px !important; }
+
   .tutorials-list-block {
     column-count: 2; }
 
@@ -850,7 +871,10 @@ html .entry-content ul li, html .entry-content ol li {
     padding: 0 20px; }
 
   .wp-block-uagb-container.uagb-block-bfe1bccf {
-    margin-right: 20px !important; } }
+    margin-right: 20px !important; }
+
+  .footer-color {
+    padding: 50px 50px 0 50px; } }
 @media only screen and (max-width: 920px) {
   .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
     flex-basis: 100%; }
