@@ -365,6 +365,9 @@ $mobile: 480px;
         margin-top: 40px !important;
         margin-bottom: 40px !important;
     }
+    .no-margin-bottom .wp-block-columns {
+        margin-bottom: 0 !important;
+    }
 }
 @media only screen and (max-width: $mobile) {
     .tutorials-list-block{
