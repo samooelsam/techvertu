@@ -355,6 +355,9 @@ $mobile: 480px;
     .ast-breadcrumbs-inner div span span{
         margin: 0 2px;
     }
+    .wp-block-uagb-buttons .uagb-block-0624e020 .uagb-button__wrapper .uagb-buttons-repeater{
+        margin-right:0 !important;
+    }
 }
 @media only screen and (max-width: $mobile) {
     .tutorials-list-block{

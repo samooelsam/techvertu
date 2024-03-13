@@ -1166,7 +1166,10 @@ html .ast-builder-menu .main-navigation {
     line-height: 1.3em !important; }
 
   .ast-breadcrumbs-inner div span span {
-    margin: 0 2px; } }
+    margin: 0 2px; }
+
+  .wp-block-uagb-buttons .uagb-block-0624e020 .uagb-button__wrapper .uagb-buttons-repeater {
+    margin-right: 0 !important; } }
 @media only screen and (max-width: 480px) {
   .tutorials-list-block {
     column-count: 1; }
