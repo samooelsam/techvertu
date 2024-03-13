@@ -1168,7 +1168,7 @@ html .ast-builder-menu .main-navigation {
   .ast-breadcrumbs-inner div span span {
     margin: 0 2px; }
 
-  .wp-block-uagb-buttons .uagb-block-0624e020 .uagb-button__wrapper .uagb-buttons-repeater {
+  .wp-block-uagb-buttons .uagb-block-0624e020.wp-block-uagb-buttons-child .uagb-buttons-repeater {
     margin-right: 0 !important; } }
 @media only screen and (max-width: 480px) {
   .tutorials-list-block {
