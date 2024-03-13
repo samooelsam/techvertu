@@ -374,6 +374,9 @@ $mobile: 480px;
     header .custom-logo-link img{
         margin-top: -10px;
     }
+    .get-in-touch-text{
+        margin-top: 0px !important;
+    }
 }
 @media only screen and (max-width: $mobile) {
     .tutorials-list-block{
