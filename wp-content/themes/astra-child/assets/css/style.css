@@ -1179,7 +1179,10 @@ html .ast-builder-menu .main-navigation {
     margin-bottom: 40px !important; }
 
   .no-margin-bottom .wp-block-columns {
-    margin-bottom: 0 !important; } }
+    margin-bottom: 0 !important; }
+
+  .ready-to-start {
+    padding-left: 0 !important; } }
 @media only screen and (max-width: 480px) {
   .tutorials-list-block {
     column-count: 1; }
