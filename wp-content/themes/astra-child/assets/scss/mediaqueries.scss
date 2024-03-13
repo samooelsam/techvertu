@@ -371,6 +371,9 @@ $mobile: 480px;
     .ready-to-start {
         padding-left:0 !important;
     }
+    header .custom-logo-link img{
+        margin-top: -10px;
+    }
 }
 @media only screen and (max-width: $mobile) {
     .tutorials-list-block{

@@ -1113,3 +1113,5 @@ http://localhost/techvertu/blog/cybersecurity-for-streaming-enthusiasts
 http://localhost/techvertu/wp-content/themes/astra-child/assets/css/style.css?ver=1.1.1
 http://localhost/techvertu/
 http://localhost/techvertu/
+http://localhost/techvertu/
+http://localhost/techvertu/it-support/fully-managed-it-support
