@@ -761,7 +761,7 @@ html .ast-builder-menu .main-navigation {
 
 .tv-shape.transitioned .object {
   animation: blink-sometimes 10s linear infinite alternate;
-  background-image: url(../img/city/noise.gif);
+  background-image: url(../img/noise.gif);
   height: 100%;
   width: 100%;
   z-index: 5; }
@@ -794,7 +794,7 @@ html .ast-builder-menu .main-navigation {
   background-image: url(../img/noise.gif); }
 
 .tv-shape.noise .object {
-  background-image: url(..//img/tv-white.png);
+  background-image: url(../img/tv-white.png);
   width: 160px;
   height: 160px;
   position: absolute;
@@ -1157,7 +1157,16 @@ html .ast-builder-menu .main-navigation {
     padding: 16px !important; }
 
   .wp-block-uagb-table-of-contents ul.uagb-toc__list, .wp-block-uagb-table-of-contents ol.uagb-toc__list {
-    margin-left: 0.5em; } }
+    margin-left: 0.5em; }
+
+  .ast-main-header-nav-open .ast-mobile-header-wrap .menu-toggle.main-header-menu-toggle {
+    margin-right: 0; }
+
+  .wp-block-uagb-advanced-heading .uagb-heading-text {
+    line-height: 1.3em !important; }
+
+  .ast-breadcrumbs-inner div span span {
+    margin: 0 2px; } }
 @media only screen and (max-width: 480px) {
   .tutorials-list-block {
     column-count: 1; }

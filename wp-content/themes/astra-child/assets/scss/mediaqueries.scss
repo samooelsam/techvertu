@@ -346,6 +346,15 @@ $mobile: 480px;
     .wp-block-uagb-table-of-contents ul.uagb-toc__list, .wp-block-uagb-table-of-contents ol.uagb-toc__list{
         margin-left: 0.5em;
     }
+    .ast-main-header-nav-open .ast-mobile-header-wrap .menu-toggle.main-header-menu-toggle{
+        margin-right:0;
+    }
+    .wp-block-uagb-advanced-heading .uagb-heading-text{
+        line-height: 1.3em !important;
+    }
+    .ast-breadcrumbs-inner div span span{
+        margin: 0 2px;
+    }
 }
 @media only screen and (max-width: $mobile) {
     .tutorials-list-block{
