@@ -232,6 +232,7 @@ $mobile: 480px;
     .menu-top-menu-container.block{
         display: block;
     }
+    
 }
 @media only screen and (max-width: $tablet) {
     html .comment-form-wrapper {
@@ -333,6 +334,17 @@ $mobile: 480px;
     }
     html .ast-separate-container .ast-article-single.post-3248 {
         padding:1em !important;
+    }
+    .wp-block-uagb-table-of-contents{
+        ul{
+            margin:0;
+        }
+    }
+    .uagb-toc__wrap{
+        padding:16px !important;
+    }
+    .wp-block-uagb-table-of-contents ul.uagb-toc__list, .wp-block-uagb-table-of-contents ol.uagb-toc__list{
+        margin-left: 0.5em;
     }
 }
 @media only screen and (max-width: $mobile) {
