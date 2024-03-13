@@ -235,6 +235,9 @@ $mobile: 480px;
     
 }
 @media only screen and (max-width: $tablet) {
+    .wp-block-uagb-container.uagb-is-root-container .uagb-block-2addbd19{
+        padding-left: 0!important;
+    }
     html .comment-form-wrapper {
         .centerize {
             .comment-column{
@@ -357,6 +360,10 @@ $mobile: 480px;
     }
     .wp-block-uagb-buttons .uagb-block-0624e020.wp-block-uagb-buttons-child .uagb-buttons-repeater{
         margin-right:0 !important;
+    }
+    .how-it-works{
+        margin-top: 40px !important;
+        margin-bottom: 40px !important;
     }
 }
 @media only screen and (max-width: $mobile) {

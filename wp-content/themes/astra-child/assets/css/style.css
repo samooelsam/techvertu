@@ -1066,6 +1066,9 @@ html .ast-builder-menu .main-navigation {
   .menu-top-menu-container.block {
     display: block; } }
 @media only screen and (max-width: 780px) {
+  .wp-block-uagb-container.uagb-is-root-container .uagb-block-2addbd19 {
+    padding-left: 0 !important; }
+
   html .comment-form-wrapper .centerize .comment-column {
     width: 100%; }
 
@@ -1169,7 +1172,11 @@ html .ast-builder-menu .main-navigation {
     margin: 0 2px; }
 
   .wp-block-uagb-buttons .uagb-block-0624e020.wp-block-uagb-buttons-child .uagb-buttons-repeater {
-    margin-right: 0 !important; } }
+    margin-right: 0 !important; }
+
+  .how-it-works {
+    margin-top: 40px !important;
+    margin-bottom: 40px !important; } }
 @media only screen and (max-width: 480px) {
   .tutorials-list-block {
     column-count: 1; }
