@@ -84,7 +84,7 @@ html .ast-builder-menu .main-navigation {
         margin-right: 1%; }
 
 .socket-nav {
-  width: 45%;
+  width: 65%;
   margin: 0 auto; }
   .socket-nav ul {
     text-align: center; }
@@ -626,7 +626,7 @@ html .entry-content ul li, html .entry-content ol li {
       padding: 6px 10px;
       color: #fafafa;
       display: block;
-      font-weight: bold; }
+      font-weight: 500; }
 
 header .custom-logo-link img {
   margin-top: -23px; }
@@ -656,7 +656,10 @@ html .ast-builder-menu .main-navigation {
   display: none; }
 
 .get-in-touch-text {
-  margin-top: -100px;
+  margin-top: -163px;
+  margin-bottom: 0 !important; }
+
+.uagb-block-621ca9d5 {
   margin-bottom: 0 !important; }
 
 @keyframes constant-spin {

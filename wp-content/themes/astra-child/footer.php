@@ -65,7 +65,9 @@ astra_content_bottom(); ?>
                     <ul>
                         <li>© Copyright TechVertu 2023.</li>
                         <li><a href="/privacy-policy">Privacy Policy</a></li>
-                        <li><a href="https://www.johnfhunt.co.uk/">Part of the John F Hunt Group</a></li>
+                        <li><a href="/security-management-policy-statement">Security Management Policy Statement</a></li>
+                        <li><a href="/quality-policy-statement">Quality Policy Statement</a></li>
+                        <li><a rel="nofollow" href="https://www.johnfhunt.co.uk/">Part of the John F Hunt Group</a></li>
                     </ul>
                 </nav>
                 <div class="social-pages">
