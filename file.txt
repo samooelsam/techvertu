@@ -1118,3 +1118,4 @@ http://localhost/techvertu/it-support/fully-managed-it-support
 http://localhost/techvertu/it-support/fully-managed-it-support
 http://localhost/techvertu/wp-admin/
 http://localhost/techvertu/wp-admin/post.php?post=653&action=edit
+http://localhost/techvertu/
