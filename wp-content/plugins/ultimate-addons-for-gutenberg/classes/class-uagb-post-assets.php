@@ -258,23 +258,126 @@ class UAGB_Post_Assets {
 	public function get_woocommerce_template() {
 		// Check if WooCommerce is active.
 		if ( class_exists( 'WooCommerce' ) ) {
-			if ( is_cart() ) {
-				return 'cart';
-			} elseif ( is_checkout() ) {
-				return 'checkout';
-			} elseif ( is_shop() ) {
-				return 'archive-product';
-			} elseif ( is_product() ) {
-				return 'single-product';
-			} elseif ( is_product_taxonomy() ) {
-				return 'taxonomy-product_cat';
-			} elseif ( is_product_tag() ) {
-				return 'taxonomy-product_tag';
-			} elseif ( is_product_category() ) {
-				return 'taxonomy-product_cat';
+			$is_order_received_page            = function_exists( 'is_order_received_page' ) && is_order_received_page();
+			$is_checkout                       = function_exists( 'is_checkout' ) && is_checkout();
+			$is_wc_order_received_endpoint_url = function_exists( 'is_wc_endpoint_url' ) && is_wc_endpoint_url( 'order-received' );
+			// Check other WooCommerce pages.
+			switch ( true ) {
+				// Check if the current page is the shop page.
+				case is_cart():
+					return 'page-cart';
+
+				// Check if the current page is the checkout page.
+				case $is_checkout:
+					// Check if the current page is the order received page.
+					if ( $is_order_received_page ) {
+						return 'order-confirmation';
+					}
+					return 'page-checkout';
+
+				// Check if the current page is the order received page.
+				case $is_wc_order_received_endpoint_url:
+					return 'order-confirmation';
+
+				// Check if the current page is a product page.
+				case is_product():
+					return 'single-product';
+
+				// Check if the current page is an archive page.
+				case is_archive():
+					// Retrieve the queried object.
+					$object = get_queried_object();
+
+					// Get all block templates.
+					$template_types = get_block_templates();
+
+					// Extract the 'slug' column from the block templates array.
+					$template_type_slug = array_column( $template_types, 'slug' );
+
+					// Check if the current request is a search and if the post type archive is for 'product'.
+					$searchCondition = is_search() && is_post_type_archive( 'product' );
+
+					// Switch statement to determine the template based on various conditions.
+					switch ( true ) {
+						// Case when the current page is a product taxonomy and the taxonomy is 'product_tag'.
+						case ( is_product_taxonomy() && is_tax( 'product_tag' ) ) && $object instanceof WP_Term && ! in_array( 'taxonomy-' . $object->taxonomy . '-' . $object->slug, $template_type_slug ):
+							// Check if 'taxonomy-product_tag' template exists in the template type slugs array.
+							if ( in_array( 'taxonomy-product_tag', $template_type_slug ) ) {
+								// Prepare assets for the 'taxonomy-product_tag' template.
+								$this->prepare_assets_for_templates_based_post_type( 'taxonomy-product_tag' );
+							}
+							// Return the appropriate template based on the search condition.
+							return $searchCondition ? 'product-search-results' : 'archive-product';
+						
+						// Case when the current page is a product taxonomy and the object is a term.
+						case is_product_taxonomy() && $object instanceof WP_Term:
+							// Check if the taxonomy is a product attribute.
+							if ( taxonomy_is_product_attribute( $object->taxonomy ) ) {
+								// Prepare assets for the 'archive-product' template if it exists in the template type slugs array.
+								if ( in_array( 'archive-product', $template_type_slug ) ) {
+									$this->prepare_assets_for_templates_based_post_type( 'archive-product' );
+								}
+								// Return the 'product-search-results' or 'taxonomy-product_attribute' template based on the search condition.
+								return $searchCondition ? 'product-search-results' : 'taxonomy-product_attribute';
+							} elseif ( ( is_tax( 'product_cat' ) || is_tax( 'product_tag' ) ) && in_array( 'taxonomy-' . $object->taxonomy . '-' . $object->slug, $template_type_slug ) ) {
+								// Return the specific taxonomy template based on the search condition.
+								return $searchCondition ? 'product-search-results' : 'taxonomy-' . $object->taxonomy . '-' . $object->slug;
+							} else {
+								// Prepare assets for the 'taxonomy-product_cat' template if it exists in the template type slugs array.
+								if ( in_array( 'taxonomy-product_cat', $template_type_slug ) ) {
+									$this->prepare_assets_for_templates_based_post_type( 'taxonomy-product_cat' );
+								}
+								// Return the appropriate template based on the search condition.
+								return $searchCondition ? 'product-search-results' : 'archive-product';
+							}
+							break;
+						
+						// Case when the current page is the shop page.
+						case is_shop():
+							// Return the appropriate template based on the search condition.
+							return $searchCondition ? 'product-search-results' : 'archive-product';
+						
+						default:
+							// Return the appropriate template based on the search condition and the type of the queried object.
+							return $searchCondition ? 'product-search-results' : ( ( $object instanceof WP_Post || $object instanceof WP_Post_Type || $object instanceof WP_Term || $object instanceof WP_User ) ? $this->get_archive_page_template( $object, $template_type_slug ) : 'archive-product' );
+					}
+					break;
+
+				default:
+					// Handle other cases if needed.
+					break;
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Get archive page template for current post.
+	 *
+	 * @param object $archive_object of current post.
+	 * @param array  $template_type_slug name.
+	 * @since 2.12.8
+	 * @return string The determined archive post type.
+	 */
+	public function get_archive_page_template( $archive_object, $template_type_slug ) {
+		if ( is_author() && $archive_object instanceof WP_User ) { // For author archive or more specific author template.
+			$author_slug = 'author-' . $archive_object->user_nicename;
+			return in_array( $author_slug, $template_type_slug ) ? $author_slug : ( in_array( 'author', $template_type_slug ) ? 'author' : 'archive' );
+		} elseif ( $archive_object instanceof WP_Term ) {
+			if ( is_category() ) { // For category archive or more specific category template.
+				$category_slug = 'category-' . $archive_object->slug;
+				return in_array( $category_slug, $template_type_slug ) ? $category_slug : ( in_array( 'category', $template_type_slug ) ? 'category' : 'archive' );
+			} elseif ( is_tag() ) { // For tag archive or more specific tag template.
+				$tag_slug = 'tag-' . $archive_object->slug;
+				return in_array( $tag_slug, $template_type_slug ) ? $tag_slug : ( in_array( 'tag', $template_type_slug ) ? 'tag' : 'archive' );
+			}
+		} elseif ( is_date() && in_array( 'date', $template_type_slug ) ) { // For date archive template.
+			return 'date';
+		} elseif ( $archive_object instanceof WP_Post_Type && is_post_type_archive() ) { // For custom post type archive or more specific custom post type archive template.
+			$post_type_archive_slug = 'archive-' . $archive_object->name;
+			return in_array( $post_type_archive_slug, $template_type_slug ) ? $post_type_archive_slug : ( in_array( 'archive', $template_type_slug ) ? 'archive' : 'archive-' . $archive_object->name );
+		}
+		return 'archive';
 	}
 
 	/**
@@ -285,6 +388,11 @@ class UAGB_Post_Assets {
 	 * @return string The determined post type.
 	 */
 	private function determine_template_post_type( $post_id ) {
+		$get_woocommerce_template = $this->get_woocommerce_template(); // Get WooCommerce template.
+		if ( is_string( $get_woocommerce_template ) ) { // Check if WooCommerce template is found.
+			return $get_woocommerce_template; // WooCommerce templates to post type.
+		}
+
 		// Check if post id is passed.
 		if ( ! empty( $post_id ) ) {
 			$template_slug = get_page_template_slug( $post_id );
@@ -293,18 +401,13 @@ class UAGB_Post_Assets {
 			}
 		}
 
-		$get_woocommerce_template = $this->get_woocommerce_template(); // Get WooCommerce template.
-		if ( is_string( $get_woocommerce_template ) ) { // Check if WooCommerce template is found.
-			return $get_woocommerce_template; // WooCommerce templates to post type.
-		}
-
 		$conditional_to_post_type = array(
 			'is_attachment' => 'attachment',
 			'is_embed'      => 'embed',
 			'is_front_page' => 'home',
 			'is_home'       => 'home',
-			'is_paged'      => 'paged',
 			'is_search'     => 'search',
+			'is_paged'      => 'paged',
 		); // Conditional tags to post type.
 
 		$what_post_type     = '404'; // Default to '404' if no condition matches.
@@ -317,27 +420,13 @@ class UAGB_Post_Assets {
 		$is_front_page_template = is_front_page() && get_front_page_template();
 		$is_static_front_page   = 'page' === get_option( 'show_on_front' ) && get_option( 'page_on_front' ) && is_front_page() && ! is_home() && ! $is_front_page_template;
 
-		if ( $is_regular_page || $is_static_front_page ) { // Run only for page and any page selected as home page from settings > reading > static page. 
+		if ( $is_regular_page || $is_static_front_page ) { // Run only for page and any page selected as home page from settings > reading > static page.
 			return 'page';
 		} elseif ( $is_front_page_template ) { // Run only when is_home and is_front_page() and get_front_page_template() is true. i.e front-page template.
 			return 'front-page';
 		} elseif ( is_archive() ) { // Applies to archive pages.
-			if ( is_author() && $object instanceof WP_User ) { // For author archive or more specific author template.
-				$author_slug = 'author-' . $object->user_nicename;
-				return in_array( $author_slug, $template_type_slug ) ? $author_slug : ( in_array( 'author', $template_type_slug ) ? 'author' : 'archive' );
-			} elseif ( $object instanceof WP_Term ) {
-				if ( is_category() ) { // For category archive or more specific category template.
-					$category_slug = 'category-' . $object->slug;
-					return in_array( $category_slug, $template_type_slug ) ? $category_slug : ( in_array( 'category', $template_type_slug ) ? 'category' : 'archive' );
-				} elseif ( is_tag() ) { // For tag archive or more specific tag template.
-					$tag_slug = 'tag-' . $object->slug;
-					return in_array( $tag_slug, $template_type_slug ) ? $tag_slug : ( in_array( 'tag', $template_type_slug ) ? 'tag' : 'archive' );
-				} 
-			} elseif ( is_date() && in_array( 'date', $template_type_slug ) ) { // For date archive template.
-				return 'date';
-			}
 			// If none of the above condition matches, return archive template.
-			return 'archive';
+			return ( $object instanceof WP_Post || $object instanceof WP_Post_Type || $object instanceof WP_Term || $object instanceof WP_User ) ? $this->get_archive_page_template( $object, $template_type_slug ) : 'archive';
 		} else {
 			if ( $object instanceof WP_Post && ! empty( $object->post_type ) ) {
 				if ( is_singular() ) { // Applies to single post of any post type ( attachment, page, custom post types).
@@ -372,7 +461,7 @@ class UAGB_Post_Assets {
 	 */
 	public function prepare_assets_for_templates_based_post_type( $post_type ) {
 		$template_slug    = $post_type;
-		$current_template = get_block_templates( array( 'slug__in' => array( $template_slug ) ) );
+		$current_template = get_block_templates( array( 'slug__in' => array( $template_slug ) ) ); // Get block templates based on post type.
 		// Check if block templates were found.
 		if ( ! empty( $current_template ) && is_array( $current_template ) ) {
 			// Ensure the first template has content.
@@ -616,7 +705,9 @@ class UAGB_Post_Assets {
 			$blocks = array();
 		if ( UAGB_Admin_Helper::is_block_theme() ) {
 			global $_wp_current_template_content;
-			$blocks = parse_blocks( $_wp_current_template_content );
+			if ( isset( $_wp_current_template_content ) ) {
+				$blocks = parse_blocks( $_wp_current_template_content );
+			}
 		}
 			// Global Required assets.
 			// If the current template has content and contains blocks, execute this code block.
@@ -825,13 +916,22 @@ class UAGB_Post_Assets {
 
 		$file_handler = $this->assets_file_handler;
 
+		/*
+		* Added filter to allows developers and users to adjust constant values for theme compatibility, easy updates, and compatibility with other plugins.
+		*/
+		$uagb_asset_ver = apply_filters( 'uagb_asset_version', UAGB_ASSET_VER );
+
+		if ( empty( $uagb_asset_ver ) || ! is_string( $uagb_asset_ver ) ) { 
+			$uagb_asset_ver = UAGB_ASSET_VER; 
+		}
+
 		if ( isset( $file_handler['css_url'] ) ) {
-			wp_enqueue_style( 'uag-style-' . $this->post_id, $file_handler['css_url'], array(), UAGB_VER, 'all' );
+			wp_enqueue_style( 'uag-style-' . $this->post_id, $file_handler['css_url'], array(), $uagb_asset_ver, 'all' );
 		} else {
 			$this->fallback_css = true;
 		}
 		if ( isset( $file_handler['js_url'] ) ) {
-			wp_enqueue_script( 'uag-script-' . $this->post_id, $file_handler['js_url'], array(), UAGB_VER, true );
+			wp_enqueue_script( 'uag-script-' . $this->post_id, $file_handler['js_url'], array(), $uagb_asset_ver, true );
 		} else {
 			$this->fallback_js = true;
 		}
@@ -1308,10 +1408,25 @@ class UAGB_Post_Assets {
 	 * @since 1.1.0
 	 */
 	public function get_blocks_assets( $blocks ) {
+		$static_and_dynamic_assets = $this->get_static_and_dynamic_assets( $blocks );
+		return array(
+			'css' => $static_and_dynamic_assets['static'] . $static_and_dynamic_assets['dynamic'],
+			'js'  => $static_and_dynamic_assets['js'],
+		);
+	}
 
-		$desktop = '';
-		$tablet  = '';
-		$mobile  = '';
+	/**
+	 * Get static & dynamic css for block.
+	 *
+	 * @param array $blocks Blocks array.
+	 * @since 2.12.3
+	 * @return array Of static and dynamic css and js.
+	 */
+	public function get_static_and_dynamic_assets( $blocks ) {
+		$desktop    = '';
+		$tablet     = '';
+		$mobile     = '';
+		$static_css = '';
 
 		$tab_styling_css = '';
 		$mob_styling_css = '';
@@ -1356,7 +1471,7 @@ class UAGB_Post_Assets {
 					$css = $block_assets['css'];
 
 					if ( ! empty( $css['common'] ) ) {
-						$desktop .= $css['common'];
+						$static_css .= $css['common'];
 					}
 
 					if ( isset( $css['desktop'] ) ) {
@@ -1381,8 +1496,9 @@ class UAGB_Post_Assets {
 			$mob_styling_css .= '}';
 		}
 		return array(
-			'css' => $block_css . $desktop . $tab_styling_css . $mob_styling_css,
-			'js'  => $js,
+			'static'  => $static_css,
+			'dynamic' => $block_css . $desktop . $tab_styling_css . $mob_styling_css,
+			'js'      => $js,
 		);
 	}
 
@@ -1398,13 +1514,11 @@ class UAGB_Post_Assets {
 	 */
 	public function create_file( $file_data, $type, $file_state = 'new', $old_file_name = '' ) {
 
-		$date          = new DateTime();
-		$new_timestamp = $date->getTimestamp();
-		$uploads_dir   = UAGB_Helper::get_upload_dir();
-		$file_system   = uagb_filesystem();
+		$uploads_dir = UAGB_Helper::get_upload_dir();
+		$file_system = uagb_filesystem();
 
-		// Example 'uag-css-15-1645698679.css'.
-		$file_name = 'uag-' . $type . '-' . $this->post_id . '-' . $new_timestamp . '.' . $type;
+		// Example 'uag-css-15.css'.
+		$file_name = 'uag-' . $type . '-' . $this->post_id . '.' . $type;
 
 		if ( 'old' === $file_state ) {
 			$file_name = $old_file_name;
@@ -1416,6 +1530,7 @@ class UAGB_Post_Assets {
 
 		$result = false;
 
+		// TODO: This old_assets removal code need to be removed after 3 major releases. from v2.11.0.
 		// Remove if any old file exists for same post.
 		$old_assets = glob( $base_file_path . 'uag-' . $type . '-' . $this->post_id . '-*' );
 		if ( ! empty( $old_assets ) && is_array( $old_assets ) ) {
@@ -1617,5 +1732,35 @@ class UAGB_Post_Assets {
 		$pattern = $registry->get_registered( $slug );
 
 		return $this->get_blocks_assets( parse_blocks( $pattern['content'] ) );
+	}
+
+	/**
+	 * Get static and dynamic assets data for a post. Its a helper function used by starter templates and GT library.
+	 *
+	 * @param int $post_id The post id.
+	 * @since 2.12.3
+	 * @return array of Static and dynamic css and js.
+	 */
+	public function get_static_and_dynamic_css( $post_id ) {
+
+		$this_post = get_post( $post_id );
+
+		if ( empty( $this_post ) || empty( $this_post->ID ) ) {
+			return array();
+		}
+
+		if ( has_blocks( $this_post->ID ) && ! empty( $this_post->post_content ) ) {
+
+			$blocks = $this->parse_blocks( $this_post->post_content );
+
+			if ( ! is_array( $blocks ) || empty( $blocks ) ) {
+				return array();
+			}
+
+			return $this->get_static_and_dynamic_assets( $blocks );
+		}
+
+		return array();
+
 	}
 }

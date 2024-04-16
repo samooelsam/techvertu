@@ -3,7 +3,7 @@
 /*
   Plugin Name: WP Sheet Editor - YOAST SEO
   Description: Use the spreadsheet editor to edit the SEO title, description, and keyword of your posts.
-  Version: 1.1.7
+  Version: 1.1.8
   Author: WP Sheet Editor
   Author URI: https://wpsheeteditor.com/?utm_source=wp-admin&utm_medium=plugins-list&utm_campaign=yoast
   Plugin URI: http://wpsheeteditor.com/?utm_source=wp-admin&utm_medium=plugins-list&utm_campaign=yoast
@@ -18,7 +18,7 @@ if (!class_exists('WP_Sheet_Editor_YOAST_SEO_Lite')) {
 	class WP_Sheet_Editor_YOAST_SEO_Lite {
 
 		static private $instance = false;
-		var $version = '1.1.7';
+		var $version = '1.1.8';
 		var $plugin_url = null;
 		var $textname = 'vg_sheet_editor_yoast_free';
 		var $plugin_dir = null;
@@ -63,7 +63,7 @@ if (!class_exists('WP_Sheet_Editor_YOAST_SEO_Lite')) {
 		}
 
 		function after_core_init() {
-			add_action('vg_sheet_editor/editor/before_init', array($this, 'register_columns'));
+			add_action('vg_sheet_editor/editor/register_columns', array($this, 'register_columns'));
 			add_action('vg_sheet_editor/load_rows/output', array($this, 'filter_seo_score_cell_html'), 10, 3);
 			add_filter('vg_sheet_editor/woocommerce/teasers/allowed_columns', array($this, 'allow_seo_columns'));
 		}
@@ -82,22 +82,25 @@ if (!class_exists('WP_Sheet_Editor_YOAST_SEO_Lite')) {
 		 * @param array $spreadsheet_columns
 		 * @return array
 		 */
-		function filter_seo_score_cell_html($data, $qry, $spreadsheet_columns) {
+		function filter_seo_score_cell_html( $data, $qry, $spreadsheet_columns ) {
 
-			if (!isset($spreadsheet_columns['_yoast_wpseo_linkdex'])) {
+			if ( ! isset( $spreadsheet_columns['_yoast_wpseo_linkdex'] ) ) {
 				return $data;
 			}
-			foreach ($data as $post_index => $post_row) {
+			foreach ( $data as $post_index => $post_row ) {
 
-				$noindex = (int) VGSE()->helpers->get_current_provider()->get_item_meta($post_row['ID'], '_yoast_wpseo_meta-robots-noindex', true);
+				$noindex = (int) VGSE()->helpers->get_current_provider()->get_item_meta( $post_row['ID'], '_yoast_wpseo_meta-robots-noindex', true );
 
 				$score = '';
-				if ($noindex) {
+				if ( $noindex ) {
 					$score = 'noindex';
-				} elseif (!empty($post_row['_yoast_wpseo_linkdex'])) {
-					$score = WPSEO_Utils::translate_score($post_row['_yoast_wpseo_linkdex']);
+				} elseif ( ! empty( $post_row['_yoast_wpseo_linkdex'] ) && method_exists( 'WPSEO_Utils', 'translate_score' ) ) {
+					$score = WPSEO_Utils::translate_score( $post_row['_yoast_wpseo_linkdex'] );
+				} elseif ( ! empty( $post_row['_yoast_wpseo_linkdex'] ) && method_exists( 'WPSEO_Rank', 'from_numeric_score' ) ){
+					$rank  = WPSEO_Rank::from_numeric_score( (int) $post_row['_yoast_wpseo_linkdex'] );
+					$score = $rank->get_label();
 				}
-				$data[$post_index]['_yoast_wpseo_linkdex'] = '<div class="' . esc_attr('wpseo-score-icon ' . $score) . '"></div>';
+				$data[ $post_index ]['_yoast_wpseo_linkdex'] = $score;
 			}
 			return $data;
 		}
@@ -171,7 +174,7 @@ if (!class_exists('WP_Sheet_Editor_YOAST_SEO_Lite')) {
 					'data_type' => 'meta_data',
 					'unformatted' => array('data' => '_yoast_wpseo_title'),
 					'column_width' => 300,
-					'title' => __('SEO Title', VGSE()->textname),
+					'title' => __('SEO Title', 'vg_sheet_editor'),
 					'type' => '',
 					'supports_formulas' => true,
 					'formatted' => array('data' => '_yoast_wpseo_title', 'renderer' => 'html'),
@@ -183,7 +186,7 @@ if (!class_exists('WP_Sheet_Editor_YOAST_SEO_Lite')) {
 					'data_type' => 'meta_data',
 					'unformatted' => array('data' => $desc_key),
 					'column_width' => 300,
-					'title' => __('SEO Description', VGSE()->textname),
+					'title' => __('SEO Description', 'vg_sheet_editor'),
 					'type' => '',
 					'supports_formulas' => true,
 					'formatted' => array('data' => $desc_key),
@@ -194,7 +197,7 @@ if (!class_exists('WP_Sheet_Editor_YOAST_SEO_Lite')) {
 					'data_type' => 'meta_data',
 					'unformatted' => array('data' => '_yoast_wpseo_focuskw'),
 					'column_width' => 120,
-					'title' => __('SEO Keyword', VGSE()->textname),
+					'title' => __('SEO Keyword', 'vg_sheet_editor'),
 					'type' => '',
 					'supports_formulas' => true,
 					'formatted' => array('data' => '_yoast_wpseo_focuskw', 'renderer' => 'html'),
@@ -211,7 +214,7 @@ if (!class_exists('WP_Sheet_Editor_YOAST_SEO_Lite')) {
 					'data_type' => 'meta_data',
 					'unformatted' => array('data' => $noindex_key),
 					'column_width' => 120,
-					'title' => __('SEO No Index', VGSE()->textname),
+					'title' => __('SEO No Index', 'vg_sheet_editor'),
 					'type' => '',
 					'supports_formulas' => true,
 					'formatted' => array('data' => $noindex_key, 'type' => 'checkbox', 'checkedTemplate' => $noindex_checked, 'uncheckedTemplate' => $noindex_unchecked, 'className' => 'htCenter htMiddle'),
@@ -223,7 +226,7 @@ if (!class_exists('WP_Sheet_Editor_YOAST_SEO_Lite')) {
 					'data_type' => 'meta_data',
 					'unformatted' => array('data' => '_yoast_wpseo_linkdex', 'readOnly' => true, 'renderer' => 'html'),
 					'column_width' => 50,
-					'title' => __('SEO', VGSE()->textname),
+					'title' => __('SEO', 'vg_sheet_editor'),
 					'type' => '',
 					'supports_formulas' => false,
 					'formatted' => array('data' => '_yoast_wpseo_linkdex', 'readOnly' => true, 'renderer' => 'html'),

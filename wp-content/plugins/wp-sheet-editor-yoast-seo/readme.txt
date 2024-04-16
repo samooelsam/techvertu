@@ -1,8 +1,8 @@
 === Bulk Edit YOAST SEO fields in Spreadsheet ===
 Contributors: wpsheeteditor,vegacorp,josevega
 Tags: quick edit, bulk edit, posts management, admin, pages, spreadsheet, mass edit, yoast seo, seo
-Tested up to: 5.5
-Stable tag: 1.1.7
+Tested up to: 6.4
+Stable tag: 1.1.8
 Requires at least: 3.6
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -41,6 +41,10 @@ The manual installation method involves downloading our plugin and uploading it 
 
 
 == Changelog ==
+
+- v1.1.8 - 2024-02-23 -
+* CHANGE - Indicate compatibility with WP 6.4.3
+* CHANGE - Add compatibility with Yoast v22
 
 - v1.1.7 - 2020-09-15 -
 * CHANGE - Indicate compatibility with WP 5.5

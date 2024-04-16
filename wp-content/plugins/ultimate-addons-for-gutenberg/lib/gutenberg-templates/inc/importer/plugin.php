@@ -37,15 +37,26 @@ class Plugin {
 	public static $color_palette = array();
 
 	/**
+	 * Custom Capability
+	 *
+	 * @since 2.1.14
+	 * @access public
+	 * @var string capabilities.
+	 */
+	public static $custom_capability = 'manage_ast_block_templates';
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 2.0.0
 	 */
 	private function __construct() {
+		$this->define_constants();
 		add_action( 'enqueue_block_editor_assets', array( $this, 'template_assets' ), 999 );
 		add_action( 'admin_init', array( $this, 'init' ), 999 );
+		add_action( 'admin_init', array( $this, 'add_custom_capabilities' ), 10 );
 
-		if ( ( isset( $_GET['action'] ) && 'edit' === $_GET['action'] ) || ( isset( $_SERVER['REQUEST_URI'] ) && strpos( esc_url_raw( $_SERVER['REQUEST_URI'] ), 'post-new.php' ) !== false ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ( isset( $_GET['action'] ) && 'edit' === $_GET['action'] ) || ( isset( $_SERVER['PHP_SELF'] ) && 'site-editor.php' === basename( sanitize_text_field( $_SERVER['PHP_SELF'] ) ) ) || ( isset( $_SERVER['REQUEST_URI'] ) && strpos( esc_url_raw( $_SERVER['REQUEST_URI'] ), 'post-new.php' ) !== false ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			add_filter( 'zip_ai_auth_redirection_flag', '__return_false', 999 );
 		}
 		add_action( 'wp_ajax_ast_block_templates_importer', array( $this, 'template_importer' ) );
@@ -53,9 +64,67 @@ class Plugin {
 		add_action( 'wp_ajax_ast_block_templates_import_wpforms', array( $this, 'import_wpforms' ) );
 		add_action( 'wp_ajax_ast_block_templates_import_block', array( $this, 'import_block' ) );
 		add_action( 'wp_ajax_ast_block_templates_color_palette', array( $this, 'get_color_palette' ) );
+		add_action( 'wp_ajax_ast_block_templates_hide_notices', array( $this, 'hide_notices' ) );
 		add_filter( 'upload_mimes', array( $this, 'custom_upload_mimes' ) );
 		add_action( 'wp_ajax_ast_block_templates_data_option', array( $this, 'api_request' ) );
 		$this->get_default_color_palette();
+	}
+
+	/**
+	 * Add custom capabilities.
+	 *
+	 * @since 2.1.14
+	 * @return void
+	 */
+	public function add_custom_capabilities() {
+		$this->remove_custom_capability_from_other_roles();
+		$roles = apply_filters( 'ast_block_template_capability_additional_roles', array( 'administrator' ) );
+
+		// Loop through each role and add the custom capability.
+		foreach ( $roles as $role_slug ) {
+			$role_object = get_role( $role_slug );
+			if ( $role_object ) {
+				$role_object->add_cap( self::$custom_capability );
+			}
+		}
+	}
+
+	/**
+	 * Remove custom capabilities.
+	 *
+	 * @since 2.1.14
+	 * @return void
+	 */
+	public function remove_custom_capability_from_other_roles() {
+		// Default role to retain the custom capability.
+		$default_role = 'administrator';
+
+		// Get the default role object.
+		$default_role_object = get_role( $default_role );
+	
+		// Remove the custom capability from all roles except the default role.
+		if ( $default_role_object ) {
+			$roles = wp_roles()->role_names;
+			unset( $roles[ $default_role ] ); // Exclude the default role.
+	
+			foreach ( $roles as $role_slug => $role_name ) {
+				$role_object = get_role( $role_slug );
+				if ( $role_object && $role_object->has_cap( self::$custom_capability ) ) {
+					$role_object->remove_cap( self::$custom_capability );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Define constants.
+	 * 
+	 * @return void
+	 */
+	public function define_constants() {
+		if ( ! defined( 'ZIPWP_APP' ) ) {
+			define( 'ZIPWP_APP', apply_filters( 'ast_block_templates_zip_app_url', 'https://app.zipwp.com/auth' ) );
+		}
 	}
 
 	/**
@@ -113,15 +182,6 @@ class Plugin {
 				return;
 			}
 
-			$token = isset( $_GET['credit_token'] ) ? sanitize_text_field( wp_unslash( $_GET['credit_token'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$business_details = get_option( 'ast-templates-business-details', false );
-			if ( ! $business_details ) {
-				$business_details = array();
-			}
-
-			$business_details['token'] = Helper::encrypt( $token );
-			update_option( 'ast-templates-business-details', $business_details );
-
 			// Update the variables for ZipAI.
 			$spec_ai_settings = Helper::get_setting();
 
@@ -142,24 +202,6 @@ class Plugin {
 
 			update_option( 'zip_ai_settings', $spec_ai_settings );
 		}
-
-		// Add token if user already authorised from ZipAI.
-		if ( empty( Importer_Helper::get_business_details( 'token' ) ) ) {
-			$spec_ai_auth_token = Helper::get_setting( 'auth_token' );
-
-			if ( ! empty( $spec_ai_auth_token ) ) {
-				$business_details['token'] = $spec_ai_auth_token;
-				update_option( 'ast-templates-business-details', $business_details );
-			}
-		}
-
-		// Remove token if user revoke access from ZipAI.
-		if ( empty( Helper::get_setting( 'auth_token' ) ) && defined( 'ZIP_AI_DIR' ) ) {
-
-			$business_details['token'] = '';
-			update_option( 'ast-templates-business-details', $business_details );
-		}
-
 	}
 
 
@@ -198,7 +240,7 @@ class Plugin {
 	 */
 	public function api_request() {
 
-		if ( ! current_user_can( 'edit_posts' ) ) {
+		if ( ! current_user_can( 'manage_ast_block_templates' ) ) {
 			wp_send_json_error( __( 'You are not allowed to perform this action', 'ast-block-templates' ) );
 		}
 
@@ -206,8 +248,22 @@ class Plugin {
 		check_ajax_referer( 'ast-block-templates-ajax-nonce', '_ajax_nonce' );
 		$block_id     = isset( $_REQUEST['id'] ) ? absint( $_REQUEST['id'] ) : '';
 		$block_type   = isset( $_REQUEST['type'] ) ? sanitize_text_field( $_REQUEST['type'] ) : '';
-		$complete_url = AST_BLOCK_TEMPLATES_LIBRARY_URL . 'wp-json/wp/v2/' . $block_type . '/' . $block_id . '/?site_url=' . site_url();
-		$response     = wp_remote_get( $complete_url );
+
+		if ( 'site-pages' === $block_type ) {
+			// Use this for premium pages.
+			$request_params = apply_filters(
+				'astra_sites_api_params',
+				array(
+					'purchase_key' => '',
+					'site_url'     => site_url(),
+				)
+			);
+
+			$complete_url = add_query_arg( $request_params, trailingslashit( AST_BLOCK_TEMPLATES_LIBRARY_URL . 'wp-json/wp/v2/' . $block_type . '/' . $block_id ) );
+		} else {
+			$complete_url = AST_BLOCK_TEMPLATES_LIBRARY_URL . 'wp-json/wp/v2/' . $block_type . '/' . $block_id . '/?site_url=' . site_url();
+		}
+		$response = wp_remote_get( $complete_url );
 
 		if ( is_wp_error( $response ) ) {
 			wp_send_json_error( __( 'Something went wrong', 'ast-block-templates' ) );
@@ -222,6 +278,51 @@ class Plugin {
 		update_option( 'ast-block-templates_data-' . $block_id, $body );
 		wp_send_json_success( $body );
 	}
+	
+
+	/**
+	 * Hide notice.
+	 *
+	 * @since 2.1.1
+	 * @return void 
+	 */
+	public function hide_notices() {
+
+		if ( ! current_user_can( 'manage_ast_block_templates' ) ) {
+			wp_send_json_error( __( 'You are not allowed to perform this action', 'ast-block-templates' ) );
+		}
+
+		check_ajax_referer( 'ast-block-templates-ajax-nonce', '_ajax_nonce' );
+
+		$notice_type = isset( $_REQUEST['notice_type'] ) ? sanitize_text_field( $_REQUEST['notice_type'] ) : '';
+
+		if ( ! empty( $notice_type ) ) {
+
+			switch ( $notice_type ) {
+				case 'personalize-ai':
+					set_transient( 'ast_block_templates_hide_personalize_ai_notice', true, 30 * DAY_IN_SECONDS );
+					break;
+				case 'build-page-ai':
+					set_transient( 'ast_block_templates_hide_build_page_ai_notice', true, 30 * DAY_IN_SECONDS );
+					break;
+				case 'credit-warning':
+					set_transient( 'ast_block_templates_hide_credit_warning_notice', true, 30 * DAY_IN_SECONDS );
+					break;
+				case 'credit-danger':
+					set_transient( 'ast_block_templates_hide_credit_danger_notice', true, 30 * DAY_IN_SECONDS );
+					break;
+				
+				default:
+					break;
+			}       
+		}
+
+		wp_send_json_success(
+			array(
+				'status' => true,
+			) 
+		);
+	}
 
 	/**
 	 * Get the Color palette.
@@ -231,7 +332,7 @@ class Plugin {
 	 */
 	public function get_color_palette() {
 
-		if ( ! current_user_can( 'edit_posts' ) ) {
+		if ( ! current_user_can( 'manage_ast_block_templates' ) ) {
 			wp_send_json_error( __( 'You are not allowed to perform this action', 'ast-block-templates' ) );
 		}
 
@@ -255,7 +356,7 @@ class Plugin {
 	 */
 	public function import_wpforms( $wpforms_url = '' ) {
 
-		if ( ! current_user_can( 'edit_posts' ) ) {
+		if ( ! current_user_can( 'manage_ast_block_templates' ) ) {
 			wp_send_json_error( __( 'You are not allowed to perform this action', 'ast-block-templates' ) );
 		}
 		// Verify Nonce.
@@ -345,7 +446,7 @@ class Plugin {
 	 */
 	public function import_block() {
 
-		if ( ! current_user_can( 'edit_posts' ) ) {
+		if ( ! current_user_can( 'manage_ast_block_templates' ) ) {
 			wp_send_json_error( __( 'You are not allowed to perform this action', 'ast-block-templates' ) );
 		}
 		// Verify Nonce.
@@ -686,7 +787,7 @@ class Plugin {
 	 */
 	public function template_importer() {
 
-		if ( ! current_user_can( 'edit_posts' ) ) {
+		if ( ! current_user_can( 'manage_ast_block_templates' ) ) {
 			wp_send_json_error( __( 'You are not allowed to perform this action', 'ast-block-templates' ) );
 		}
 		// Verify Nonce.
@@ -748,6 +849,10 @@ class Plugin {
 	 */
 	public function template_assets() {
 		
+		if ( ! current_user_can( 'manage_ast_block_templates' ) ) {
+			return;
+		}
+
 		$post_types = get_post_types( array( 'public' => true ), 'names' );
 
 		$current_screen = get_current_screen();
@@ -787,18 +892,20 @@ class Plugin {
 		}
 		$astra_theme_css = apply_filters( 'astra_dynamic_theme_css', '' );
 		$astra_theme_css = str_replace( ':root', '', $astra_theme_css );
-		$astra_theme_css = str_replace( 'body', '', $astra_theme_css );
+		$astra_theme_css = preg_replace( '/(?<!-)(\\bbody\\b)(?!-)/i', '', $astra_theme_css );
 
 		$upload_dir = wp_upload_dir();
 		$common_style_url = trailingslashit( $upload_dir['basedir'] ) . 'uag-plugin/custom-style-blocks.css';
 
 		if ( ! file_exists( $common_style_url ) ) {
 			$this->regenerate_spectra_css();
+			$common_css_content = file_exists( $common_style_url ) ? file_get_contents( $common_style_url ) : '';
 		}
 
-		$common_css_content = file_exists( $common_style_url ) ? file_get_contents( $common_style_url ) : '';
+		if ( empty( $common_css_content ) ) {
+			$common_css_content = Sync_Library::instance()->get_server_spectra_common_css();
+		}
 
-		$blocks = $this->get_all_blocks();
 		$ast_header = '';
 		$ast_footer = '';
 		$static_css_path = '';
@@ -819,15 +926,15 @@ class Plugin {
 			
 		}
 
-		$server_astra_customizer_css = get_option( 'ast-block-templates-customizer-css', '' );
+		$server_astra_customizer_css = Helper::instance()->get_block_template_customiser_css();
 		if ( empty( $server_astra_customizer_css ) ) {
 			Sync_Library::instance()->get_server_astra_customizer_css();
-			$server_astra_customizer_css = get_option( 'ast-block-templates-customizer-css', '' );
+			$server_astra_customizer_css = Helper::instance()->get_block_template_customiser_css();
 		}
 		
 		$settings = get_option( 'ast_block_templates_ai_settings', array() );
 		$disable_ai = isset( $settings['disable_ai'] ) ? $settings['disable_ai'] : false;
-		$adaptive_mode = isset( $settings['adaptive_mode'] ) ? $settings['adaptive_mode'] : false;
+		$adaptive_mode = isset( $settings['adaptive_mode'] ) ? $settings['adaptive_mode'] : true;
 		$disable_preview = isset( $settings['disable_preview'] ) ? $settings['disable_preview'] : false;
 		$remove_parameters = array( 'credit_token', 'token', 'email', 'ast_action', 'nonce' );
 
@@ -843,11 +950,20 @@ class Plugin {
 			'success_url' => isset( $_SERVER['REQUEST_URI'] ) ? urlencode( $this->remove_query_params( network_home_url() . $_SERVER['REQUEST_URI'], $remove_parameters ) . '&ast_action=credits' ) : '', // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		);
 
-		$spec_ai_auth_url = add_query_arg( $request_params, 'https://app.zipwp.com/auth/' );
+		$spec_ai_auth_url = add_query_arg( $request_params, ZIPWP_APP );
 		$spec_ai_signup_url = add_query_arg( $request_params, 'https://app.zipwp.com/register/' );
 		$credit_purchase_url = add_query_arg( $credit_request_params, 'https://app.zipwp.com/credits-pricing/' );
 		$ai_features = get_option( 'zip_ai_modules', array() );
 		$site_host = wp_parse_url( get_site_url(), PHP_URL_HOST );
+
+		$business_details = get_option( 'zipwp_user_business_details', false );
+		$business_details = ( $business_details ) ? $business_details : array();
+		$business_details = array_merge( $business_details, array( 'token' => Helper::get_setting( 'auth_token', '' ) ) );
+
+		if ( ! empty( $business_details['social_profiles'] ) ) {
+			$business_details = $this->maybe_parse_social_profiles( $business_details );
+		}
+
 		wp_localize_script(
 			'ast-block-templates',
 			'ast_block_template_vars',
@@ -857,8 +973,6 @@ class Plugin {
 					'popup_class'             => defined( 'UAGB_PLUGIN_SHORT_NAME' ) ? 'uag-block-templates-lightbox' : 'ast-block-templates-lightbox',
 					'ajax_url'                => admin_url( 'admin-ajax.php' ),
 					'uri'                     => AST_BLOCK_TEMPLATES_URI,
-					'allSites'                => $this->get_all_sites(),
-					'allCategories'           => get_option( 'ast-block-templates-categories', array() ),
 					'wpforms_status'          => $this->get_plugin_status( 'wpforms-lite/wpforms.php' ),
 					'spectra_status'          => $this->get_plugin_status( 'ultimate-addons-for-gutenberg/ultimate-addons-for-gutenberg.php' ),
 					'spectra_pro_status'      => $this->get_plugin_status( 'spectra-pro/spectra-pro.php' ),
@@ -866,7 +980,7 @@ class Plugin {
 					'wpforms_status'          => $this->get_plugin_status( 'spectra-pro/spectra-pro.php' ),
 					'astra_sites_status'          => $this->get_plugin_status( 'astra-sites/astra-sites.php' ),
 					'_ajax_nonce'             => wp_create_nonce( 'ast-block-templates-ajax-nonce' ),
-					'button_text'             => esc_html__( 'Template Kits', 'ast-block-templates' ),
+					'button_text'             => esc_html__( 'Design Library', 'ast-block-templates' ),
 					'display_button_logo'     => true,
 					'popup_logo_uri'          => AST_BLOCK_TEMPLATES_URI . 'dist/spectra-logo.svg',
 					'button_logo'             => AST_BLOCK_TEMPLATES_URI . 'dist/spectra.svg',
@@ -879,19 +993,19 @@ class Plugin {
 					'getProURL'               => defined( 'ASTRA_PRO_SITES_NAME' ) ? esc_url( admin_url( 'plugins.php?bsf-inline-license-form=astra-pro-sites' ) ) : esc_url( 'https://wpastra.com/starter-templates-plans/?utm_source=gutenberg-templates&utm_medium=dashboard&utm_campaign=Starter-Template-Backend' ),
 					'astra_theme_css'         => isset( $astra_theme_css ) ? $astra_theme_css : '',
 					'site_url'                => site_url(),
-					'global-styles'           => str_replace( 'body', '.st-block-container', wp_get_global_stylesheet() ),
-					'spectra_common_styles'   => str_replace( 'body', '.st-block-container', $common_css_content ) . ' .st-block-container .uagb-button__wrapper a { text-decoration: none; }',
+					'global-styles'           => preg_replace( '/(?<!-)(\\bbody\\b)(?!-)/i', '.st-block-container', wp_get_global_stylesheet() ),
+					'spectra_common_styles'   => preg_replace( '/(?<!-)(\\bbody\\b)(?!-)/i', '.st-block-container', $common_css_content ) . ' .st-block-container .uagb-button__wrapper a { text-decoration: none; }',
 					'block_color_palette'     => $this->get_block_palette_colors(),
 					'page_color_palette'      => $this->get_page_palette_colors(),
-					'ai_content_ajax_nonce'             => ( current_user_can( 'manage_options' ) ) ? wp_create_nonce( 'ast-block-templates-ai-content' ) : '',
-					'reset_details_ajax_nonce'             => ( current_user_can( 'manage_options' ) ) ? wp_create_nonce( 'ast-block-templates-reset-business-details' ) : '',
-					'business_details'  => get_option( 'ast-templates-business-details', false ),
-					'rest_api_nonce' => ( current_user_can( 'manage_options' ) ) ? wp_create_nonce( 'wp_rest' ) : '',
+					'ai_content_ajax_nonce'             => wp_create_nonce( 'ast-block-templates-ai-content' ),
+					'reset_details_ajax_nonce'             => wp_create_nonce( 'ast-block-templates-reset-business-details' ),
+					'business_details'  => $business_details,
+					'rest_api_nonce' => wp_create_nonce( 'wp_rest' ),
 					'default_ai_categories' => Helper::instance()->get_default_ai_categories(),
 					'user_email' => get_option( 'admin_email' ),
-					'skip_zipai_onboarding_nonce'             => wp_create_nonce( 'skip-spectra-pro-onboarding-nonce' ),
-					'skip_spectra_pro_onboarding' => get_option( 'ast_skip_zipai_onboarding', false ),
-					'show_onboarding' => ( current_user_can( 'manage_options' ) ) ? ( 'no' !== get_option( 'ast-block-templates-show-onboarding', true ) ) : false,
+					'skip_zip_ai_onboarding_nonce'             => wp_create_nonce( 'skip-spectra-pro-onboarding-nonce' ),
+					'skip_zip_ai_onboarding' => get_option( 'ast_skip_zip_ai_onboarding', false ),
+					'show_onboarding' => ( 'no' !== get_option( 'ast-block-templates-show-onboarding', true ) ),
 					'dynamic_content' => get_option( 'ast-templates-ai-content', array() ),
 					'favorites' => get_option(
 						'ast_block_templates_favorites', array(
@@ -900,7 +1014,7 @@ class Plugin {
 							'site' => array(),
 						)
 					),
-					'astra_customizer_css' => str_replace( 'body', '.st-block-container', defined( 'ASTRA_THEME_VERSION' ) ? $astra_customizer_css : $server_astra_customizer_css ),
+					'astra_customizer_css' => preg_replace( '/(?<!-)(\\bbody\\b)(?!-)/i', '.st-block-container', defined( 'ASTRA_THEME_VERSION' ) ? $astra_customizer_css : $server_astra_customizer_css ),
 					'disable_ai' => $disable_ai,
 					'adaptive_mode' => $adaptive_mode,
 					'debug_mode' => Helper::instance()->is_debug_mode() ? 'yes' : 'no',
@@ -927,12 +1041,68 @@ class Plugin {
 					'header_markup' => $ast_header,
 					'footer_markup' => $ast_footer,
 					'astra_static_css_path' => $static_css_path,
-					'server_astra_customizer_css' => str_replace( 'body', '.st-block-container', $server_astra_customizer_css ),
+					'server_astra_customizer_css' => preg_replace( '/(?<!-)(\\bbody\\b)(?!-)/i', '.st-block-container', $server_astra_customizer_css ),
 					'is_rtl' => is_rtl(),
 					'ai_design_copilot' => isset( $ai_features['ai_design_copilot']['status'] ) ? $ai_features['ai_design_copilot']['status'] : 'disabled',
 					'ai_assistant' => isset( $ai_features['ai_assistant']['status'] ) ? $ai_features['ai_assistant']['status'] : 'disabled',
+					'hide_notice' => $this->is_show_personalize_ai_notice(),
+					'is_sync_business_details' => get_option( 'ast-templates-business-details-synced', false ),
+					'bypassAuth' => apply_filters( 'ast_block_templates_bypass_auth', false ),
 				)
 			)
+		);
+	}
+
+	/**
+	 * Get Spec Credit Details
+	 *
+	 * @since 2.1.24
+	 * @param  array<string, mixed> $business_details business details.
+	 * @return array<string, mixed>
+	 */
+	public function maybe_parse_social_profiles( $business_details ) {
+
+		$social_profiles = $business_details['social_profiles'];
+		$save = false;
+		foreach ( $social_profiles as $index => $icon ) {
+
+			if ( ! isset( $icon['type'] ) || empty( $icon['type'] ) ) {
+
+				$url_parts = wp_parse_url( $icon['url'] );
+				$host = isset( $url_parts['host'] ) ? $url_parts['host'] : false;
+
+				if ( $host ) {
+					$domain_parts = explode( '.', $host );
+					$type = reset( $domain_parts ); 
+					$social_profiles[ $index ]['type'] = strtolower( $type );
+					$social_profiles[ $index ]['id'] = strtolower( $type );
+				}
+
+				$save = true;
+			}       
+		}
+
+		if ( $save ) {
+			$business_details['social_profiles'] = $social_profiles;
+			update_option( 'zipwp_user_business_details', $business_details );
+		}
+
+		return $business_details;
+	}
+
+	/**
+	 * Get is show personalize AI notice.
+	 *
+	 * @since 2.1.1
+	 * @return array<string, bool>
+	 */
+	public function is_show_personalize_ai_notice() {
+
+		return array(
+			'credit_warning' => false === get_transient( 'ast_block_templates_hide_credit_warning_notice' ) ? false : true,
+			'credit_danger' => false === get_transient( 'ast_block_templates_hide_credit_danger_notice' ) ? false : true,
+			'personalize_ai' => false === get_transient( 'ast_block_templates_hide_personalize_ai_notice' ) ? false : true,
+			'build_page_ai' => false === get_transient( 'ast_block_templates_hide_build_page_ai_notice' ) ? false : true,
 		);
 	}
 
@@ -987,13 +1157,13 @@ class Plugin {
 		$default_palette_color = self::$color_palette;
 		// Checking the nonce already.
 		if ( isset( $_REQUEST['adaptive_mode'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$non_adaptive_mode = 'true' === sanitize_text_field( $_REQUEST['adaptive_mode'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$adaptive_mode = 'true' === sanitize_text_field( $_REQUEST['adaptive_mode'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		} else {
 			$settings = get_option( 'ast_block_templates_ai_settings', array() );
-			$non_adaptive_mode = isset( $settings['adaptive_mode'] ) ? $settings['adaptive_mode'] : false;
+			$adaptive_mode = isset( $settings['adaptive_mode'] ) ? $settings['adaptive_mode'] : true;
 		}
 
-		if ( class_exists( 'Astra_Global_Palette' ) && ! $non_adaptive_mode ) {
+		if ( class_exists( 'Astra_Global_Palette' ) && $adaptive_mode ) {
 			$astra_palette_colors = astra_get_palette_colors();
 			$default_palette_color = $astra_palette_colors['palettes'][ $astra_palette_colors['currentPalette'] ];
 		}
@@ -1044,13 +1214,13 @@ class Plugin {
 
 		// Checking the nonce already.
 		if ( isset( $_REQUEST['adaptive_mode'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$non_adaptive_mode = 'true' === sanitize_text_field( $_REQUEST['adaptive_mode'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$adaptive_mode = 'true' === sanitize_text_field( $_REQUEST['adaptive_mode'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		} else {
 			$settings = get_option( 'ast_block_templates_ai_settings', array() );
-			$non_adaptive_mode = isset( $settings['adaptive_mode'] ) ? $settings['adaptive_mode'] : false;
+			$adaptive_mode = isset( $settings['adaptive_mode'] ) ? $settings['adaptive_mode'] : true;
 		}
 		
-		if ( class_exists( 'Astra_Global_Palette' ) && ! $non_adaptive_mode ) {
+		if ( class_exists( 'Astra_Global_Palette' ) && $adaptive_mode ) {
 			$astra_palette_colors = astra_get_palette_colors();
 			$default_palette_color = $astra_palette_colors['palettes'][ $astra_palette_colors['currentPalette'] ];
 		}
@@ -1160,14 +1330,14 @@ class Plugin {
 	 * @return array page builder sites.
 	 */
 	public function get_all_sites() {
-		$total_requests = (int) get_option( 'ast-block-templates-site-requests', 0 );
+		$total_requests = (int) Helper::instance()->get_site_request();
 
 		$sites = array();
 
 		if ( $total_requests ) {
 
 			for ( $page = 1; $page <= $total_requests; $page++ ) {
-				$current_page_data = get_option( 'ast-block-templates-sites-' . $page, array() );
+				$current_page_data = Helper::instance()->get_sites_templates( $page );
 				if ( ! empty( $current_page_data ) ) {
 					foreach ( $current_page_data as $site_id => $site_data ) {
 
@@ -1192,7 +1362,7 @@ class Plugin {
 						}
 
 						// Replace `id-` from the site ID.
-						$site_data['ID'] = str_replace( 'id-', '', $site_id );
+						$site_data['ID'] = str_replace( 'id-', '', (string) $site_id );
 
 						if ( count( $site_data['pages'] ) ) {
 							foreach ( $site_data['pages'] as $page_id => $page_data ) {
@@ -1233,13 +1403,13 @@ class Plugin {
 		$blocks         = array();
 		$blocks_pages   = array();
 		$blocks_wireframe   = array();
-		$total_requests = (int) get_option( 'ast-block-templates-block-requests', 0 );
+		$total_requests = (int) Helper::instance()->get_block_templates_requests();
 
 		for ( $page = 1; $page <= $total_requests; $page++ ) {
-			$current_page_data = get_option( 'ast-block-templates-blocks-' . $page, array() );
+			$current_page_data = Helper::instance()->get_blocks_templates( $page );
 			if ( ! empty( $current_page_data ) ) {
 				foreach ( $current_page_data as $page_id => $page_data ) {
-					$page_data['ID'] = str_replace( 'id-', '', $page_id );
+					$page_data['ID'] = str_replace( 'id-', '', (string) $page_id );
 
 					if ( isset( $page_data['type'] ) && 'wireframe' === $page_data['type'] ) {
 						$blocks_wireframe[] = $page_data;
@@ -1372,5 +1542,36 @@ class Plugin {
 		$parts['port']   = isset( $parts['port'] ) ? ':' . $parts['port'] : '';
 
 		return $parts['scheme'] . '://' . $parts['host'] . $parts['port'] . $parts['path'] . $query;
+	}
+
+	/**
+	 * Check is valid URL
+	 *
+	 * @param string $url  The site URL.
+	 *
+	 * @since 2.1.5
+	 * @return boolean
+	 */
+	public function is_valid_url( $url = '' ) {
+		if ( empty( $url ) && null !== $url ) {
+			return false;
+		}
+
+		$parse_url = wp_parse_url( $url );
+		if ( empty( $parse_url ) || ! is_array( $parse_url ) || ! array_key_exists( 'host', $parse_url ) ) {
+			return false;
+		}
+
+		$valid_hosts = array();
+
+		$api_domain_parse_url = wp_parse_url( AST_BLOCK_TEMPLATES_LIBRARY_URL );
+		$valid_hosts[] = $api_domain_parse_url['host'];
+
+		// Validate host.
+		if ( in_array( $parse_url['host'], $valid_hosts, true ) ) {
+			return true;
+		}
+
+		return false;
 	}
 }

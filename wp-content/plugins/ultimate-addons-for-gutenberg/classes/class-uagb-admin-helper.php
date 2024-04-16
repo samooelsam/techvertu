@@ -52,11 +52,6 @@ if ( ! class_exists( 'UAGB_Admin_Helper' ) ) {
 			// If the Zip AI Helper is available, get the required modules and their states.
 			if ( class_exists( '\ZipAI\Classes\Module' ) ) {
 				$zip_ai_modules = Zip_Ai_Module::get_all_modules();
-	
-				// Check if each module is enabled based on the key.
-				foreach ( $zip_ai_modules as $module => $details ) {
-					$zip_ai_modules[ $module ] = Zip_Ai_Module::is_enabled( $module );
-				}
 			}
 
 			$content_width = self::get_global_content_width();
@@ -69,6 +64,7 @@ if ( ! class_exists( 'UAGB_Admin_Helper' ) ) {
 				'uag_enable_on_page_css_button'     => self::get_admin_settings_option( 'uag_enable_on_page_css_button', 'yes' ),
 				'uag_enable_block_condition'        => self::get_admin_settings_option( 'uag_enable_block_condition', 'disabled' ),
 				'uag_enable_masonry_gallery'        => self::get_admin_settings_option( 'uag_enable_masonry_gallery', 'enabled' ),
+				'uag_enable_quick_action_sidebar'   => self::get_admin_settings_option( 'uag_enable_quick_action_sidebar', 'enabled' ),
 				'uag_enable_animations_extension'   => self::get_admin_settings_option( 'uag_enable_animations_extension', 'enabled' ),
 				'uag_enable_gbs_extension'          => self::get_admin_settings_option( 'uag_enable_gbs_extension', 'enabled' ),
 				'uag_enable_block_responsive'       => self::get_admin_settings_option( 'uag_enable_block_responsive', 'enabled' ),
@@ -97,6 +93,7 @@ if ( ! class_exists( 'UAGB_Admin_Helper' ) ) {
 						'info-box',
 						'call-to-action',
 						'countdown',
+						'popup-builder',
 					)
 				),
 				'wp_is_block_theme'                 => self::is_block_theme(),
@@ -219,6 +216,7 @@ if ( ! class_exists( 'UAGB_Admin_Helper' ) ) {
 			$is_already_icon_list = false;
 			$is_already_button    = false;
 			$is_already_faq       = false;
+			$is_already_tabs      = false;
 			$blocks_info          = UAGB_Block_Module::get_blocks_info();
 
 			foreach ( $blocks_info as $key => $block ) {
@@ -289,6 +287,15 @@ if ( ! class_exists( 'UAGB_Admin_Helper' ) ) {
 							$combined[]     = 'faq';
 							$combined[]     = 'faq-child';
 							$is_already_faq = true;
+						}
+						break;
+					
+					case 'tabs-child':
+					case 'tabs':
+						if ( ! $is_already_tabs ) {
+							$combined[]      = 'tabs';
+							$combined[]      = 'tabs-child';
+							$is_already_tabs = true;
 						}
 						break;
 

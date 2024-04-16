@@ -45,7 +45,7 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 		 * Store Json variable
 		 *
 		 * @since 1.8.1
-		 * @var instance
+		 * @var array
 		 */
 		public static $icon_json;
 
@@ -271,6 +271,7 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 
 		/**
 		 * Get Json Data.
+		 * Customize and add icons via 'uagb_icons_chunks' filter.
 		 *
 		 * @since 1.8.1
 		 * @return array
@@ -289,8 +290,10 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 				}
 			}
 
-			if ( empty( $icons_chunks ) ) {
-				return array();
+			$icons_chunks = apply_filters( 'uagb_icons_chunks', $icons_chunks );
+			
+			if ( ! is_array( $icons_chunks ) || empty( $icons_chunks ) ) {
+				$icons_chunks = array();
 			}
 
 			self::$icon_json = $icons_chunks;
@@ -304,11 +307,6 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 		 * @param  array $icon Decoded fontawesome json file data.
 		 */
 		public static function render_svg_html( $icon ) {
-			$icon = str_replace( 'far', '', $icon );
-			$icon = str_replace( 'fas', '', $icon );
-			$icon = str_replace( 'fab', '', $icon );
-			$icon = str_replace( 'fa-', '', $icon );
-			$icon = str_replace( 'fa', '', $icon );
 			$icon = sanitize_text_field( esc_attr( $icon ) );
 
 			$json = self::backend_load_font_awesome_icons();
@@ -1480,12 +1478,8 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 			delete_post_meta( $post_id, '_uag_css_file_name' );
 			delete_post_meta( $post_id, '_uag_js_file_name' );
 
-			$does_post_contain_reusable_blocks = self::does_post_contain_reusable_blocks( $post_id );
-
-			if ( true === $does_post_contain_reusable_blocks || 'wp_block' === $current_post_type ) {
-				/* Update the asset version */
-				update_option( '__uagb_asset_version', time() );
-			}
+			/* Update the asset version */
+			UAGB_Admin_Helper::update_admin_settings_option( '__uagb_asset_version', time() );
 
 			do_action( 'uagb_delete_page_assets' );
 		}
@@ -1562,23 +1556,6 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 		public static function remove_file( $file_name ) {
 			if ( file_exists( $file_name ) ) {
 				wp_delete_file( $file_name );
-			}
-		}
-
-		/**
-		 * Enable the given Zip AI module if it exists, else create and enable it.
-		 * TO DO - Move this to the Zip AI helper.
-		 *
-		 * @param array  $modules     The reference to the modules array that will be modified.
-		 * @param string $module_name The module name.
-		 * @since 2.11.0
-		 * @return void
-		 */
-		public static function ensure_zip_ai_module_is_enabled( &$modules, $module_name ) {
-			if ( empty( $modules[ $module_name ] ) || ! is_array( $modules[ $module_name ] ) ) {
-				$modules[ $module_name ] = array( 'status' => 'enabled' );
-			} else {
-				$modules[ $module_name ]['status'] = 'enabled';
 			}
 		}
 	}

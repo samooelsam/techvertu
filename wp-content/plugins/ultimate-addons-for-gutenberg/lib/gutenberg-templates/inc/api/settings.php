@@ -86,7 +86,7 @@ class Settings extends Api_Base {
 	 */
 	public function get_item_permissions_check( $request ) {
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'manage_ast_block_templates' ) ) {
 			return new \WP_Error(
 				'gt_rest_cannot_access',
 				__( 'Sorry, you are not allowed to do that.', 'ast-block-templates' ),
@@ -142,7 +142,7 @@ class Settings extends Api_Base {
 			$settings = get_option( 'ast_block_templates_ai_settings', array() );
 			$settings[ $setting_key ] = $setting_value;
 
-			if ( 'adaptive_mode' === $setting_key || 'disable_ai' === $setting_key ) {
+			if ( 'disable_ai' === $setting_key ) {
 	
 				$ai_settings = get_option( 'zip_ai_modules', array() );
 				$ai_copilot_value = $setting_value ? 'disabled' : 'enabled';
@@ -150,6 +150,15 @@ class Settings extends Api_Base {
 				update_option( 'zip_ai_modules', $ai_settings );
 
 				$settings['disable_ai'] = $setting_value;
+			}
+
+			if ( 'adaptive_mode' === $setting_key ) {
+				$ai_settings = get_option( 'zip_ai_modules', array() );
+				$ai_copilot_value = $setting_value ? 'enabled' : 'disabled';
+				$ai_settings['ai_design_copilot']['status'] = $ai_copilot_value;
+				update_option( 'zip_ai_modules', $ai_settings );
+
+				$settings['disable_ai'] = ! $setting_value;
 			}
 
 			$status = update_option( 'ast_block_templates_ai_settings', $settings );

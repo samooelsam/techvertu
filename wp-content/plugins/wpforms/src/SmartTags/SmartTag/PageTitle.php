@@ -22,9 +22,7 @@ class PageTitle extends SmartTag {
 	 */
 	public function get_value( $form_data, $fields = [], $entry_id = '' ) {
 
-		if ( ! empty( $entry_id ) ) {
-			$page_title = $this->get_meta( $entry_id, 'page_title' );
-		}
+		$page_title = $this->get_meta( $entry_id, 'page_title' );
 
 		if ( ! empty( $page_title ) ) {
 			return wp_kses_post( $page_title );
