@@ -25,7 +25,7 @@
 
 .vg-plugin-sdk-page ol>li {
     margin-left: 0;
-    padding-left: 30px;
+    padding-left: 45px;
     counter-increment: item;
     list-style: none inside;
     position: relative;
@@ -43,7 +43,7 @@
     -moz-border-radius: 10px;
     border-radius: 50%;
     position: absolute;
-    left: -15px;
+    left: 0;
 }
 #wpbody, #wpbody-content, #wpwrap, #wrap {
     background: #fff;

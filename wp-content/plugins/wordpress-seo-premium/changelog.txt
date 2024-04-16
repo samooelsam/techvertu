@@ -1,0 +1,7 @@
+*** Yoast SEO premium Changelog ***
+
+
+2024-03-19 - version 22.4
+* fix -  Fixes a bug where where an AJAX request on the edit tags page that did not have `data` as a `string` would cause a JavaScript error on our side, stopping our redirect notification checks.
+* update -   Bumps the minimum required version of Yoast SEO to 22.4.
+

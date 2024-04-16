@@ -86,7 +86,7 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 			define( 'UAGB_BASE', plugin_basename( UAGB_FILE ) );
 			define( 'UAGB_DIR', plugin_dir_path( UAGB_FILE ) );
 			define( 'UAGB_URL', plugins_url( '/', UAGB_FILE ) );
-			define( 'UAGB_VER', '2.11.1' );
+			define( 'UAGB_VER', '2.12.8' );
 			define( 'UAGB_MODULES_DIR', UAGB_DIR . 'modules/' );
 			define( 'UAGB_MODULES_URL', UAGB_URL . 'modules/' );
 			define( 'UAGB_SLUG', 'spectra' );
@@ -173,6 +173,10 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 				require_once UAGB_DIR . 'classes/class-uagb-twenty-seventeen-compatibility.php';
 			}
 
+			if ( 'twentysixteen' === get_template() ) {
+				require_once UAGB_DIR . 'compatibility/class-uagb-twenty-sixteen-compatibility.php';
+			}
+
 			require_once UAGB_DIR . 'admin-core/admin-loader.php';
 
 			// Register all UAG Lite Blocks.
@@ -195,7 +199,7 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 			add_filter( 'zip_ai_auth_redirection_url', array( $this, 'add_zip_ai_redirection_url' ), 20, 1 );
 			add_filter( 'zip_ai_revoke_redirection_url', array( $this, 'add_zip_ai_redirection_url' ), 20, 1 );
 
-			require_once UAGB_DIR . 'lib/zip-ai/zip-ai.php';
+			require_once UAGB_DIR . 'lib/class-uagb-zip-ai.php';
 		}
 
 		/**
@@ -542,6 +546,7 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 			// Overwrite the product details that were of a lower priority, if any.
 			$product_details = array(
 				'product_name'                          => 'Spectra',
+				'product_slug'                          => 'spectra',
 				'product_logo'                          => file_get_contents( UAGB_DIR . 'assets/images/logos/spectra.svg' ),
 				'product_primary_color'                 => '#5733ff',
 				'ai_assistant_learn_more_url'           => admin_url( 'admin.php?page=spectra&path=ai-features' ),
@@ -568,7 +573,10 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 
 			// Ensure each module in the list is enabled.
 			foreach ( $modules_to_enable as $module_name ) {
-				\UAGB_Helper::ensure_zip_ai_module_is_enabled( $modules, $module_name );
+				// @phpstan-ignore-next-line
+				if ( class_exists( '\ZipAI\Classes\Module' ) && method_exists( '\ZipAI\Classes\Module', 'force_enabled' ) ) {
+					\ZipAI\Classes\Module::force_enabled( $modules, $module_name );
+				}
 			}
 
 			// Return the Spectra default modules.

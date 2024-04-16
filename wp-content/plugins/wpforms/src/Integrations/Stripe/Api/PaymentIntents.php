@@ -453,17 +453,13 @@ class PaymentIntents extends Common implements ApiInterface {
 		try {
 
 			if ( isset( $args['customer_email'] ) || isset( $args['customer_name'] ) ) {
-
-				$name  = $args['customer_name'] ?? '';
-				$email = $args['customer_email'] ?? '';
-
-				$this->set_customer( $email, $name );
+				$this->set_customer( $args['customer_email'] ?? '', $args['customer_name'] ?? '', $args['customer_address'] ?? [] );
 				$this->attach_customer_to_payment();
 
 				$args['customer'] = $this->get_customer( 'id' );
-
-				unset( $args['customer_email'], $args['customer_name'] );
 			}
+
+			unset( $args['customer_email'], $args['customer_name'], $args['customer_address'] );
 
 			$this->intent = PaymentIntent::create( $args, Helpers::get_auth_opts() );
 
@@ -544,7 +540,7 @@ class PaymentIntents extends Common implements ApiInterface {
 	 *
 	 * @param array $args Subscription payment arguments.
 	 */
-	protected function charge_subscription( $args ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
+	protected function charge_subscription( $args ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
 
 		if ( empty( $this->payment_method_id ) ) {
 			$this->error = esc_html__( 'Stripe subscription stopped, missing PaymentMethod id.', 'wpforms-lite' );
@@ -570,10 +566,7 @@ class PaymentIntents extends Common implements ApiInterface {
 		}
 
 		try {
-
-			$name = $args['customer_name'] ?? '';
-
-			$this->set_customer( $args['email'], $name );
+			$this->set_customer( $args['email'], $args['customer_name'] ?? '', $args['customer_address'] ?? [] );
 			$sub_args['customer'] = $this->get_customer( 'id' );
 
 			if ( Helpers::is_payment_element_enabled() ) {
@@ -581,9 +574,12 @@ class PaymentIntents extends Common implements ApiInterface {
 				$sub_args['payment_behavior'] = 'default_incomplete';
 				$sub_args['off_session']      = true;
 				$sub_args['payment_settings'] = [
-					'payment_method_types'        => [ 'card', 'link' ],
 					'save_default_payment_method' => 'on_subscription',
 				];
+
+				if ( Helpers::is_link_supported() ) {
+					$sub_args['payment_settings']['payment_method_types'] = [ 'card', 'link' ];
+				}
 			} else {
 
 				$new_payment_method = $this->attach_customer_to_payment();

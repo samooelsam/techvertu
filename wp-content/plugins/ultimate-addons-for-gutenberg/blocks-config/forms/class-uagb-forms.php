@@ -69,6 +69,7 @@ if ( ! class_exists( 'UAGB_Forms' ) ) {
 				$content = get_post_field( 'post_content', $reusable_ref_id );
 				return parse_blocks( $content );
 			}
+			return array();
 		}
 
 		/**
@@ -199,7 +200,7 @@ if ( ! class_exists( 'UAGB_Forms' ) ) {
 			if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
 				$wp_query_args        = array(
 					'post_status' => array( 'publish' ),
-					'post_type'   => 'wp_template',
+					'post_type'   => array( 'wp_template', 'wp_template_part' ),
 				);
 				$template_query       = new WP_Query( $wp_query_args );
 				$template_query_posts = $template_query->posts;
@@ -247,12 +248,12 @@ if ( ! class_exists( 'UAGB_Forms' ) ) {
 					'exclusion' => 'ast-advanced-hook-exclusion',
 					'users'     => 'ast-advanced-hook-users',
 				);
-				
+
 				$result = Astra_Target_Rules_Fields::get_instance()->get_posts_by_conditions( ASTRA_ADVANCED_HOOKS_POST_TYPE, $option );
 
 				if ( ! empty( $result ) && is_array( $result ) ) {
 					$post_ids = array_keys( $result );
-					
+
 					foreach ( $post_ids as $post_id ) {
 
 						$custom_post = get_post( $post_id );
@@ -271,7 +272,7 @@ if ( ! class_exists( 'UAGB_Forms' ) ) {
 								}
 							}
 						}
-					}               
+					}
 				}
 			}
 
@@ -346,7 +347,7 @@ if ( ! class_exists( 'UAGB_Forms' ) ) {
 					}
 				}
 			}
-			
+
 			if ( empty( $google_recaptcha_secret_key ) && ! empty( $google_recaptcha_site_key ) ) {
 				wp_send_json_error( 400 );
 			}
@@ -422,7 +423,6 @@ if ( ! class_exists( 'UAGB_Forms' ) ) {
 		 * @since 1.22.0
 		 */
 		public function send_email( $body, $form_data, $args ) {
-
 			$to      = isset( $args['afterSubmitToEmail'] ) ? trim( $args['afterSubmitToEmail'] ) : sanitize_email( get_option( 'admin_email' ) );
 			$cc      = isset( $args['afterSubmitCcEmail'] ) ? trim( $args['afterSubmitCcEmail'] ) : '';
 			$bcc     = isset( $args['afterSubmitBccEmail'] ) ? trim( $args['afterSubmitBccEmail'] ) : '';
@@ -444,7 +444,9 @@ if ( ! class_exists( 'UAGB_Forms' ) ) {
 				wp_send_json_success( 400 );
 			}
 
-			$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+			$sender_email_address = ! empty( $form_data['Email'] ) ? sanitize_email( $form_data['Email'] ) : 'example@mail.com';
+
+			$headers = array( 'Content-Type: text/html; charset=UTF-8', 'From: Email <' . $sender_email_address . '>' );
 
 			foreach ( $to_emails as $email ) {
 				$headers[] = 'Reply-To: ' . get_bloginfo( 'name' ) . ' <' . $email . '>';

@@ -618,9 +618,14 @@ class Process {
 
 		$args = $this->get_base_subscription_args();
 
-		$args['email']         = sanitize_email( $this->fields[ $this->settings['recurring']['email'] ]['value'] );
 		$args['settings']      = $this->settings['recurring'];
+		$args['email']         = sanitize_email( $this->fields[ $args['settings']['email'] ]['value'] );
 		$args['customer_name'] = ! empty( $args['settings']['customer_name'] ) ? sanitize_text_field( $this->fields[ $args['settings']['customer_name'] ]['value'] ) : '';
+
+		// Customer address.
+		if ( isset( $args['settings']['customer_address'] ) && $args['settings']['customer_address'] !== '' ) {
+			$args['customer_address'] = $this->map_address_field( $this->fields[ $args['settings']['customer_address'] ], $args['settings']['customer_address'] );
+		}
 
 		$this->process_subscription( $args );
 
@@ -671,6 +676,17 @@ class Process {
 			$args['customer_name'] = sanitize_text_field( $this->fields[ $this->settings['customer_name'] ]['value'] );
 		}
 
+		// Customer address.
+		if ( isset( $this->settings['customer_address'] ) && $this->settings['customer_address'] !== '' ) {
+			$args['customer_address'] = $this->map_address_field( $this->fields[ $this->settings['customer_address'] ], $this->settings['customer_address'] );
+		}
+
+		// Shipping address.
+		if ( isset( $this->settings['shipping_address'] ) && $this->settings['shipping_address'] !== '' ) {
+			$args['shipping']['name']    = $args['customer_name'] ?? '';
+			$args['shipping']['address'] = $this->map_address_field( $this->fields[ $this->settings['shipping_address'] ], $this->settings['shipping_address'] );
+		}
+
 		$this->api->process_single( $args );
 
 		// Set payment processing flag.
@@ -708,6 +724,11 @@ class Process {
 			// Customer name.
 			if ( isset( $recurring['customer_name'] ) && $recurring['customer_name'] !== '' && ! empty( $this->fields[ $recurring['customer_name'] ]['value'] ) ) {
 				$args['customer_name'] = sanitize_text_field( $this->fields[ $recurring['customer_name'] ]['value'] );
+			}
+
+			// Customer address.
+			if ( isset( $recurring['customer_address'] ) && $recurring['customer_address'] !== '' ) {
+				$args['customer_address'] = $this->map_address_field( $this->fields[ $recurring['customer_address'] ], $recurring['customer_address'] );
 			}
 
 			$this->process_subscription( $args );
@@ -1038,6 +1059,40 @@ class Process {
 			'form_id'    => $this->form_id,
 			'form_title' => sanitize_text_field( $this->form_data['settings']['form_title'] ),
 			'amount'     => $this->amount * Helpers::get_decimals_amount(),
+		];
+	}
+
+	/**
+	 * Map WPForms Address field to Stripe format.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param array  $submitted_data Submitted address data.
+	 * @param string $field_id       Address field ID.
+	 *
+	 * @return array
+	 */
+	private function map_address_field( array $submitted_data, string $field_id ): array {
+
+		$line    = sanitize_text_field( $submitted_data['address1'] );
+		$country = '';
+
+		if ( isset( $submitted_data['address2'] ) ) {
+			$line .= ' ' . sanitize_text_field( $submitted_data['address2'] );
+		}
+
+		if ( isset( $submitted_data['country'] ) ) {
+			$country = sanitize_text_field( $submitted_data['country'] );
+		} elseif ( $this->form_data['fields'][ $field_id ]['scheme'] !== 'international' ) {
+			$country = 'US';
+		}
+
+		return [
+			'line1'       => $line,
+			'state'       => isset( $submitted_data['state'] ) ? sanitize_text_field( $submitted_data['state'] ) : '',
+			'city'        => sanitize_text_field( $submitted_data['city'] ),
+			'postal_code' => sanitize_text_field( $submitted_data['postal'] ),
+			'country'     => $country,
 		];
 	}
 }

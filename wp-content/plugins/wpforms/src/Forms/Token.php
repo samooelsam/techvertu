@@ -28,7 +28,10 @@ class Token {
 	 */
 	public function hooks() {
 
-		add_action( 'wpforms_display_submit_before', [ $this, 'spam_protection_field' ] );
+		add_filter( 'wpforms_frontend_form_atts', [ $this, 'add_token_to_form_atts' ], 10, 2 );
+		add_filter( 'wpforms_frontend_strings', [ $this, 'add_frontend_strings' ] );
+		add_action( 'wp_ajax_nopriv_wpforms_get_token', [ $this, 'ajax_get_token' ] );
+		add_action( 'wp_ajax_wpforms_get_token', [ $this, 'ajax_get_token' ] );
 	}
 
 	/**
@@ -89,7 +92,6 @@ class Token {
 		$valid_token_times_before = apply_filters(
 			'wpforms_form_token_check_before_today',
 			[
-				( 3 * DAY_IN_SECONDS ), // Three days ago.
 				( 2 * DAY_IN_SECONDS ), // Two days ago.
 				( 1 * DAY_IN_SECONDS ), // One day ago.
 			]
@@ -149,7 +151,6 @@ class Token {
 	 *
 	 * @since 1.6.2
 	 * @since 1.7.1 Added the $form_data argument.
-	 * @since 1.8.7 Deprecated in favor of direct printing hidden field with spam_protection_field method.
 	 *
 	 * @param array $attrs     Form attributes.
 	 * @param array $form_data Form data and settings.
@@ -158,25 +159,10 @@ class Token {
 	 */
 	public function add_token_to_form_atts( array $attrs, array $form_data ) {
 
-		_deprecated_function( __METHOD__, '1.8.7 of the WPForms plugin', 'WPForms\Forms\Token::spam_protection_field' );
-
-		$attrs['atts']['data-token'] = $this->get( true, $form_data );
+		$attrs['atts']['data-token']      = $this->get( true, $form_data );
+		$attrs['atts']['data-token-time'] = time();
 
 		return $attrs;
-	}
-
-	/**
-	 * Add the token to the form as a hidden field.
-	 *
-	 * @since 1.8.7
-	 *
-	 * @param array|mixed $form_data Form data and settings.
-	 */
-	public function spam_protection_field( $form_data ) {
-
-		$token = $this->get( true, (array) $form_data );
-
-		echo '<input type="hidden" class="wpforms-token" name="wpforms[token]" value="' . esc_attr( $token ) . '" />';
 	}
 
 	/**
@@ -302,5 +288,50 @@ class Token {
 			'<a href="https://wpforms.com/docs/getting-support-wpforms/">',
 			'</a>'
 		);
+	}
+
+	/**
+	 * Add token related strings to the frontend.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param array|mixed $strings Frontend strings.
+	 *
+	 * @return array Frontend strings.
+	 */
+	public function add_frontend_strings( $strings ): array {
+
+		$strings = (array) $strings;
+
+		// Default token lifetime is 24 hours in seconds.
+		$token_lifetime = DAY_IN_SECONDS;
+
+		/**
+		 * Filter token cache lifetime in seconds.
+		 *
+		 * @since 1.8.8
+		 *
+		 * @param integer $token_lifetime Token lifetime in seconds.
+		 */
+		$strings['token_cache_lifetime'] = apply_filters( 'wpforms_forms_token_cache_lifetime', $token_lifetime );
+
+		return $strings;
+	}
+
+	/**
+	 * Update token via ajax handler.
+	 *
+	 * @since 1.8.8
+	 */
+	public function ajax_get_token() {
+
+		$form_data       = [];
+		$form_data['id'] = filter_input( INPUT_POST, 'formId', FILTER_VALIDATE_INT );
+
+		$response = [
+			'token' => $this->get( true, $form_data ),
+		];
+
+		wp_send_json_success( $response );
 	}
 }
