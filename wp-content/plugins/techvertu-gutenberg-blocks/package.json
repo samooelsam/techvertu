@@ -6,15 +6,21 @@
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
 	"scripts": {
-		"build": "wp-scripts build",
+		"start": "wp-scripts start --webpack-src-dir=src --output-path=build",
+		"build": "wp-scripts build --webpack-src-dir=src --output-path=build",
+		"start:solution": "wp-scripts start --webpack-src-dir=src/solution --output-path=build/solution",
+		"build:solution": "wp-scripts build --webpack-src-dir=src/solution --output-path=build/solution",
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
-		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "wp-scripts start"
+		"plugin-zip": "wp-scripts plugin-zip"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^27.1.0"
+	},
+	"dependencies": {
+		"@wordpress/edit-widgets": "^5.33.0",
+		"@wordpress/editor": "^13.33.0"
 	}
 }

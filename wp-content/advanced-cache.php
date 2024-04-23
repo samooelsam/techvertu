@@ -8,9 +8,9 @@ defined( 'ABSPATH' ) || exit;
 
 define( 'WP_ROCKET_ADVANCED_CACHE', true );
 
-$rocket_path        = '/var/www/vhosts/techvertu.co.uk/httpdocs/wp-content/plugins/wp-rocket/';
-$rocket_config_path = '/var/www/vhosts/techvertu.co.uk/httpdocs/wp-content/wp-rocket-config/';
-$rocket_cache_path  = '/var/www/vhosts/techvertu.co.uk/httpdocs/wp-content/cache/wp-rocket/';
+$rocket_path        = 'C:\xampp\htdocs\techvertu\wp-content\plugins\wp-rocket/';
+$rocket_config_path = 'C:\xampp\htdocs\techvertu/wp-content/wp-rocket-config/';
+$rocket_cache_path  = 'C:\xampp\htdocs\techvertu/wp-content/cache/wp-rocket/';
 
 if (
 	version_compare( phpversion(), '7.3', '<' )

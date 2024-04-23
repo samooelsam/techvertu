@@ -326,7 +326,7 @@ html .wp-block-latest-posts__featured-image {
 
 .wp-block-latest-posts > li > a {
   display: inline-block;
-  width: 80%;
+  width: 72%;
   vertical-align: middle;
   line-height: 1.5em;
   font-size: 15px;
@@ -411,7 +411,7 @@ html .ast-separate-container #primary, html .ast-separate-container.ast-left-sid
 .ast-blog-featured-section img {
   width: 100%; }
 
-.single .content-area.primary, .blog .content-area.primary {
+.single .content-area.primary, .blog .content-area.primary, .category .content-area.primary {
   background: #fff;
   border-radius: 20px;
   padding: 0 3em 3em !important;
@@ -592,7 +592,7 @@ html .entry-content ul li, html .entry-content ol li {
 .mobile-overflow-hide {
   overflow: hidden !important; }
 
-.blog .entry-title a {
+.blog .entry-title a, .category .entry-title a {
   font-family: inter;
   font-size: 36px;
   font-weight: 800;

@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file and formatted via [this recommendation](https://keepachangelog.com/).
 
+## [1.8.8.1] - 2024-04-17
+- Fixed console error on the `Widgets` admin page.
+
 ## [1.8.8] - 2024-04-16
 ### Added
 - Forms can now be saved as user templates for future use.
