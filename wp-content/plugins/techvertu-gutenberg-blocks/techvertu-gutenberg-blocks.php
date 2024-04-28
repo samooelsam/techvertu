@@ -36,9 +36,15 @@ function techvertu_meta_fields_register_meta() {
         ));
     }  
 	register_block_type(
-		__DIR__ . '/build',
+		__DIR__ . '/build/solution',
 		array(
 			'render_callback' => 'techvertu_meta_fields_metadata_block_render_callback',
+		)
+	);
+	register_block_type(
+		__DIR__ . '/build/related-posts',
+		array(
+			'render_callback' => 'techvertu_related_posts_block_render_callback',
 		)
 	);
 }
@@ -62,4 +68,44 @@ function techvertu_meta_fields_metadata_block_render_callback( $attributes, $con
 	} else {
 		return '<div ' . get_block_wrapper_attributes() . '>' . '<strong>' . __( 'Sorry. No fields available here!' ) . '</strong>' . '</div>';
 	}
+}
+function techvertu_related_posts_block_render_callback( $attributes, $content, $block ) { ?>
+		<?php  $postCategoryArr = wp_get_post_categories(get_the_ID());
+		if(is_singular()){
+			$args = array(
+				'post_type' => 'post',
+				'posts_per_page' => 10,
+				'category__in' => $postCategoryArr, // Array
+				'post__not_in' => array(get_the_ID()),
+				'orderby'=> 'date',
+				'order'=>'DESC'
+			);
+			$widgetTitle = __('Related Posts', 'techvertu');
+		}
+		else{
+			?>
+			<script>
+				jQuery(document).ready(function(){
+					jQuery('.remove-on-blog-page').parent().remove();
+				});
+			</script>
+			<?php 
+		} ?>
+		<div class="wp-block-group is-layout-flow wp-block-group-is-layout-flow remove-on-blog-page">
+			<p class="has-medium-font-size"><strong><?php echo($widgetTitle);?></strong></p>
+			<ul class="wp-block-latest-posts__list wp-block-latest-posts">
+				<?php 
+				$widgetQuery = new WP_Query( $args );
+					while( $widgetQuery->have_posts() ):
+						$widgetQuery->the_post();
+						?> <li>
+								<div class="wp-block-latest-posts__featured-image"><?php the_post_thumbnail('thumbnail');?></div>
+								<a href="<?php the_permalink();?>"><?php the_title();?></a>
+							</li>
+					<?php endwhile;
+					wp_reset_query();
+					?>
+			</ul>
+		</div>
+	<?php 
 }
