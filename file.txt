@@ -1180,3 +1180,4 @@ http://localhost/techvertu/blog
 http://localhost/techvertu/blog
 http://localhost/techvertu/blog
 http://localhost/techvertu/blog/category/solution
+http://localhost/techvertu/blog/category/it-support
