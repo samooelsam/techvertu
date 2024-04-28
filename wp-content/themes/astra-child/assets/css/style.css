@@ -662,6 +662,9 @@ html .ast-builder-menu .main-navigation {
 .uagb-block-621ca9d5 {
   margin-bottom: 0 !important; }
 
+.is-button-center {
+  text-align: center; }
+
 @keyframes constant-spin {
   0% {
     transform: rotate(0); }
