@@ -21,7 +21,5 @@
  */
 
 /* eslint-disable no-console */
-console.log(
-	'Hello World! (from create-block-techvertu-gutenberg-blocks block)'
-);
+
 /* eslint-enable no-console */
