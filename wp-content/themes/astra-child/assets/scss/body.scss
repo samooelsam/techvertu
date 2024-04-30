@@ -783,3 +783,42 @@ html .ast-builder-menu .main-navigation{
 .is-button-center{
     text-align: center;
 }
+.uagb-slick-carousel {
+    ul.slick-dots{
+        li{
+            background: none;
+        }
+    }
+}
+.techvertu-carousel{
+    background:linear-gradient(90deg, rgba(244,253,255,1) 100%, rgba(229,250,255,1) 100%);
+    padding: 20px;
+    border-radius: 65px;
+    padding-left: 100px;
+    padding-right: 100px;
+    .uagb-slick-carousel{
+        button.slick-arrow{
+            background: url(../img/arrow-wrapper.svg) no-repeat center center;
+            width: 260px;
+            height: 260px;
+            
+            &:after{
+                width:80px;
+                height:80px;
+                border:1px solid #cecece;
+                border-radius: 50%;
+                position: absolute;
+                content: "";
+                top: 35%;
+                left: 35%;
+            }
+        }
+        button.slick-prev{
+            left:-180px;
+        }
+        button.slick-next{
+            right:-180px;
+        }
+        
+    }
+}
