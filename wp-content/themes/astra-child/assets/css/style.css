@@ -693,6 +693,8 @@ html .ast-builder-menu .main-navigation {
     right: -180px; }
   .techvertu-carousel .spectra-image-gallery__layout--carousel {
     margin-bottom: 0 !important; }
+  .techvertu-carousel .spectra-image-gallery__media-wrapper {
+    vertical-align: middle; }
 
 @keyframes constant-spin {
   0% {
