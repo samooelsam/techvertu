@@ -104,3 +104,84 @@ function techvertu_referrer_check ()
 		fclose($fp);
 	}
 }
+//**********************************************************************************
+add_action( 'wp_enqueue_scripts', 'techvertu_google_recaptcha' );
+
+function techvertu_google_recaptcha() {
+    // Check if the current page is a single post
+    if (is_single()) {
+        wp_enqueue_script('google-recaptcha', 'https://www.google.com/recaptcha/api.js?render=6Lf1CmMpAAAAAJJSNY4nllZucYYqA31pbKqymTO7');
+    }
+}
+
+/** 
+ * Google reCAPTCHA: Add widget before the submit button 
+ */ 
+function add_google_recaptcha($submit_field) { 
+    // Check if the current page is a single post
+    if (is_single()) {
+        $submit_field['submit_field'] = '<p class="submit"> 
+            <input type="submit" name="buttonSubmit" id="buttonSubmit" class="submit" value="Post Comment"> 
+            <input type="hidden" name="comment_post_ID" value="'.get_the_id().'" id="comment_post_ID"> 
+            <input type="hidden" name="comment_parent" id="comment_parent" value="0"> 
+            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response"> 
+        </p> 
+        <script> 
+        document.getElementById("buttonSubmit").onclick = function onClick(e) { 
+            e.preventDefault(); 
+            grecaptcha.ready(function() { 
+                grecaptcha.execute("6Lf1CmMpAAAAAJJSNY4nllZucYYqA31pbKqymTO7", {action: "submit"}).then(function(token) { 
+                    document.getElementById("g-recaptcha-response").value = token; 
+                    document.getElementById("commentform").submit(); 
+                }); 
+            }); 
+        } 
+        </script> 
+        '; 
+    }
+    return $submit_field; 
+} 
+
+if (!is_user_logged_in()) { 
+    add_filter('comment_form_defaults','add_google_recaptcha'); 
+} 
+  
+/** 
+ * Google reCAPTCHA: verify response and validate comment submission 
+ */ 
+function is_valid_captcha_response($captcha) { 
+    $captcha_postdata = http_build_query( 
+        array( 
+            'secret' => '6Lf1CmMpAAAAAEOaAp2-X23LGBB_r_fL6FbACmwE', 
+            'response' => $captcha, 
+            'remoteip' => $_SERVER['REMOTE_ADDR'] 
+        ) 
+    ); 
+    $captcha_opts = array( 
+        'http' => array( 
+            'method' => 'POST', 
+            'header' => 'Content-type: application/x-www-form-urlencoded', 
+            'content' => $captcha_postdata 
+        ) 
+    ); 
+    $captcha_context = stream_context_create($captcha_opts); 
+    $captcha_response = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify", false, $captcha_context), true); 
+    if($captcha_response['success'] && $captcha_response['score'] > 0.5){ 
+        return true; 
+    }else{ 
+        return false; 
+    } 
+} 
+ 
+function verify_google_recaptcha() { 
+    $recaptcha = $_POST['g-recaptcha-response']; 
+    if(empty($recaptcha)){ 
+        wp_die(__("<p><strong>Error:</strong> Sorry, spam detected!</p><p><a href='javascript:history.back()'>« Back</a></p>")); 
+    }elseif(!is_valid_captcha_response($recaptcha)){ 
+        wp_die(__("<b>Sorry, spam detected!</b>")); 
+    } 
+} 
+ 
+if (!is_user_logged_in()) { 
+    add_action('pre_comment_on_post', 'verify_google_recaptcha'); 
+}

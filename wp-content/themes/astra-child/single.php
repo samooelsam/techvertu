@@ -95,6 +95,7 @@ if($solutionTitle || $solutionContent) {
 			<div>
 			<?php 
 			$comments_args = array(
+					'id_form' => 'commentform',
 					'label_submit' => __( 'Submit', 'textdomain' ),
 					'title_reply' => __( '', 'textdomain' ),
 					'comment_notes_after' => '',

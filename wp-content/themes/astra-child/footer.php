@@ -63,7 +63,7 @@ astra_content_bottom(); ?>
             <div class="centerize clearfix">
                 <nav class="socket-nav clearfix">
                     <ul>
-                        <li>© Copyright TechVertu 2023.</li>
+                        <li>© Copyright TechVertu <?php echo date('Y');?>.</li>
                         <li><a href="/privacy-policy">Privacy Policy</a></li>
                         <li><a href="/security-management-policy-statement">Security Management Policy Statement</a></li>
                         <li><a href="/quality-policy-statement">Quality Policy Statement</a></li>
