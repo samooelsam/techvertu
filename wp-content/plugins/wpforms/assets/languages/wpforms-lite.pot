@@ -1,13 +1,13 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WPForms Lite 1.8.8.1\n"
+"Project-Id-Version: WPForms Lite 1.8.8.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpforms-lite\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-04-17T17:28:51+00:00\n"
+"POT-Creation-Date: 2024-04-25T20:28:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wpforms-lite\n"
@@ -5584,10 +5584,18 @@ msgid "Sorry, we didn't find any addons that match your criteria."
 msgstr ""
 
 #: lite/templates/builder/context-menu.php:36
+msgid "Duplicate Template"
+msgstr ""
+
+#: lite/templates/builder/context-menu.php:51
+msgid "Duplicate Form"
+msgstr ""
+
+#: lite/templates/builder/context-menu.php:64
 msgid "Save as Template"
 msgstr ""
 
-#: lite/templates/builder/context-menu.php:55
+#: lite/templates/builder/context-menu.php:83
 #: src/Admin/AdminBarMenu.php:359
 #: src/Admin/Builder/Shortcuts.php:57
 #: src/Forms/Preview.php:238
@@ -5595,18 +5603,18 @@ msgstr ""
 msgid "View Entries"
 msgstr ""
 
-#: lite/templates/builder/context-menu.php:70
+#: lite/templates/builder/context-menu.php:98
 #: src/Admin/AdminBarMenu.php:360
 #: src/Forms/Preview.php:257
 msgid "View Payments"
 msgstr ""
 
-#: lite/templates/builder/context-menu.php:84
+#: lite/templates/builder/context-menu.php:112
 #: src/Admin/Builder/Shortcuts.php:75
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: lite/templates/builder/context-menu.php:98
+#: lite/templates/builder/context-menu.php:126
 msgid "What's New"
 msgstr ""
 
@@ -6700,50 +6708,50 @@ msgstr ""
 msgid "No forms selected when trying to add a tag to them."
 msgstr ""
 
-#: src/Admin/Forms/BulkActions.php:291
-#: src/Admin/Forms/Views.php:697
+#: src/Admin/Forms/BulkActions.php:284
+#: src/Admin/Forms/Views.php:693
 #: src/Admin/Payments/Views/Overview/Table.php:497
 msgid "Restore"
 msgstr ""
 
-#: src/Admin/Forms/BulkActions.php:292
-#: src/Admin/Forms/Views.php:717
+#: src/Admin/Forms/BulkActions.php:285
+#: src/Admin/Forms/Views.php:713
 #: src/Admin/Payments/Views/Overview/Table.php:498
 msgid "Delete Permanently"
 msgstr ""
 
-#: src/Admin/Forms/BulkActions.php:296
+#: src/Admin/Forms/BulkActions.php:289
 #: src/Admin/Payments/Views/Overview/Table.php:503
 msgid "Move to Trash"
 msgstr ""
 
-#: src/Admin/Forms/BulkActions.php:344
+#: src/Admin/Forms/BulkActions.php:337
 msgid "Security check failed. Please try again."
 msgstr ""
 
 #. translators: %d - trashed forms count.
-#: src/Admin/Forms/BulkActions.php:365
+#: src/Admin/Forms/BulkActions.php:358
 msgid "%d form was successfully moved to Trash."
 msgid_plural "%d forms were successfully moved to Trash."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d - restored forms count.
-#: src/Admin/Forms/BulkActions.php:372
+#: src/Admin/Forms/BulkActions.php:365
 msgid "%d form was successfully restored."
 msgid_plural "%d forms were successfully restored."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d - deleted forms count.
-#: src/Admin/Forms/BulkActions.php:379
+#: src/Admin/Forms/BulkActions.php:372
 msgid "%d form was successfully permanently deleted."
 msgid_plural "%d forms were successfully permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d - duplicated forms count.
-#: src/Admin/Forms/BulkActions.php:386
+#: src/Admin/Forms/BulkActions.php:379
 msgid "%d form was successfully duplicated."
 msgid_plural "%d forms were successfully duplicated."
 msgstr[0] ""
@@ -6969,7 +6977,7 @@ msgid "All"
 msgstr ""
 
 #: src/Admin/Forms/Views.php:78
-#: src/Admin/Forms/Views.php:651
+#: src/Admin/Forms/Views.php:647
 #: src/Admin/Payments/Views/Overview/Table.php:1113
 msgid "Trash"
 msgstr ""
@@ -6994,51 +7002,51 @@ msgstr ""
 msgid "View payments"
 msgstr ""
 
-#: src/Admin/Forms/Views.php:625
+#: src/Admin/Forms/Views.php:621
 msgid "Duplicate this template"
 msgstr ""
 
-#: src/Admin/Forms/Views.php:625
+#: src/Admin/Forms/Views.php:621
 msgid "Duplicate this form"
 msgstr ""
 
-#: src/Admin/Forms/Views.php:627
+#: src/Admin/Forms/Views.php:623
 #: templates/builder/field-context-menu.php:34
 msgid "Duplicate"
 msgstr ""
 
-#: src/Admin/Forms/Views.php:650
+#: src/Admin/Forms/Views.php:646
 msgid "Move this form template to trash"
 msgstr ""
 
-#: src/Admin/Forms/Views.php:650
+#: src/Admin/Forms/Views.php:646
 msgid "Move this form to trash"
 msgstr ""
 
-#: src/Admin/Forms/Views.php:696
+#: src/Admin/Forms/Views.php:692
 msgid "Restore this template"
 msgstr ""
 
-#: src/Admin/Forms/Views.php:696
+#: src/Admin/Forms/Views.php:692
 msgid "Restore this form"
 msgstr ""
 
-#: src/Admin/Forms/Views.php:716
+#: src/Admin/Forms/Views.php:712
 msgid "Delete this template permanently"
 msgstr ""
 
-#: src/Admin/Forms/Views.php:716
+#: src/Admin/Forms/Views.php:712
 msgid "Delete this form permanently"
 msgstr ""
 
 #. translators: %1$d - number of forms found in the trash, %2$s - search term.
-#: src/Admin/Forms/Views.php:745
+#: src/Admin/Forms/Views.php:741
 msgid "Found <strong>%1$d form</strong> in <em>the trash</em> containing <em>\"%2$s\"</em>"
 msgid_plural "Found <strong>%1$d forms</strong> in <em>the trash</em> containing <em>\"%2$s\"</em>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/Forms/Views.php:797
+#: src/Admin/Forms/Views.php:793
 msgid "Empty Trash"
 msgstr ""
 
@@ -9901,35 +9909,35 @@ msgstr ""
 msgid "Payment not found in the database."
 msgstr ""
 
-#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:111
+#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:118
 msgid "Refund failed."
 msgstr ""
 
-#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:128
+#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:135
 msgid "Refund successful."
 msgstr ""
 
-#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:131
+#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:138
 msgid "Saving refund in the database failed."
 msgstr ""
 
-#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:144
+#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:151
 msgid "Payment ID not provided."
 msgstr ""
 
-#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:154
+#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:161
 msgid "Subscription not found in the database."
 msgstr ""
 
-#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:160
+#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:167
 msgid "Subscription cancellation failed."
 msgstr ""
 
-#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:164
+#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:171
 msgid "Subscription cancelled."
 msgstr ""
 
-#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:167
+#: src/Integrations/Stripe/Admin/Payments/SingleActionsHandler.php:174
 msgid "Updating subscription in the database failed."
 msgstr ""
 
@@ -10104,27 +10112,27 @@ msgstr ""
 msgid "Stripe payment stopped, missing both PaymentMethod and PaymentIntent ids."
 msgstr ""
 
-#: src/Integrations/Stripe/Api/PaymentIntents.php:436
+#: src/Integrations/Stripe/Api/PaymentIntents.php:442
 msgid "Stripe payment stopped, missing PaymentMethod id."
 msgstr ""
 
-#: src/Integrations/Stripe/Api/PaymentIntents.php:467
+#: src/Integrations/Stripe/Api/PaymentIntents.php:473
 msgid "Stripe payment stopped. Invalid PaymentIntent status."
 msgstr ""
 
-#: src/Integrations/Stripe/Api/PaymentIntents.php:504
+#: src/Integrations/Stripe/Api/PaymentIntents.php:510
 msgid "Stripe payment was not confirmed. Please check your Stripe dashboard."
 msgstr ""
 
-#: src/Integrations/Stripe/Api/PaymentIntents.php:546
+#: src/Integrations/Stripe/Api/PaymentIntents.php:552
 msgid "Stripe subscription stopped, missing PaymentMethod id."
 msgstr ""
 
-#: src/Integrations/Stripe/Api/PaymentIntents.php:606
+#: src/Integrations/Stripe/Api/PaymentIntents.php:612
 msgid "Stripe subscription stopped. invalid PaymentIntent status."
 msgstr ""
 
-#: src/Integrations/Stripe/Api/PaymentIntents.php:643
+#: src/Integrations/Stripe/Api/PaymentIntents.php:649
 msgid "Stripe subscription was not confirmed. Please check your Stripe dashboard."
 msgstr ""
 
@@ -10229,49 +10237,57 @@ msgstr ""
 msgid "Payment Element failed to load. Stripe API responded with the message:"
 msgstr ""
 
-#: src/Integrations/Stripe/Process.php:204
+#: src/Integrations/Stripe/Process.php:209
 msgid "Unable to process payment, please try again later."
 msgstr ""
 
-#: src/Integrations/Stripe/Process.php:566
+#: src/Integrations/Stripe/Process.php:571
 msgid "Stripe payment stopped, missing keys."
 msgstr ""
 
-#: src/Integrations/Stripe/Process.php:572
+#: src/Integrations/Stripe/Process.php:577
 msgid "Stripe payment stopped, missing payment fields."
 msgstr ""
 
-#: src/Integrations/Stripe/Process.php:577
+#: src/Integrations/Stripe/Process.php:582
 msgid "Stripe payment stopped, invalid/empty amount."
 msgstr ""
 
-#: src/Integrations/Stripe/Process.php:581
+#: src/Integrations/Stripe/Process.php:586
 msgid "Stripe payment stopped, amount less than minimum charge required."
 msgstr ""
 
-#: src/Integrations/Stripe/Process.php:746
+#: src/Integrations/Stripe/Process.php:751
 msgid "Stripe Subscription payment stopped validation error."
 msgstr ""
 
 #. translators: %s - error message.
-#: src/Integrations/Stripe/Process.php:878
+#: src/Integrations/Stripe/Process.php:883
 msgid "Payment Error: %s"
 msgstr ""
 
-#: src/Integrations/Stripe/Process.php:885
+#: src/Integrations/Stripe/Process.php:890
 msgid "Stripe subscription payment stopped by error"
 msgstr ""
 
-#: src/Integrations/Stripe/Process.php:887
+#: src/Integrations/Stripe/Process.php:892
 msgid "Stripe payment stopped by error"
 msgstr ""
 
-#: src/Integrations/Stripe/Process.php:1004
+#: src/Integrations/Stripe/Process.php:1009
 msgid "Stripe subscription payment stopped, missing form settings."
 msgstr ""
 
-#: src/Integrations/Stripe/Process.php:1009
+#: src/Integrations/Stripe/Process.php:1014
 msgid "Stripe subscription payment stopped, customer email not found."
+msgstr ""
+
+#: src/Integrations/Stripe/Process.php:1127
+msgid "Secondary form submission was declined."
+msgstr ""
+
+#: src/Integrations/Stripe/Process.php:1143
+msgid "Irregular activity detected. Your submission has been declined and payment refunded."
 msgstr ""
 
 #: src/Integrations/Stripe/StripeAddonCompatibility.php:87

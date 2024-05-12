@@ -307,12 +307,14 @@ class PaymentIntents extends Common implements ApiInterface {
 	 * Refund a payment.
 	 *
 	 * @since 1.8.4
+	 * @since 1.8.8.2 $args param was added.
 	 *
 	 * @param string $payment_intent_id PaymentIntent id.
+	 * @param array  $args              Additional arguments (e.g. 'mode', 'metadata', 'reason' ).
 	 *
 	 * @return bool
 	 */
-	public function refund_payment( $payment_intent_id ) {
+	public function refund_payment( string $payment_intent_id, array $args = [] ): bool {
 
 		try {
 
@@ -322,15 +324,19 @@ class PaymentIntents extends Common implements ApiInterface {
 				return false;
 			}
 
-			$refund = Refund::create(
-				[
-					'payment_intent' => $payment_intent_id,
-					'metadata'       => [
-						'refunded_by' => 'wpforms_dashboard',
-					],
-				],
-				Helpers::get_auth_opts()
-			);
+			$defaults = [
+				'payment_intent' => $payment_intent_id,
+			];
+
+			if ( isset( $args['mode'] ) ) {
+				$auth_opts = [ 'api_key' => Helpers::get_stripe_key( 'secret', $args['mode'] ) ];
+
+				unset( $args['mode'] );
+			}
+
+			$args = wp_parse_args( $args, $defaults );
+
+			$refund = Refund::create( $args, $auth_opts ?? Helpers::get_auth_opts() );
 
 			if ( ! $refund ) {
 				return false;

@@ -1,6 +1,20 @@
 # Changelog
 All notable changes to this project will be documented in this file and formatted via [this recommendation](https://keepachangelog.com/).
 
+## [1.8.8.3] - 2024-04-26
+### Changed
+- Updated jQuery.Validate library to v1.20.0.
+
+### Fixed
+- Screen Options on the Forms Overview and Entries Overview pages could cause PHP error in rare cases due to conflict with 3rd-party code.
+- Post Statuses on legacy Nav Menu management page could cause PHP error in rare cases due to conflict with 3rd-party code.
+- Users couldn't duplicate their forms.
+
+## [1.8.8.2] - 2024-04-23
+### Fixed
+- Improved handling of corrupted payment submission data.
+- Fixed renaming of custom themes on the Full Site Editor.
+
 ## [1.8.8.1] - 2024-04-17
 - Fixed console error on the `Widgets` admin page.
 

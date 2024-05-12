@@ -3,6 +3,7 @@
 namespace WPForms\Integrations\Stripe;
 
 use Stripe\Exception\ApiErrorException;
+use WPForms\Helpers\Transient;
 
 /**
  * Stripe payment processing.
@@ -149,6 +150,10 @@ class Process {
 		$this->rate_limit->init();
 
 		if ( $this->is_process_entry_error() ) {
+			return;
+		}
+
+		if ( $this->is_submitted_payment_data_corrupted( $entry ) ) {
 			return;
 		}
 
@@ -874,7 +879,7 @@ class Process {
 		}
 
 		$message = sprintf(
-			/* translators: %s - error message. */
+		/* translators: %s - error message. */
 			esc_html__( 'Payment Error: %s', 'wpforms-lite' ),
 			$message
 		);
@@ -1094,5 +1099,73 @@ class Process {
 			'postal_code' => sanitize_text_field( $submitted_data['postal'] ),
 			'country'     => $country,
 		];
+	}
+
+	/**
+	 * Check the submitted payment data whether it was corrupted.
+	 * If so, refund a payment / cancel subscription.
+	 *
+	 * @since 1.8.8.2
+	 *
+	 * @param array $entry Submitted entry data.
+	 *
+	 * @return bool
+	 */
+	private function is_submitted_payment_data_corrupted( array $entry ): bool {
+
+		// Bail early if there are no payment intents.
+		if ( empty( $entry['payment_intent_id'] ) ) {
+			return false;
+		}
+
+		// Get stored corrupted payment intents if exist.
+		$corrupted_intents = (array) Transient::get( 'corrupted-stripe-intents' );
+
+		// We must prevent a processing if payment intent was identified as corrupted.
+		// Also if the transaction ID exists in DB (transaction ID is unique value).
+		if ( in_array( $entry['payment_intent_id'], $corrupted_intents, true ) || wpforms()->get( 'payment' )->get_by( 'transaction_id', $entry['payment_intent_id'] ) ) {
+			wpforms()->get( 'process' )->errors[ $this->form_id ]['footer'] = esc_html__( 'Secondary form submission was declined.', 'wpforms-lite' );
+
+			return true;
+		}
+
+		$intent = $this->api->retrieve_payment_intent(
+			$entry['payment_intent_id'],
+			[
+				'expand' => [ 'invoice.subscription' ],
+			]
+		);
+
+		$submitted_amount = $this->amount * Helpers::get_decimals_amount();
+
+		// Prevent form submission if a mismatch of the payment amount is detected.
+		if ( ! empty( $intent ) && (int) $submitted_amount !== (int) $intent->amount ) {
+			wpforms()->get( 'process' )->errors[ $this->form_id ]['footer'] = esc_html__( 'Irregular activity detected. Your submission has been declined and payment refunded.', 'wpforms-lite' );
+
+			$args = [
+				'reason' => 'fraudulent',
+			];
+
+			// We can't cancel a payment because it's already paid.
+			// So we can perform a refund only.
+			$this->api->refund_payment( $entry['payment_intent_id'], $args );
+
+			// Cancel subscription if exists.
+			if ( ! empty( $intent->invoice->subscription ) ) {
+				$this->api->cancel_subscription( $intent->invoice->subscription->id );
+			}
+
+			// This payment indent is identified as corrupted.
+			// Store it in order to prevent re-using it (form re-submitting).
+			if ( ! in_array( $entry['payment_intent_id'], $corrupted_intents, true ) ) {
+				$corrupted_intents[] = $entry['payment_intent_id'];
+
+				Transient::set( 'corrupted-stripe-intents', $corrupted_intents, WEEK_IN_SECONDS );
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 }
