@@ -699,6 +699,9 @@ html .ast-builder-menu .main-navigation {
 .back-color .wp-block-uagb-info-box {
   background-color: #fafafa; }
 
+.sk-google-all-reviews .swiper-button-next:after, .sk-google-all-reviews .swiper-button-prev:after {
+  display: none; }
+
 @keyframes constant-spin {
   0% {
     transform: rotate(0); }
