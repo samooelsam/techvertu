@@ -833,3 +833,11 @@ html .ast-builder-menu .main-navigation{
         background-color: #fafafa;
     }
 }
+.sk-google-all-reviews{
+    .swiper-button-next, .swiper-button-prev{
+        &:after{
+            display: none;
+        }
+
+    }
+}
