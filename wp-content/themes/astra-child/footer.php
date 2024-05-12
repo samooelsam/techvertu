@@ -19,11 +19,11 @@ astra_content_bottom(); ?>
                         </li>
                         <li>
                             <i><img src="https://www.techvertu.co.uk/wp-content/uploads/2024/01/location-marker-icon.svg" alt="Location marker icon" /></i>
-                            <a href="https://goo.gl/maps/DXv7etGymi42kGdU8">Grays</a>
+                            <a href="https://maps.app.goo.gl/SXWrFjkQEJNfR9KT6">Grays</a>
                         </li>
                         <li>
                             <i><img src="https://www.techvertu.co.uk/wp-content/uploads/2024/01/location-marker-icon.svg" alt="Location marker icon"/></i>
-                            <a href="https://www.google.com/maps/place/TechVertu/@51.3729278,-0.2924883,17z/data=!3m1!4b1!4m5!3m4!1s0x0:0x8859ed0d81eea64b!8m2!3d51.3729278!4d-0.2924883">Chessington</a>
+                            <a href="https://maps.app.goo.gl/6a7kSwMhVDdDzARg9">Chessington</a>
                         </li>
                         <li>
                             <i><img src="https://www.techvertu.co.uk/wp-content/uploads/2024/01/envelope-email-icon.svg" alt="Envelope email icon" /></i>
@@ -31,11 +31,11 @@ astra_content_bottom(); ?>
                         </li>
                         <li>
                             <i><img src="https://www.techvertu.co.uk/wp-content/uploads/2024/01/location-marker-icon.svg" alt="Location marker icon" /></i>
-                            <a href="https://www.google.com/maps/place/Spaces+-+London,+Spaces+Liverpool+Street+Station/@51.5169268,-0.0840765,19z/data=!4m5!3m4!1s0x487603529b7164a9:0x7f900cee9e23f037!8m2!3d51.5169334!4d-0.0837506">London</a>
+                            <a href="https://maps.app.goo.gl/y6yctWUdGPeKY92f9">London</a>
                         </li>
                         <li>
                             <i><img src="https://www.techvertu.co.uk/wp-content/uploads/2024/01/location-marker-icon.svg" alt="Location marker icon" /></i>
-                            <a href="https://www.google.com/maps/place/TechVertu+-+IT+Support+Kent/@51.2926606,1.0653131,16.46z/data=!4m5!3m4!1s0x0:0x30de51d2ee54e173!8m2!3d51.2921824!4d1.0650589">Canterbury</a>
+                            <a href="https://maps.app.goo.gl/n6bbhHT8XbYQhJ86A">Canterbury</a>
                         </li>
                     </ul>
                 </div>
