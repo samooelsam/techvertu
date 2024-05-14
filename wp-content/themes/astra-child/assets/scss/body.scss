@@ -848,3 +848,11 @@ html .ast-builder-menu .main-navigation{
         border-bottom: 1px solid #ebebeb;
     }
 }
+.uagb-timeline__events-inner-new{
+    background-color: aliceblue !important;
+    .uagb-timeline__arrow{
+        &:after{
+            border-right-color: aliceblue !important;
+        }
+    }
+}
