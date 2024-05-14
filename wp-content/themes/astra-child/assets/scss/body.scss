@@ -830,7 +830,9 @@ html .ast-builder-menu .main-navigation{
 }
 .back-color{
     .wp-block-uagb-info-box{
-        background-color: #fafafa;
+        background-color: #f4f4f4;
+        border-radius:10px;
+        padding: 20px;
     }
 }
 .sk-google-all-reviews{
@@ -839,5 +841,10 @@ html .ast-builder-menu .main-navigation{
             display: none;
         }
 
+    }
+}
+.uagb-faq-item-active{
+    .uagb-faq-questions{
+        border-bottom: 1px solid #ebebeb;
     }
 }
