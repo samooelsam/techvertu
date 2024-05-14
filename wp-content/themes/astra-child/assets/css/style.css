@@ -697,10 +697,15 @@ html .ast-builder-menu .main-navigation {
     vertical-align: middle; }
 
 .back-color .wp-block-uagb-info-box {
-  background-color: #fafafa; }
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  padding: 20px; }
 
 .sk-google-all-reviews .swiper-button-next:after, .sk-google-all-reviews .swiper-button-prev:after {
   display: none; }
+
+.uagb-faq-item-active .uagb-faq-questions {
+  border-bottom: 1px solid #ebebeb; }
 
 @keyframes constant-spin {
   0% {
