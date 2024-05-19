@@ -710,7 +710,8 @@ html .ast-builder-menu .main-navigation {
 .uagb-timeline__events-inner-new {
   background-color: aliceblue !important; }
   .uagb-timeline__events-inner-new .uagb-timeline__arrow:after {
-    border-right-color: aliceblue !important; }
+    border-right-color: aliceblue !important;
+    border-left-color: aliceblue !important; }
 
 @keyframes constant-spin {
   0% {
