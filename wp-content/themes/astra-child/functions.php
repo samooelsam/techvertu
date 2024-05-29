@@ -181,7 +181,3 @@ function verify_google_recaptcha() {
         wp_die(__("<b>Sorry, spam detected!</b>")); 
     } 
 } 
- 
-if (!is_user_logged_in()) { 
-    add_action('pre_comment_on_post', 'verify_google_recaptcha'); 
-}
