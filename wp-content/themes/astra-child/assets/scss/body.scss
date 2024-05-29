@@ -857,3 +857,15 @@ html .ast-builder-menu .main-navigation{
         }
     }
 }
+.alert {
+    background-color: aliceblue;
+    border-radius: 12px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    p{
+        margin-bottom: 0;
+        color: cadetblue;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+}

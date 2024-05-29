@@ -18,11 +18,12 @@ get_header();
 
 	<?php get_sidebar(); ?>
 
-<?php endif ?>
+<?php endif; ?>
 
 	<div id="primary" <?php astra_primary_class(); ?>>
 				
 		<?php 
+		
 		astra_primary_content_top(); 
 		if(has_post_thumbnail()) {?>
 		<figure class="techvertu-post-image-wrapper clearfix">
@@ -94,6 +95,10 @@ if($solutionTitle || $solutionContent) {
 			</header>
 			<div>
 			<?php 
+			$unApproved = $_GET['unapproved'];
+			if($unApproved){
+				echo('<script>window.scrollTo(0, document.body.scrollHeight);</script><div class="alert yellow"><p>Your comment has been sent and is awaiting for moderation</p></div>');
+			}
 			$comments_args = array(
 					'id_form' => 'commentform',
 					'label_submit' => __( 'Submit', 'textdomain' ),
