@@ -678,7 +678,8 @@ html .ast-builder-menu .main-navigation {
   .techvertu-carousel .uagb-slick-carousel button.slick-arrow {
     background: url(../img/arrow-wrapper.svg) no-repeat center center;
     width: 260px;
-    height: 260px; }
+    height: 260px;
+    border: 0; }
     .techvertu-carousel .uagb-slick-carousel button.slick-arrow:after {
       width: 80px;
       height: 80px;
