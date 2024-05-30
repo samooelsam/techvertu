@@ -629,7 +629,8 @@ html .entry-content ul li, html .entry-content ol li {
       font-weight: 500; }
 
 header .custom-logo-link img {
-  margin-top: -23px; }
+  margin-top: -23px;
+  width: 120px; }
 
 html .ast-builder-menu .main-navigation {
   margin-top: 0; }
