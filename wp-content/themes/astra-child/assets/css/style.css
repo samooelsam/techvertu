@@ -5156,4 +5156,118 @@ html .entry-content h6, h6 {
 .sk_reviews_grid-content {
   background: rgba(255, 255, 255, 0.5) !important; }
 
+/* ----------------- Network & Connectivity page -------------------*/
+/* Start */
+.network-and-connectivity-services > ul > li {
+  background: none;
+  padding-left: 0; }
+
+.network-and-connectivity-services > ul > li:hover,
+.network-and-connectivity-services > ul > li.uagb-tab.uagb-tabs__active {
+  color: #028dae;
+  border-color: #028dae !important; }
+
+.uagb-tabs__wrap .uagb-tabs__body-container.uagb-tabs-body__active {
+  transition: all 1s, linear; }
+
+@media (min-width: 768px) {
+  .network-and-connectivity-services-items {
+    -moz-column-count: 2;
+    -moz-column-gap: 1em;
+    -webkit-column-count: 2;
+    -webkit-column-gap: 1em;
+    column-count: 2;
+    column-gap: 1em; } }
+.network-and-connectivity-services .network-and-connectivity-services-items > li {
+  list-style: square; }
+
+.wp-block-columns.case-study-columns {
+  padding: 0; }
+
+.case-study-button {
+  position: absolute;
+  bottom: 2em; }
+
+.single-case-study-heading {
+  position: absolute;
+  top: 2em; }
+
+.uagb-infobox-icon-left-title .uagb-ifb-left-title-image .uagb-ifb-image-content {
+  padding-left: 1.8em; }
+
+.uagb-infobox-icon-left-title.service-box .uagb-ifb-left-title-image .uagb-ifb-image-content {
+  padding-left: 0;
+  margin-left: -20px; }
+
+#ast-scroll-top {
+  z-index: 9; }
+
+.uagb-tabs__wrap ul.uagb-tabs__panel li.uagb-tab a {
+  font-weight: 700; }
+
+.ast-archive-entry-banner[data-post-type="post"] .ast-container h1 {
+  background-color: #fff;
+  background-image: none; }
+
+/* Finish */
+.inline-list li {
+  display: inline-block;
+  width: 48%;
+  vertical-align: top;
+  display: inline-block;
+  margin-top: 0 !important;
+  margin-bottom: 10px; }
+
+.uagb-infobox-icon-left-title.choose-box .uagb-ifb-left-title-image .uagb-ifb-image-content {
+  padding-left: 0; }
+
+.box-round {
+  border-radius: 10px; }
+
+@media only screen and (min-width: 920px) and (max-width: 1200px) {
+  .service-box .uagb-ifb-left-title-image {
+    display: inline-block;
+    width: 100%;
+    text-align: center; } }
+@media only screen and (max-width: 920px) {
+  .service-box .uagb-ifb-left-title-image {
+    display: inline-block;
+    width: 100%;
+    text-align: center; }
+
+  .inline-list li {
+    width: 100%; } }
+@media only screen and (max-width: 768px) {
+  .inline-list li {
+    width: 100%; }
+
+  .entry-content ul.inline-list li:first-child {
+    margin-bottom: 10px; } }
+.is-style-fill {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px; }
+
+.relative-box {
+  position: relative; }
+
+header .custom-logo-link img {
+  width: 130px; }
+
+/* Business comms */
+.techvertu-short-icon-list img.uagb-icon-list__source-image {
+  height: 3em; }
+
+/* Cyber security */
+.cybersecurity-list-block {
+  column-count: 4; }
+
+@media only screen and (min-width: 920px) {
+  .cybersecurity-list-block {
+    column-count: 4; } }
+@media only screen and (max-width: 1200px) {
+  .cybersecurity-flex {
+    flex-direction: column; } }
+
 /*# sourceMappingURL=style.css.map */
