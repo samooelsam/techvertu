@@ -362,7 +362,7 @@ html .wp-block-latest-posts__featured-image{
     display: inline-block;
     vertical-align: middle;
     border-radius: $borderRadiusSmall;
-    margin-right:15px;
+    margin-right:1.5%;
     margin-bottom: 0;
     position: relative;
 
@@ -385,7 +385,7 @@ html .wp-block-latest-posts__featured-image{
         > a{
 
             display: inline-block;
-            width: 72%;
+            width: 70%;
             vertical-align: middle;
             line-height: 1.5em;
             font-size: 15px;
@@ -876,3 +876,96 @@ html .ast-builder-menu .main-navigation{
     padding: 30px;
     border-radius: 10px;
 }
+.news-letter-wrapper{
+    margin-bottom: 20px;
+    overflow: hidden;
+    .techvertu-news-letter{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border:8px dashed #F2F3FA;
+        background-color: #fafafa;
+        margin-bottom: 20px;
+        padding: 50px;
+        h3{
+            position: relative;
+            background: #028dae;
+            background: -moz-linear-gradient(left, #028dae 0%, #0b406a 80%, #0b406a 100%);
+            background: -webkit-gradient(left top, right top, color-stop(0%, #028dae), color-stop(80%, #0b406a), color-stop(100%, #0b406a));
+            background: -webkit-linear-gradient(left, #028dae 0%, #0b406a 80%, #0b406a 100%);
+            background: -o-linear-gradient(left, #028dae 0%, #0b406a 80%, #0b406a 100%);
+            background: -ms-linear-gradient(left, #028dae 0%, #0b406a 80%, #0b406a 100%);
+            background: linear-gradient(to right, #028dae 0%, #0b406a 80%, #0b406a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            &:after{
+                width: 70px;
+                height: 2px;
+                content: "";
+                background-color: #57B5B4;
+                bottom: -10px;
+                left: 0;
+                position: absolute;
+            }
+        }
+        .image-wrapper, .news-lettter-content{
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .news-letter-column{
+            display: inline-block;
+            width:48%;
+        }
+    }
+    
+}
+.news-lettter-content{
+    margin-left: 4%;
+    width: 76%;
+    p{
+        color:#57B5B4;
+        background: #028dae;
+        background: -moz-linear-gradient(left, #028dae 0%, #0b406a 80%, #0b406a 100%);
+        background: -webkit-gradient(left top, right top, color-stop(0%, #028dae), color-stop(80%, #0b406a), color-stop(100%, #0b406a));
+        background: -webkit-linear-gradient(left, #028dae 0%, #0b406a 80%, #0b406a 100%);
+        background: -o-linear-gradient(left, #028dae 0%, #0b406a 80%, #0b406a 100%);
+        background: -ms-linear-gradient(left, #028dae 0%, #0b406a 80%, #0b406a 100%);
+        background: linear-gradient(to right, #028dae 0%, #0b406a 80%, #0b406a 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0;
+    }
+}
+.news-letter-icon{
+    background: url('../img/news-letter.svg') no-repeat;
+    width: 110px;
+    height: 60px;
+    display: inline-block;
+}
+.inline-box{
+    display: inline-block;
+}
+.input-box{
+    input[type="email"]{
+        width:80%;
+        border:1px solid #57B5B4;
+        color:#57B5B4;
+        padding: 8px;
+        border-radius: 5px;
+        background-color: #F9FCFD;
+        background-image: url('../img/letter.svg');
+        background-position: 97% center;
+        background-repeat: no-repeat;
+        font-size: 14px;
+        
+    }
+    input[type="submit"]{
+        background: linear-gradient(277deg, #020024 0%, #57b5b4 0%, #028dae 100%);
+        border-radius: 5px;
+        border:0
+    }
+}
+::placeholder {
+    color: #57B5B4;
+    opacity: 1; /* Firefox */
+  }

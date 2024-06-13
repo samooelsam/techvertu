@@ -168,7 +168,7 @@ function is_valid_captcha_response($captcha) {
     $captcha_response = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify", false, $captcha_context), true); 
     if($captcha_response['success'] && $captcha_response['score'] > 0.5){ 
         return true; 
-    }else{ 
+    } else { 
         return false; 
     } 
 } 
