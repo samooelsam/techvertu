@@ -69,6 +69,51 @@ if($solutionTitle || $solutionContent) {
 		</div>
 	</div>
 <?php }?>
+<div class="news-letter-wrapper clearfix grid_12 centerize">
+	<div class="techvertu-news-letter clearfix">
+		<div class="news-letter-column grid_6 clearfix">
+				<figure class="image-wrapper clearfix">
+					<i class="news-letter-icon"></i>
+				</figure>
+				<div class="news-lettter-content clearfix">
+					<h3>Newsletter</h3>
+					<p>Subscribe for Latest Tech Insights & Company News</p>
+				</div>
+	
+		</div>
+		<div class="news-letter-column grid_6 clearfix">
+			<div id="mc_embed_shell">
+	
+				<div id="mc_embed_signup">
+					<form action="https://techvertu.us22.list-manage.com/subscribe/post?u=552f2676904ba1f9d13aef028&id=b0280dad94&f_id=00bccfe1f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_self" novalidate="">
+						<div id="mc_embed_signup_scroll">
+						<div class="mc-field-group input-box">
+							<input type="email" name="EMAIL" placeholder="Enter Your Email" class="required email" id="mce-EMAIL" required="" value="">
+							<div class="optionalParent inline-box">
+								<div class="clear foot">
+									<input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Subscribe">
+									
+								</div>
+							</div>
+						</div>
+						<div hidden="">
+							<input type="hidden" name="tags" value="9349"></div>
+								<div id="mce-responses" class="clear foot">
+									<div class="response" id="mce-error-response" style="display: none;"></div>
+									<div class="response" id="mce-success-response" style="display: none;"></div>
+								</div>
+							<div aria-hidden="true" style="position: absolute; left: -5000px;">
+								/* real people should not fill this in and expect good things - do not remove this or risk form bot signups */
+								<input type="text" name="b_552f2676904ba1f9d13aef028_b0280dad94" tabindex="-1" value="">
+							</div>
+							
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="comment-form-wrapper clearfix" id="comment">
 	<div class="centerize clearfix">
 		<?php (is_user_logged_in()) ? $loggedIn = 'logged-in' : $loggedIn = '';?>
@@ -112,6 +157,7 @@ if($solutionTitle || $solutionContent) {
 		</div>
 		<?php if(!is_user_logged_in()) {?>
 		</div>
+		
 		<?php } 
 		$comments = get_comments(array('status' => 'approve', 'post_id' => get_the_ID(), 'order' => 'DESC'));
 		if($comments) {?>
@@ -131,6 +177,7 @@ if($solutionTitle || $solutionContent) {
 		</div>
 		<?php }?>
 	</div>
+	
 </div>
 
 <?php get_footer(); ?>

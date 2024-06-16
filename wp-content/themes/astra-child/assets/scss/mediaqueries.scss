@@ -45,6 +45,12 @@ $mobile: 480px;
     .wp-block-uagb-container.uagb-is-root-container .uagb-block-2addbd19{
         padding-left:25px !important
     }
+    .news-lettter-content{
+        margin-left:1%;
+    }
+    .input-box input[type="email"]{
+        width:72%;
+    }
 }
 @media only screen and (min-width: $miniDesktop) and (max-width: $desktopmax) {
     .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column{
@@ -130,11 +136,39 @@ $mobile: 480px;
     .fully-managed-it-support-heading.wp-block-columns{
         flex-wrap: wrap!important;
     }
+    .input-box input, .inline-box{
+        width:100% !important;
+    }
+    .news-letter-column{
+        .image-wrapper{
+            display: none !important;
+        }
+    }
+    .input-box input[type="email"]{
+        margin-bottom: 10px;
+    }
+    html .wp-block-latest-posts__featured-image{
+        width:20%;
+        height:auto;
+    }
 }
 @media only screen and (max-width: $miniDesktop) {
+    .news-letter-wrapper {
+        padding:0 40px;
+    }
+    .comment-form-wrapper .centerize .comment-column:first-child{
+        padding-right: 0px !important;
+        border-right: 0 !important;
+    }
     .uagb-block-eaa1e721.wp-block-uagb-info-box .uagb-ifb-title{
         margin-top: 80px;
         font-size: 32px;
+    }
+    .news-letter-column{
+        .image-wrapper{
+            display: inline-block !important;
+            width:100%;
+        }
     }
     .fully-managed-it-support-heading .wp-block-column{
         flex-basis: 100% !important;
@@ -232,11 +266,34 @@ $mobile: 480px;
     .menu-top-menu-container.block{
         display: block;
     }
-    
+    .news-letter-wrapper {
+        .techvertu-news-letter {
+            display: block;
+            h3:after{
+                left: 38%;  
+            }
+            .news-letter-column{
+                width:100%;
+                text-align: center;
+            }
+        }
+    }
+    .news-lettter-content{
+        margin-left:0;
+    }
+    .input-box input, .inline-box{
+        width:100% !important;
+    }
+    .input-box input[type="email"]{
+        margin-bottom: 10px;
+    }
 }
 @media only screen and (max-width: $tablet) {
     .wp-block-uagb-container.uagb-is-root-container .uagb-block-2addbd19 {
         padding-left: 0!important;
+    }
+    .news-letter-wrapper {
+        padding:0 20px;
     }
     html .comment-form-wrapper {
         .centerize {
@@ -254,6 +311,7 @@ $mobile: 480px;
         width:98%;
         position: static;
     }
+    
     .wp-block-latest-posts {
         > li {
             > a{
@@ -376,6 +434,12 @@ $mobile: 480px;
     }
     .get-in-touch-text{
         margin-top: 0px !important;
+    }
+    .input-box input[type="email"]{
+        margin-bottom: 10px;
+    }
+    .input-box input, .inline-box{
+        margin-top:0;
     }
 }
 @media only screen and (max-width: $mobile) {
