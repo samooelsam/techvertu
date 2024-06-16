@@ -37,6 +37,21 @@ class Block {
 		}
 		add_filter( 'uagb_countdown_options', [ $self, 'add_countdown_options' ], 10, 3 );
 		add_filter( 'spectra_countdown_attributes', [ $self, 'add_attributes_defaults' ] );
+		add_filter( 'spectra_countdown_frontend_dynamic_js', [ $self, 'override_dynamic_js' ], 10, 3 );
+		add_filter( 'spectra_uagb/countdown_blockdata', [ $self, 'filter_countdown_block_data' ] );
+	}
+
+	/**
+	 * Filters the Modal block data.
+	 *
+	 * @param array $block_data The block data to filter.
+	 * @return array The filtered block data.
+	 */
+	public static function filter_countdown_block_data( $block_data ) {
+		if ( isset( $block_data['static_dependencies']['uagb-countdown-js'] ) && ! empty( $block_data['static_dependencies']['uagb-countdown-js'] ) ) {
+			$block_data['static_dependencies']['uagb-countdown-js']['src'] = \SpectraPro\Core\Utils::get_js_url( 'uagb-countdown' );
+		}
+		return $block_data;
 	}
 
 	/**
@@ -55,8 +70,32 @@ class Block {
 		$data['evergreenMinutes'] = $atts['evergreenMinutes'];
 		$data['campaignID']       = $atts['campaignID'];
 		$data['resetDays']        = $atts['resetDays'];
-
+		$data['reloadOnExpire']   = $atts['reloadOnExpire'];
+		$data['autoReload']       = $atts['autoReload'];
+		$data['redirectURL']      = $atts['redirectURL'];
 		return $data;
+	}
+
+		/**
+		 * Override Block dynamic JS.
+		 *
+		 * @param string $output JS output.
+		 * @param string $selector Selector.
+		 * @param array  $args Attributes.
+		 * @return string Modified Output.
+		 */
+	public function override_dynamic_js( $output, $selector, $args ) {
+		
+		\ob_start();
+		?>
+			window.addEventListener( 'load', function() {
+				UAGBCountdown.init( '<?php echo esc_attr( $selector ); ?>', <?php echo wp_json_encode( $args ); ?> );
+			});
+		<?php
+
+		$output = \ob_get_clean();
+
+		return false !== $output ? $output : '';
 	}
 
 	/**
@@ -75,6 +114,9 @@ class Block {
 				'evergreenMinutes' => 0,
 				'campaignID'       => '',
 				'resetDays'        => 30,
+				'reloadOnExpire'   => true,
+				'autoReload'       => false,
+				'redirectURL'      => '',
 			)
 		);
 	}
@@ -141,78 +183,21 @@ class Block {
 			return $block_content;
 		}
 
-		if ( ! $is_overtime ) {
-
-			if ( 'redirect' === $timer_end_action ) {
-				$redirect_url = ! empty( $block_attributes['redirectURL']['url'] ) ? $block_attributes['redirectURL']['url'] : home_url( '/' );
-				ob_start();
-				// If global flag variable does not exists, create it.
-				// This is used like a signal for usage in Pro code.
-				// Later, simulate an HTTP redirect if the timer end signal is received.
-				?>
-				<script>
-					if( ! window.UAGBCountdownTimeSignal ) {
-						window.UAGBCountdownTimeSignal = {};
-					}
-
-					setInterval( () => {
-						if ( window.UAGBCountdownTimeSignal[ <?php echo "'.uagb-block-" . esc_html( $block_attributes['block_id'] ) . "'"; ?> ] ) {
-							window.location.replace( <?php echo "'" . esc_url( $redirect_url ) . "'"; ?> );
-						}
-					}, 1000 );
-				</script>
-				<?php
-				$ob_check = ob_get_clean();
-				return $ob_check ? $ob_check . $block_content : $block_content;
-			} elseif ( 'hide' === $timer_end_action ) {
-				ob_start();
-				// If global flag variable does not exists, create it.
-				// This is used like a signal for usage in Pro code.
-				// If a positive overtime signal is received, delete the Countdown node. 
-				?>
-				<script>
-					if( ! window.UAGBCountdownTimeSignal ) {
-						window.UAGBCountdownTimeSignal = {};
-					}
-
-					setInterval( () => {
-						if ( window.UAGBCountdownTimeSignal[ '.uagb-block-' + '<?php echo esc_attr( $block['attrs']['block_id'] ); ?>' ] ) {
-							document.querySelector( '.uagb-block-' + '<?php echo esc_attr( $block['attrs']['block_id'] ); ?>' )?.remove();
-						}
-					}, 1000 );
-				</script>
-				<?php
-				$ob_check = ob_get_clean();
-				return $ob_check ? $ob_check . $block_content : $block_content;
-			}//end if
-		}//end if
-
 		// If the timer is overtime AND end action is not 'keep the timer at zero'.
 		if ( ( $is_overtime ) && ( 'zero' !== $timer_end_action ) ) {
 
 			if ( 'hide' === $timer_end_action ) {
 				return null;
-			}
-
-			if ( 'redirect' === $timer_end_action ) {
-				$redirect_url = ! empty( $block_attributes['redirectURL']['url'] ) ? $block_attributes['redirectURL']['url'] : home_url( '/' );
-				ob_start();
-				// Simulate an HTTP redirect.
-				?>
-				<script>
-					window.location.replace( <?php echo "'" . esc_url( $redirect_url ) . "'"; ?> );
-				</script>
-				<?php
-				return ob_get_clean();
-			}
+			}       
 		}//end if
-
+		
+		$reloadOnExpireValue = isset( $block_attributes['reloadOnExpire'] ) ? $block_attributes['reloadOnExpire'] : true;
 		// If 'Replace with Content' is enabled.
-		if ( ( 'content' === $timer_end_action ) ) {
+		if ( ( 'content' === $timer_end_action ) && $reloadOnExpireValue ) {
 
 			// If countdown is overtime.
 			if ( $is_overtime ) {
-				return $this->remove_time_boxes( $block_content, $block );
+				return $block_content;
 			}//end if
 
 			// If countdown is NOT overtime, then remove the innerblocks.
@@ -220,21 +205,6 @@ class Block {
 			// Dynamic blocks aren't removed via this so we also use JS later.
 			// But removing most info on server side minimizes the chance 'surprise data' being revealed before the countdown ends.
 			$block_content = $this->blocks_remover( $block['innerBlocks'], $block_content );
-
-			// Since dynamic blocks still remain, we remove the innerblocks via JS too.
-			ob_start();
-			?>
-			<script>
-				window.addEventListener( 'DOMContentLoaded', ( event ) => {
-					const block_id = '<?php echo esc_attr( $block_attributes['block_id'] ); ?>';
-					const innerblocks_wrapper_selector = '.uagb-block-countdown-innerblocks-' + block_id;
-					const innerblocks_wrapper = document.querySelector( innerblocks_wrapper_selector );
-					innerblocks_wrapper?.remove();
-				} );
-			</script>
-			<?php
-			$ob_check = ob_get_clean();
-			return $ob_check ? $ob_check . $block_content : $block_content;
 
 		}//end if
 
@@ -268,45 +238,6 @@ class Block {
 		}
 	
 		return $block_content;
-	}
-
-	/**
-	 * Render block function for Countdown.
-	 *
-	 * @param mixed $block_content The block content.
-	 * @param array $block The block data.
-	 * @since 1.0.0
-	 * @return string Returns the new block content with time boxes removed (days, hours, mins, seconds).
-	 */
-	public function remove_time_boxes( $block_content, $block ) {
-		ob_start();
-		// We need DOMContentLoaded to ensure all elements exist before performing the following operations.
-		// Remove Countdown's time boxes - Days, Hours, Mins, Seconds Boxes.
-		// Then show the innerblocks and unset the flex display for parent wrapper.
-		?>
-		<script>
-			window.addEventListener('DOMContentLoaded', (event) => {
-
-				const block_id = '<?php echo esc_attr( $block['attrs']['block_id'] ); ?>';
-
-				const time_boxes_selector = '.uagb-block-' + block_id + ' .wp-block-uagb-countdown__box';
-				const time_boxes_wrappers = document.querySelectorAll( time_boxes_selector );
-
-				time_boxes_wrappers.forEach( ( time_box ) => {
-					time_box.remove();
-				} )
-
-				const innerblocks_selector = '.uagb-block-countdown-innerblocks-' + block_id;
-				const innerblocks_wrapper = document.querySelector( innerblocks_selector );
-
-				innerblocks_wrapper.style.display = 'unset';
-				innerblocks_wrapper.parentElement.style.display = 'unset';
-
-			});
-		</script>
-		<?php
-
-		return ob_get_clean() . $block_content;
 	}
 
 }

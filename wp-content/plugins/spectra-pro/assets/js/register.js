@@ -48,9 +48,9 @@ UAGBRegister = {
 							field,
 							`${
 								field?.previousElementSibling?.innerText
-									? field?.previousElementSibling?.innerText
-									: 'First Name'
-							} cannot be blank`,
+									? field.previousElementSibling.innerText
+								: uagb_register_js.first_name
+							} ${ uagb_register_js.cannot_be_blank }`,
 							'error'
 						);
 					} else {
@@ -65,9 +65,9 @@ UAGBRegister = {
 							field,
 							`${
 								field?.previousElementSibling?.innerText
-									? field?.previousElementSibling?.innerText
-									: 'Last Name'
-							} cannot be blank`,
+									? field.previousElementSibling.innerText
+								: uagb_register_js.last_name
+							} ${ uagb_register_js.cannot_be_blank }`,
 							'error'
 						);
 					} else {

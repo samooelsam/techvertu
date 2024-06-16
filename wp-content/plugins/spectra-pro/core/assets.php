@@ -32,6 +32,22 @@ class Assets {
 	}
 
 	/**
+	 * Enqueue the Pro localize Scripts.
+	 *
+	 * @since 1.1.4
+	 * @return void
+	 */
+	public function enqueue_pro_localize_scripts() {
+		$localize = array(
+			'cannot_be_blank' => esc_html__( 'cannot be blank.', 'spectra-pro' ),
+			'first_name'      => esc_html__( 'First Name', 'spectra-pro' ),
+			'last_name'       => esc_html__( 'Last Name', 'spectra-pro' ),
+			'this_field'      => esc_html__( 'This field', 'spectra-pro' ),
+		);
+		wp_localize_script( 'uagb-register-js', 'uagb_register_js', $localize );
+	}
+
+	/**
 	 * Gutenberg block category for Spectra Pro.
 	 *
 	 * @param array  $categories Block categories.
@@ -83,6 +99,16 @@ class Assets {
 			$script_info['version'], // UAGB_VER.
 			true // Enqueue the script in the footer.
 		);
+		wp_set_script_translations( 'spectra-pro-block-editor-js', 'spectra-pro' );
+
+		$user_is_admin = false;
+		$current_user  = wp_get_current_user();
+		if ( $current_user instanceof \WP_User ) {
+			$user_roles = $current_user->roles;
+			if ( in_array( 'administrator', $user_roles, true ) ) {
+				$user_is_admin = true;
+			}
+		}
 
 		wp_localize_script(
 			'spectra-pro-block-editor-js',
@@ -101,6 +127,7 @@ class Assets {
 				'uag_enable_gbs_extension' => \UAGB_Admin_Helper::get_admin_settings_option( 'uag_enable_gbs_extension', 'enabled' ),
 				'dynamic_content_mode'     => \UAGB_Admin_Helper::get_admin_settings_option( 'uag_dynamic_content_mode', 'popup' ),
 				'display_rules'            => Spectra_Pro_Popup_Builder::get_location_selections(),
+				'user_can_adjust_role'     => apply_filters( 'spectra_pro_registration_form_role_manager', $user_is_admin ),
 			)
 		);
 	}
@@ -143,5 +170,6 @@ class Assets {
 				'spectra_pro_instagram_grid_pagination_ajax_nonce' => $spectra_pro_instagram_grid_pagination_ajax_nonce,
 			)
 		);
+		$this->enqueue_pro_localize_scripts();
 	}
 }

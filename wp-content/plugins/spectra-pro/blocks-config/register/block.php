@@ -63,7 +63,6 @@ class Block {
 
 	}
 
-
 	/**
 	 * Registers the `uagb/register` block on server.
 	 *
@@ -260,8 +259,11 @@ class Block {
 			return ob_get_clean();
 		}
 
+		// Replace the value of the input tag with the actual value.
+		$actual_value = wp_create_nonce( 'spectra-pro-register-nonce' );
+
 		// add nonce.
-		$content = str_replace( 'ssr_nonce_replace', wp_create_nonce( 'spectra-pro-register-nonce' ), $content );
+		$content = str_replace( '<input type="hidden" name="_nonce" value="ssr_nonce_replace"/>', '<input type="hidden" name="_nonce" value="' . $actual_value . '"/>', $content );
 		// add recaptcha sitekey.
 		$recaptcha_enable = (bool) ( isset( $attributes['reCaptchaEnable'] ) ? $attributes['reCaptchaEnable'] : false );
 		if ( $recaptcha_enable ) {
@@ -280,34 +282,56 @@ class Block {
 		return $content;
 	}
 
+
 	/**
-	 * Get all attributes from post content.
+	 * Get all attributes from post content recursively.
 	 *
-	 * @param string $content post content.
+	 * @param array  $blocks     Blocks array.
 	 * @param string $block_name Block Name.
-	 * @param string $block_id Block ID.
+	 * @param string $block_id   Block ID.
 	 * @return array
-	 * @since 1.0.0
+	 * @since 1.1.4
 	 */
-	public function get_block_attributes( $content, $block_name, $block_id ) {
+	public function get_block_attributes_recursive( $blocks, $block_name, $block_id ) {
 		$attributes = [];
-		$blocks     = parse_blocks( $content );
 		foreach ( $blocks as $block ) {
 			if ( $block['blockName'] === $block_name && $block['attrs']['block_id'] === $block_id ) {
 				$attributes[ $block_name ] = $block['attrs'];
 				if ( is_array( $block['innerBlocks'] ) && count( $block['innerBlocks'] ) ) {
-					foreach ( $block['innerBlocks'] as $block ) {
-						if ( isset( $block['attrs']['name'] ) ) {
-							$attributes[ $block['attrs']['name'] ] = $block['attrs'];
+					foreach ( $block['innerBlocks'] as $inner_block ) {
+						if ( isset( $inner_block['attrs']['name'] ) ) {
+							$attributes[ $inner_block['attrs']['name'] ] = $inner_block['attrs'];
 						}
 					}
 				}
-				break;
+				return $attributes; // Found the block, return its attributes.
+			} elseif ( is_array( $block['innerBlocks'] ) && count( $block['innerBlocks'] ) ) {
+				// If the block is not found at this level, check inner blocks recursively.
+				$inner_attributes = $this->get_block_attributes_recursive( $block['innerBlocks'], $block_name, $block_id );
+				if ( ! empty( $inner_attributes ) ) {
+					return $inner_attributes; // Found the block in inner blocks, return its attributes.
+				}
 			}
 		}
-		return $attributes;
+		return $attributes; // Block not found in this branch.
 	}
 
+	/**
+	 * Wrapper function to initiate recursive block attribute retrieval.
+	 *
+	 * @param string $content    post content.
+	 * @param string $block_name Block Name.
+	 * @param string $block_id   Block ID.
+	 * @return array
+	 * @since 1.0.0
+	 */
+	public function get_block_attributes( $content, $block_name, $block_id ) {
+		$blocks = parse_blocks( $content );
+		if ( empty( $blocks ) ) {
+			return array();
+		}
+		return $this->get_block_attributes_recursive( $blocks, $block_name, $block_id );
+	}
 
 
 	/**
@@ -407,12 +431,18 @@ class Block {
 				$error['terms'] = isset( $this->saved_attributes[ $this->block_name ]['messageTermsError'] ) ? $this->saved_attributes[ $this->block_name ]['messageTermsError'] : $default_attributes['messageTermsError']['default'];
 			}
 		}
-
+		// get all roles.
+		$get_all_roles = array_keys( $this->get_all_roles() );
 		// role.
-		$role = get_option( 'default_role' );
+		$default_role = get_option( 'default_role' );
+		$role         = $default_role;
 		if ( isset( $this->saved_attributes[ $this->block_name ]['newUserRole'] ) && ! empty( $this->saved_attributes[ $this->block_name ]['newUserRole'] ) ) {
 			$role = $this->saved_attributes[ $this->block_name ]['newUserRole'];
+			// check if role is valid.
+			$role = in_array( $role, $get_all_roles ) ? $role : $default_role;
 		}
+		// apply filter.
+		$role = apply_filters( 'spectra_pro_registration_form_change_new_user_role', $role );
 
 		// Email.
 		if (
@@ -554,6 +584,29 @@ class Block {
 	}
 
 	/**
+	 * Get all roles.
+	 *
+	 * @return array $all_roles.
+	 * @since 1.1.5
+	 */
+	public function get_all_roles() {
+		$all_roles = new \WP_Roles();
+		$all_roles = $all_roles->get_names();
+
+		// Roles to remove.
+		$roles_to_remove = array( 'administrator', 'editor' );
+
+		// Remove the specified roles from the array.
+		foreach ( $roles_to_remove as $role ) {
+			if ( isset( $all_roles[ $role ] ) ) {
+				unset( $all_roles[ $role ] );
+			}
+		}
+
+		return $all_roles;
+	}
+
+	/**
 	 * Ajax Login Functionality
 	 *
 	 * @return void
@@ -561,12 +614,11 @@ class Block {
 	 */
 	public function get_roles() {
 		check_ajax_referer( 'spectra_pro_ajax_nonce', 'security' );
-		$all_roles = new \WP_Roles();
-		$all_roles = $all_roles->get_names();
+		$all_roles = $this->get_all_roles();
 		$response  = [
 			array(
 				'value' => 'default',
-				'label' => esc_html__( 'Default', 'spectra-pro' ),
+				'label' => esc_html__( '– Select –', 'spectra-pro' ),
 			),
 		];
 		foreach ( $all_roles as $value => $label ) {

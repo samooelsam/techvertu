@@ -718,7 +718,7 @@ class DynamicContent {
 			return $block_content;
 		}
 		global $wp_query;
-		$is_not_posts_or_home_page = ! ( $wp_query->is_posts_page || $wp_query->is_home );
+		$is_not_posts_or_home_page = ! ( $wp_query->is_posts_page() || $wp_query->is_home() || $wp_query->is_category() );
 		if ( $is_not_posts_or_home_page ) {
 			// Added filter to remove excerpt_more link.
 			add_filter( 'excerpt_more', [ $this, 'excerpt_more_filter' ], 99 );
@@ -851,6 +851,21 @@ class DynamicContent {
 					);
 				}
 
+				// Alt Text.
+				if ( isset( $dynamic_content_attr['imageAlt'] ) && $dynamic_content_attr['imageAlt']['enable'] ) {
+					$replace_string = Helper::get_dynamic_content_from_dc_attributes( $dynamic_content_attr['imageAlt'] );
+					if ( is_string( $block_content ) ) {
+						$block_content = preg_replace_callback(
+							'/(alt)=("[^"]*")/U',
+							function ( $matches ) use ( $replace_string ) {
+								$content = substr_replace( $matches[1], ' alt="' . $replace_string . '"', 0 );
+								return $content;
+							},
+							$block_content
+						);
+					}
+				}
+
 				break;
 
 			case 'uagb/how-to':
@@ -927,8 +942,8 @@ class DynamicContent {
 
 						$block_attr = self::get_fallback_values( $default_attr, $block_attr );
 					}
-					$replace_string           = Helper::get_dynamic_content_from_attributes( $block_attr['dynamicContent'] );
-					$bg_obj_desktop           = array(
+					$replace_string = Helper::get_dynamic_content_from_attributes( $block_attr['dynamicContent'] );
+					$bg_obj_desktop = array(
 						'backgroundType'           => $block_attr['backgroundType'],
 						'backgroundImage'          => [
 							'type' => 'image',
@@ -959,7 +974,8 @@ class DynamicContent {
 						'yPosition'                => $block_attr['yPositionDesktop'],
 						'yPositionType'            => $block_attr['yPositionType'],
 					);
-					$container_bg_css_desktop = \UAGB_Block_Helper::uag_get_background_obj( $bg_obj_desktop );
+					// Second parameter indicates that this element has a '::before' overlay, and the CSS generated should be for the element only instead of the overlay.
+					$container_bg_css_desktop = \UAGB_Block_Helper::uag_get_background_obj( $bg_obj_desktop, 'no' );
 					$cssString                = implode(
 						'; ',
 						array_map(
@@ -984,26 +1000,26 @@ class DynamicContent {
 					);
 				}//end if
 
-				if ( isset( $block_attr['dynamicContent']['htmlTagLink'] ) ) {
-					$replace_string = Helper::get_dynamic_content_from_dc_attributes( $block_attr['dynamicContent']['htmlTagLink'] );
-					$search_string  = ( isset( $block_attr['htmlTagLink'] ) ? $block_attr['htmlTagLink'] : '' );
-
-					if ( empty( $replace_string ) ) {
-						break;
-					}
+				if ( ! is_string( $block_content ) ) {
+					break;
+				}
+				if ( isset( $dynamic_content_attr['htmlTagLink'] ) && $dynamic_content_attr['htmlTagLink']['enable'] ) {
+					$replace_string = Helper::get_dynamic_content_from_dc_attributes( $dynamic_content_attr['htmlTagLink'] );
 
 					$block_content = preg_replace_callback(
-						'/(<a\s[^>]*\bhref=")([^"]*)("[^>]*>)/i',
-						function ( $matches ) use ( $replace_string ) {
-							$old_href = $matches[2];
-							$new_href = $replace_string;
-							return $matches[1] . $new_href . $matches[3];
+						'/<a[^>]*class="spectra-container-link-overlay "[^>]*>.*?<\/a>/', // Define the regular expression pattern to match the anchor tag.
+						function ( $match ) use ( $replace_string ) {
+							// Define the callback function.
+							// Replace the href attribute with the replace URL.
+							$content = preg_replace( '/href="[^"]*"/', 'href="' . $replace_string . '"', $match[0] );
+							return $content;
 						},
-						strval( $block_content )
+						$block_content
 					);
 
+					$block_content = preg_replace( '/<a(.*?)>/', '<a href="' . $replace_string . '"$1>', strval( $block_content ) );            
 				}//end if
-
+				
 				break;
 
 			case 'uagb/image':
@@ -1016,6 +1032,23 @@ class DynamicContent {
 
 							$content = substr_replace( $matches[1], ' alt="' . $replace_string . '"', 0 );
 
+							return $content;
+						},
+						$block_content
+					);
+				}
+					// Title Text.
+				if ( isset( $dynamic_content_attr['title'] ) && $dynamic_content_attr['title']['enable'] ) {
+					if ( ! is_string( $block_content ) ) {
+						break;
+					}
+					$replace_string = Helper::get_dynamic_content_from_dc_attributes( $dynamic_content_attr['title'] );
+					$block_content  = preg_replace_callback(
+						'/(title)=("[^"]*")/U',
+						function ( $matches ) use ( $replace_string ) {
+	
+							$content = substr_replace( $matches[1], ' title="' . $replace_string . '"', 0 );
+	
 							return $content;
 						},
 						$block_content

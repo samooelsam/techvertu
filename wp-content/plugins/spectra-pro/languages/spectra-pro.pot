@@ -1,27 +1,26 @@
-# Copyright (C) 2023 Brainstorm Force
+# Copyright (C) 2024 Brainstorm Force
 # This file is distributed under the GPL v2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Spectra Pro 1.1.1\n"
+"Project-Id-Version: Spectra Pro 1.1.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/spectra-pro\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-11-07T07:13:55+00:00\n"
+"POT-Creation-Date: 2024-06-06T03:35:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.8.1\n"
+"X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: spectra-pro\n"
 
 #. Plugin Name of the plugin
-#: core/assets.php:46
+#: core/assets.php:62
 msgid "Spectra Pro"
 msgstr ""
 
 #. Plugin URI of the plugin
-#. Author URI of the plugin
-msgid "https://www.brainstormforce.com"
+msgid "https://wpspectra.com/"
 msgstr ""
 
 #. Description of the plugin
@@ -30,6 +29,10 @@ msgstr ""
 
 #. Author of the plugin
 msgid "Brainstorm Force"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.brainstormforce.com"
 msgstr ""
 
 #: admin/license-handler.php:48
@@ -81,7 +84,7 @@ msgstr ""
 
 #. translators: %1$s user name
 #: blocks-config/login/block.php:304
-#: blocks-config/register/block.php:256
+#: blocks-config/register/block.php:255
 msgid "You are logged in as %1$s (%2$sLogout%3$s)"
 msgstr ""
 
@@ -91,7 +94,7 @@ msgid "Show Password"
 msgstr ""
 
 #: blocks-config/login/block.php:477
-#: blocks-config/register/block.php:364
+#: blocks-config/register/block.php:388
 msgid "Captcha is not matching, please try again."
 msgstr ""
 
@@ -141,68 +144,85 @@ msgstr ""
 msgid "Email failed to send."
 msgstr ""
 
-#: blocks-config/register/block.php:125
+#: blocks-config/register/block.php:124
 msgid "You have used an invalid email"
 msgstr ""
 
-#: blocks-config/register/block.php:129
+#: blocks-config/register/block.php:128
 msgid "Email is missing or invalid"
 msgstr ""
 
-#: blocks-config/register/block.php:133
+#: blocks-config/register/block.php:132
 msgid "The provided email is already registered with another account. Please login or reset password or use another email."
 msgstr ""
 
-#: blocks-config/register/block.php:138
+#: blocks-config/register/block.php:137
 msgid "You have used an invalid username"
 msgstr ""
 
-#: blocks-config/register/block.php:142
+#: blocks-config/register/block.php:141
 msgid "Invalid username provided or the username is already registered."
 msgstr ""
 
-#: blocks-config/register/block.php:147
+#: blocks-config/register/block.php:146
 msgid "Your password is invalid."
 msgstr ""
 
-#: blocks-config/register/block.php:151
+#: blocks-config/register/block.php:150
 msgid "Your passwords do not match."
 msgstr ""
 
-#: blocks-config/register/block.php:169
+#: blocks-config/register/block.php:168
 msgid "Please accept the Terms and Conditions, and try again."
 msgstr ""
 
-#: blocks-config/register/block.php:173
+#: blocks-config/register/block.php:172
 msgid "Something went wrong!"
 msgstr ""
 
-#: blocks-config/register/block.php:178
+#: blocks-config/register/block.php:177
 msgid "Registration completed successfully. Check your inbox for password if you did not provide it while registering."
 msgstr ""
 
-#: blocks-config/register/block.php:323
+#: blocks-config/register/block.php:347
 msgid "Sorry, the site admin has disabled new user registration"
 msgstr ""
 
-#: blocks-config/register/block.php:337
+#: blocks-config/register/block.php:361
 msgid "Not a valid post."
 msgstr ""
 
-#: blocks-config/register/block.php:374
+#: blocks-config/register/block.php:398
 msgid "Password may not contain the character \"\\\""
 msgstr ""
 
-#: blocks-config/register/block.php:379
-#: blocks-config/register/block.php:382
+#: blocks-config/register/block.php:403
+#: blocks-config/register/block.php:406
 msgid "This field is required."
 msgstr ""
 
-#: blocks-config/register/block.php:569
-#: dist/blocks.js:6
-#: dist/blocks.js:15
-#: dist/blocks.js:17
-msgid "Default"
+#: blocks-config/register/block.php:621
+msgid "– Select –"
+msgstr ""
+
+#: core/assets.php:42
+msgid "cannot be blank."
+msgstr ""
+
+#: core/assets.php:43
+#: dist/blocks.js:8
+#: dist/blocks.js:19
+msgid "First Name"
+msgstr ""
+
+#: core/assets.php:44
+#: dist/blocks.js:8
+#: dist/blocks.js:19
+msgid "Last Name"
+msgstr ""
+
+#: core/assets.php:45
+msgid "This field"
 msgstr ""
 
 #: includes/blocks/instagram-feed/block.php:16
@@ -218,6 +238,16 @@ msgstr ""
 msgid "This block allows you to display Instagram Feeds on your website."
 msgstr ""
 
+#: includes/blocks/login/attributes.php:285
+msgid "Username or Email Address"
+msgstr ""
+
+#: includes/blocks/login/attributes.php:286
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "Password"
+msgstr ""
+
 #: includes/blocks/login/block.php:16
 #: dist/blocks-placeholder.js:10
 #: dist/blocks.js:6
@@ -226,6 +256,18 @@ msgstr ""
 
 #: includes/blocks/login/block.php:17
 msgid "This block lets you add a user login form."
+msgstr ""
+
+#. translators: %s: Attribute User Name Label value or This Field.
+#. translators: %s: Attribute Password Label value or This Field.
+#: includes/blocks/login/frontend.js.php:24
+#: includes/blocks/login/frontend.js.php:29
+msgid "%s cannot be blank."
+msgstr ""
+
+#: includes/blocks/login/frontend.js.php:25
+#: includes/blocks/login/frontend.js.php:30
+msgid "This Field"
 msgstr ""
 
 #: includes/blocks/loop-builder/block.php:16
@@ -563,35 +605,35 @@ msgstr ""
 msgid "Custom Element"
 msgstr ""
 
-#: plugin-loader.php:161
+#: plugin-loader.php:163
 msgid "Activate the Spectra Plugin"
 msgstr ""
 
-#: plugin-loader.php:162
+#: plugin-loader.php:164
 msgid "Before you can use all the features of Spectra Pro, you need to activate the Spectra plugin first."
 msgstr ""
 
-#: plugin-loader.php:163
+#: plugin-loader.php:165
 msgid "Activate Now"
 msgstr ""
 
-#: plugin-loader.php:171
+#: plugin-loader.php:173
 msgid "Install and Activate the Spectra Plugin"
 msgstr ""
 
-#: plugin-loader.php:172
+#: plugin-loader.php:174
 msgid "Before you can use all the features of Spectra Pro, you need to install and activate the Spectra plugin first."
 msgstr ""
 
-#: plugin-loader.php:173
+#: plugin-loader.php:175
 msgid "Install Spectra"
 msgstr ""
 
-#: plugin-loader.php:196
+#: plugin-loader.php:198
 msgid "Spectra Pro is not working because you are using an old version of Spectra."
 msgstr ""
 
-#: plugin-loader.php:197
+#: plugin-loader.php:199
 msgid "Update Spectra Now"
 msgstr ""
 
@@ -901,6 +943,12 @@ msgid "Size"
 msgstr ""
 
 #: dist/blocks.js:6
+#: dist/blocks.js:15
+#: dist/blocks.js:17
+msgid "Default"
+msgstr ""
+
+#: dist/blocks.js:6
 msgid "Small"
 msgstr ""
 
@@ -1049,11 +1097,6 @@ msgid "Username"
 msgstr ""
 
 #: dist/blocks.js:6
-#: dist/blocks.js:8
-msgid "Password"
-msgstr ""
-
-#: dist/blocks.js:6
 msgid "Remember Me"
 msgstr ""
 
@@ -1098,6 +1141,14 @@ msgstr ""
 
 #: dist/blocks.js:6
 msgid "New User Role"
+msgstr ""
+
+#: dist/blocks.js:6
+msgid "Choosing 'Select' sets the default role for new users, as configured in WordPress Settings - General - New User Default Role."
+msgstr ""
+
+#: dist/blocks.js:6
+msgid "To adjust the \"New User Registration Role\", please contact your site administrator."
 msgstr ""
 
 #: dist/blocks.js:6
@@ -1335,11 +1386,6 @@ msgid "custom register"
 msgstr ""
 
 #: dist/blocks.js:8
-#: dist/blocks.js:19
-msgid "First Name"
-msgstr ""
-
-#: dist/blocks.js:8
 msgid "Icon"
 msgstr ""
 
@@ -1362,11 +1408,6 @@ msgstr ""
 
 #: dist/blocks.js:8
 msgid "required"
-msgstr ""
-
-#: dist/blocks.js:8
-#: dist/blocks.js:19
-msgid "Last Name"
 msgstr ""
 
 #: dist/blocks.js:8
@@ -1816,6 +1857,22 @@ msgid "By default, this option redirects user to the homepage."
 msgstr ""
 
 #: dist/blocks.js:14
+msgid "Reload Required"
+msgstr ""
+
+#: dist/blocks.js:14
+msgid "Recommended: Expired content is only rendered after reload when countdown expires."
+msgstr ""
+
+#: dist/blocks.js:14
+msgid "Expired content is rendered but visibly hidden until countdown expires."
+msgstr ""
+
+#: dist/blocks.js:14
+msgid "Automatically Reload"
+msgstr ""
+
+#: dist/blocks.js:14
 msgid "Live"
 msgstr ""
 
@@ -1857,15 +1914,19 @@ msgid "Gap Between Slides"
 msgstr ""
 
 #: dist/blocks.js:14
-msgid "Custom URL"
-msgstr ""
-
-#: dist/blocks.js:14
 msgid "Linked Caption Color"
 msgstr ""
 
 #: dist/blocks.js:14
 msgid "Lightbox Caption URL"
+msgstr ""
+
+#: dist/blocks.js:14
+msgid "Custom URL"
+msgstr ""
+
+#: dist/blocks.js:14
+msgid "Open Link in New Tab"
 msgstr ""
 
 #: dist/blocks.js:14
@@ -1885,18 +1946,6 @@ msgstr ""
 
 #: dist/blocks.js:15
 msgid "Click here to edit modal settings. This text will not be visible in the frontend."
-msgstr ""
-
-#: dist/blocks.js:15
-msgid "Custom Class"
-msgstr ""
-
-#: dist/blocks.js:15
-msgid "Custom ID"
-msgstr ""
-
-#: dist/blocks.js:15
-msgid "Automatic"
 msgstr ""
 
 #: dist/blocks.js:15
@@ -1976,6 +2025,10 @@ msgid "Icon Background Color"
 msgstr ""
 
 #: dist/blocks.js:15
+msgid "Icon Border Color"
+msgstr ""
+
+#: dist/blocks.js:15
 msgid "View"
 msgstr ""
 
@@ -2004,7 +2057,15 @@ msgid "Trigger options are not available for custom triggers (Custom Class, Cust
 msgstr ""
 
 #: dist/blocks.js:15
+msgid "Custom Class"
+msgstr ""
+
+#: dist/blocks.js:15
 msgid "Add your custom class without the dot. e.g: my-class. To edit the Modal content, please add this class to the desired trigger element and initialize modal from it."
+msgstr ""
+
+#: dist/blocks.js:15
+msgid "Custom ID"
 msgstr ""
 
 #: dist/blocks.js:15

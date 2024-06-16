@@ -269,9 +269,12 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 			case 'new':
 				$classes      = [ 'val' ];
 				$new_url      = $item['new'];
-				$new_full_url = home_url( $new_url );
+				$new_full_url = $new_url;
 				if ( ! $is_regex && WPSEO_Redirect_Util::requires_trailing_slash( $new_url ) ) {
 					$classes[] = 'has-trailing-slash';
+				}
+				if ( WPSEO_Redirect_Util::is_relative_url( $new_url ) ) {
+					$new_full_url = home_url( $new_url );
 				}
 
 				if (
@@ -279,6 +282,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 					|| $new_url === '/'
 					|| ! WPSEO_Redirect_Util::is_relative_url( $new_url )
 				) {
+
 					$classes[] = 'remove-slashes';
 				}
 

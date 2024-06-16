@@ -29,13 +29,13 @@ UAGBLogin = {
 			return;
 		}
 
-		this.validateOnEntry( formSelector );
+		this.validateOnEntry( formSelector, config?.this_field_error_msg );
 		this.passwordVisibility( formSelector, mainSelector );
 		if ( config.enableReCaptcha ) {
 			this.reCaptcha( mainSelector, config );
 		}
 
-		this.formSubmitInit( formSelector, mainSelector, config.enableReCaptcha, config.recaptchaVersion );
+		this.formSubmitInit( formSelector, mainSelector, config.enableReCaptcha, config.recaptchaVersion, config?.this_field_error_msg );
 		this.forgotPasswordInit( formSelector, mainSelector );
 	},
 
@@ -117,16 +117,32 @@ UAGBLogin = {
 		} );
 	},
 
-	_validateFields( field ) {
+	_validateFields( field, thisFieldErrorMsg ) {
 		// Check presence of values
-		if ( field.value.trim() === '' ) {
-			this._setStatus(
-				field,
-				`${ field.parentElement.previousElementSibling.innerText } cannot be blank`,
-				'error'
-			);
-		} else {
-			this._setStatus( field, null, 'success' );
+		switch ( field.name ) {
+			case 'username':
+				if ( field.value.trim() === '' ) {
+					this._setStatus(
+						field,
+						thisFieldErrorMsg.username,
+						'error'
+					);
+				} else {
+					this._setStatus( field, null, 'success' );
+				}
+				break;
+
+			case 'password':
+				if ( field.value.trim() === '' ) {
+					this._setStatus(
+						field,
+						thisFieldErrorMsg.password,
+						'error'
+					);
+				} else {
+					this._setStatus( field, null, 'success' );
+				}
+				break;
 		}
 	},
 	_setStatus( field, message, status ) {
@@ -298,13 +314,13 @@ UAGBLogin = {
 		const currentForm = UAGBLogin.getElements( formSelector );
 		return currentForm.querySelectorAll( 'input:not([type=hidden])' );
 	},
-	validateOnEntry( formSelector ) {
+	validateOnEntry( formSelector, thisFieldErrorMsg ) {
 		const self = this;
 		const currentFields = this.getFormFields( formSelector );
 
 		for ( const field of currentFields ) {
 			field.addEventListener( 'focusout', () => {
-				self._validateFields( field );
+				self._validateFields( field, thisFieldErrorMsg );
 			} );
 		}
 	},
@@ -321,14 +337,14 @@ UAGBLogin = {
 			document.head.appendChild( api );
 		}
 	},
-	formSubmitInit( formSelector, mainSelector, enableReCaptcha, recaptchaVersion ) {
+	formSubmitInit( formSelector, mainSelector, enableReCaptcha, recaptchaVersion, thisFieldErrorMsg ) {
 		const currentFields = this.getFormFields( formSelector );
 
 		document.querySelector( formSelector ).addEventListener( 'submit', function ( event ) {
 			event.preventDefault();
 
 			for ( const field of currentFields ) {
-				UAGBLogin._validateFields( field );
+				UAGBLogin._validateFields( field, thisFieldErrorMsg );
 			}
 
 			if ( UAGBLogin._isFormSubmitable( formSelector ) ) {

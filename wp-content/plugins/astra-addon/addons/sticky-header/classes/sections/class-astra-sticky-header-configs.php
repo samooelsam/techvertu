@@ -457,6 +457,28 @@ if ( ! class_exists( 'Astra_Sticky_Header_Configs' ) ) {
 							'title'   => __( 'Hover', 'astra-addon' ),
 						),
 
+						// Option: Logo SVG Icon Color.
+						array(
+							'name'    => 'sticky-logo-svg-icon-color',
+							'parent'  => ASTRA_THEME_SETTINGS . '[sticky-logo-svg-icon-color-group]',
+							'section' => 'title_tagline',
+							'type'    => 'sub-control',
+							'control' => 'ast-color',
+							'default' => astra_get_option( 'sticky-logo-svg-icon-color' ),
+							'title'   => __( 'Normal', 'astra-addon' ),
+						),
+
+						// Option: Logo SVG Icon Hover Color.
+						array(
+							'name'    => 'sticky-logo-svg-icon-hover-color',
+							'parent'  => ASTRA_THEME_SETTINGS . '[sticky-logo-svg-icon-color-group]',
+							'section' => 'title_tagline',
+							'type'    => 'sub-control',
+							'control' => 'ast-color',
+							'default' => astra_get_option( 'sticky-logo-svg-icon-hover-color' ),
+							'title'   => __( 'Hover', 'astra-addon' ),
+						),
+
 						array(
 							'name'       => ASTRA_THEME_SETTINGS . '[sticky-header-bg-color-responsive]',
 							'default'    => astra_get_option( 'sticky-header-bg-color-responsive' ),
@@ -592,19 +614,6 @@ if ( ! class_exists( 'Astra_Sticky_Header_Configs' ) ) {
 								astra_addon_builder_helper()->design_tab_config,
 							),
 						),
-						// Option: Sticky header logo color description.
-						array(
-							'name'     => ASTRA_THEME_SETTINGS . '[sticky-header-builder-logo-color-notice]',
-							'type'     => 'control',
-							'control'  => 'ast-description',
-							'section'  => 'title_tagline',
-							'priority' => 21,
-							'label'    => '',
-							'help'     => __( 'Use it with transparent images for optimal results.', 'astra-addon' ),
-							'context'  => array(
-								astra_addon_builder_helper()->design_tab_config,
-							),
-						),
 						array(
 							'name'      => ASTRA_THEME_SETTINGS . '[sticky-site-identity-title-color-group]',
 							'default'   => astra_get_option( 'sticky-site-identity-title-color-group' ),
@@ -637,6 +646,30 @@ if ( ! class_exists( 'Astra_Sticky_Header_Configs' ) ) {
 										'value'       => true,
 									),
 								),
+							),
+						),
+						array(
+							'name'       => ASTRA_THEME_SETTINGS . '[sticky-logo-svg-icon-color-group]',
+							'default'    => astra_get_option( 'sticky-logo-svg-icon-color-group' ),
+							'type'       => 'control',
+							'control'    => 'ast-color-group',
+							'title'      => __( 'Logo SVG Icon Color', 'astra-addon' ),
+							'section'    => 'title_tagline',
+							'responsive' => false,
+							'transport'  => 'postMessage',
+							'priority'   => 21,
+							'context'    => array(
+								array(
+									'setting'  => 'custom_logo',
+									'operator' => '==',
+									'value'    => false,
+								),
+								array(
+									'setting'  => ASTRA_THEME_SETTINGS . '[use-logo-svg-icon]',
+									'operator' => '==',
+									'value'    => true,
+								),
+								astra_addon_builder_helper()->design_tab_config,
 							),
 						),
 						// Option: Site Tagline Color.
@@ -675,6 +708,140 @@ if ( ! class_exists( 'Astra_Sticky_Header_Configs' ) ) {
 								),
 							),
 						)
+					);
+
+					$sticky_header_woo_cart_context = array(
+						'relation' => 'AND',
+						astra_addon_builder_helper()->design_tab_config,
+						array(
+							'relation' => 'OR',
+							array(
+								'setting'  => ASTRA_THEME_SETTINGS . '[header-above-stick]',
+								'operator' => '==',
+								'value'    => 1,
+							),
+							array(
+								'setting'  => ASTRA_THEME_SETTINGS . '[header-main-stick]',
+								'operator' => '==',
+								'value'    => 1,
+							),
+							array(
+								'setting'  => ASTRA_THEME_SETTINGS . '[header-below-stick]',
+								'operator' => '==',
+								'value'    => 1,
+							),
+						),
+					);
+
+					/**
+					 * Options for Woo Cart colors on sticky header.
+					 *
+					 * @since 4.6.0
+					 */
+					array_push(
+						$sticky_individual_configs,
+						/**
+						* Option: Sticky Header Woo Cart Options
+						*/
+						array(
+							'name'     => ASTRA_THEME_SETTINGS . '[sticky-header-woo-cart-divider]',
+							'type'     => 'control',
+							'control'  => 'ast-heading',
+							'section'  => 'section-header-woo-cart',
+							'title'    => __( 'Sticky Header Option', 'astra-addon' ),
+							'settings' => array(),
+							'priority' => 80,
+							'divider'  => array( 'ast_class' => 'ast-section-spacing' ),
+							'context'  => $sticky_header_woo_cart_context,
+						),
+						// Option Group: Cart Color.
+						array(
+							'name'       => ASTRA_THEME_SETTINGS . '[sticky-header-woo-cart-colors]',
+							'default'    => astra_get_option( 'sticky-header-woo-cart-colors' ),
+							'type'       => 'control',
+							'control'    => 'ast-color-group',
+							'title'      => __( 'Cart Color', 'astra-addon' ),
+							'section'    => 'section-header-woo-cart',
+							'transport'  => 'postMessage',
+							'priority'   => 85,
+							'context'    => $sticky_header_woo_cart_context,
+							'responsive' => false,
+							'divider'    => array( 'ast_class' => 'ast-section-spacing' ),
+						),
+						// Option: Cart Normal Color.
+						array(
+							'type'       => 'sub-control',
+							'control'    => 'ast-responsive-color',
+							'parent'     => ASTRA_THEME_SETTINGS . '[sticky-header-woo-cart-colors]',
+							'section'    => 'section-header-woo-cart',
+							'transport'  => 'refresh',
+							'name'       => 'sticky-header-woo-cart-color',
+							'default'    => astra_get_option( 'sticky-header-woo-cart-color' ),
+							'title'      => __( 'Normal', 'astra-addon' ),
+							'responsive' => false,
+							'rgba'       => true,
+							'priority'   => 85,
+							'context'    => $sticky_header_woo_cart_context,
+						),
+						// Option: Cart Hover Color.
+						array(
+							'type'       => 'sub-control',
+							'control'    => 'ast-responsive-color',
+							'transport'  => 'refresh',
+							'parent'     => ASTRA_THEME_SETTINGS . '[sticky-header-woo-cart-colors]',
+							'section'    => 'section-header-woo-cart',
+							'name'       => 'sticky-header-woo-cart-hover-color',
+							'default'    => astra_get_option( 'sticky-header-woo-cart-hover-color' ),
+							'title'      => __( 'Hover', 'astra-addon' ),
+							'responsive' => false,
+							'rgba'       => true,
+							'priority'   => 85,
+							'context'    => $sticky_header_woo_cart_context,
+						),
+						// Option Group: Cart Color.
+						array(
+							'name'       => ASTRA_THEME_SETTINGS . '[sticky-header-woo-cart-count-colors]',
+							'default'    => astra_get_option( 'sticky-header-woo-cart-count-colors' ),
+							'type'       => 'control',
+							'control'    => 'ast-color-group',
+							'title'      => __( 'Count Color', 'astra-addon' ),
+							'section'    => 'section-header-woo-cart',
+							'transport'  => 'postMessage',
+							'priority'   => 85,
+							'context'    => $sticky_header_woo_cart_context,
+							'responsive' => false,
+							'divider'    => array( 'ast_class' => 'ast-section-spacing' ),
+						),
+						// Option: Cart Normal Color.
+						array(
+							'type'       => 'sub-control',
+							'control'    => 'ast-responsive-color',
+							'parent'     => ASTRA_THEME_SETTINGS . '[sticky-header-woo-cart-count-colors]',
+							'section'    => 'section-header-woo-cart',
+							'transport'  => 'refresh',
+							'name'       => 'sticky-header-woo-cart-count-color',
+							'default'    => astra_get_option( 'sticky-header-woo-cart-count-color' ),
+							'title'      => __( 'Normal', 'astra-addon' ),
+							'responsive' => false,
+							'rgba'       => true,
+							'priority'   => 85,
+							'context'    => $sticky_header_woo_cart_context,
+						),
+						// Option: Cart Hover Color.
+						array(
+							'type'       => 'sub-control',
+							'control'    => 'ast-responsive-color',
+							'transport'  => 'refresh',
+							'parent'     => ASTRA_THEME_SETTINGS . '[sticky-header-woo-cart-count-colors]',
+							'section'    => 'section-header-woo-cart',
+							'name'       => 'sticky-header-woo-cart-count-hover-color',
+							'default'    => astra_get_option( 'sticky-header-woo-cart-count-hover-color' ),
+							'title'      => __( 'Hover', 'astra-addon' ),
+							'responsive' => false,
+							'rgba'       => true,
+							'priority'   => 85,
+							'context'    => $sticky_header_woo_cart_context,
+						),
 					);
 
 					$sticky_menu_configs = array();

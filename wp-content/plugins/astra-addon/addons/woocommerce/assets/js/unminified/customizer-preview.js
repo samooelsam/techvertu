@@ -202,6 +202,25 @@
 	} );
 
 	/**
+	 * Single Product: Sticky Image Top Offset
+	 */
+	wp.customize( 'astra-settings[single-product-sticky-product-image-top-offset]', function( setting ) {
+		setting.bind( function( topOffset ) {
+
+			if ( !!topOffset ) {
+				const productImage = document.querySelector('.woocommerce-product-gallery');
+
+				if (productImage) {
+					productImage.style.top = `${topOffset}px`;
+				}
+			}
+			else{
+				wp.customize.preview.send( 'refresh' );
+			}
+		});
+	} );
+
+	/**
 	 * Single Product: Image Width
 	 */
 	wp.customize( 'astra-settings[single-product-image-width]', function( setting ) {
@@ -365,6 +384,14 @@
 	wp.customize( 'astra-settings[shop-product-background-color]', function( setting ) {
 		setting.bind( function( color ) {
 			var dynamicStyle = '.woocommerce ul.products li.product, .woocommerce-page ul.products li.product { background-color: ' + color + ' } ';
+			astra_add_dynamic_css( 'global-color-palette', dynamicStyle );
+		} );
+	} );
+
+	// Filter Flyout Background color.
+	wp.customize( 'astra-settings[filter-background-color]', function( setting ) {
+		setting.bind( function( color ) {
+			var dynamicStyle = '.woocommerce .astra-off-canvas-sidebar-wrapper .astra-off-canvas-sidebar, .woocommerce-page .astra-off-canvas-sidebar-wrapper .astra-off-canvas-sidebar { background-color: ' + color + ' } ';
 			astra_add_dynamic_css( 'global-color-palette', dynamicStyle );
 		} );
 	} );

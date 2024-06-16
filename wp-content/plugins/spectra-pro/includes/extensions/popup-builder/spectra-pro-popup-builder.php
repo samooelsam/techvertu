@@ -1180,17 +1180,26 @@ class Spectra_Pro_Popup_Builder {
 			};
 
 			<?php
-			if ( $attr['isDismissable'] ) :
-				if ( $attr['hasOverlay'] && $attr['closeOverlayClick'] ) :
+			if ( ! empty( $attr['isDismissable'] ) ) :
+				if ( ! empty( $attr['hasOverlay'] ) && ! empty( $attr['closeOverlayClick'] ) ) :
 					?>
 					blockScope.addEventListener( 'click', ( event ) => closePopup( event ) );
 					<?php
 					endif;
-				if ( $attr['closeIcon'] ) :
+				if ( ! empty( $attr['closeIcon'] ) ) :
 					?>
 					const closeButton = blockScope.querySelector( '.uagb-popup-builder__close' );
 					closeButton.style.cursor = 'pointer';
 					closeButton.addEventListener( 'click', () => closePopup() );
+					<?php
+					endif;
+				if ( ! empty( $attr['closeEscapePress'] ) && ! empty( $attr['haltBackgroundInteraction'] ) && ! empty( $attr['variantType'] ) && 'popup' === $attr['variantType'] ) :
+					?>
+					document.addEventListener( 'keyup', ( event ) => {
+						if ( 27 === event.keyCode && blockScope.classList.contains( 'spectra-popup--open' ) ) {
+							return closePopup();
+						}
+					} );
 					<?php
 					endif;
 				endif;
@@ -1227,10 +1236,18 @@ class Spectra_Pro_Popup_Builder {
 				?>
 				theBody.classList.add( 'uagb-popup-builder__body--overflow-hidden' );
 				blockScope.classList.add( 'spectra-popup--open' );
+				<?php // Once this popup is active, create a focusable element to add focus onto the popup and then remove it. ?>
+				blockScope.focus();
+				const focusElement = document.createElement( 'button' );
+				focusElement.style.position = 'absolute';
+				focusElement.style.opacity = '0';
+				const popupFocus = blockScope.insertBefore( focusElement, blockScope.firstChild );
+				popupFocus.focus();
+				popupFocus.remove();
 			<?php endif; ?>
 			blockScope.style.opacity = 1;
 			<?php
-		}
+		}//end if
 		$output = ob_get_clean();
 		return is_string( $output ) ? $output : '';
 	}

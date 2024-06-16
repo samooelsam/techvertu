@@ -4,8 +4,8 @@ Donate link: https://www.paypal.me/BrainstormForce
 Tags: gutenberg, blocks, gutenberg blocks, editor, block
 Requires at least: 5.6
 Requires PHP: 7.4
-Tested up to: 6.5.2
-Stable tag: 2.13.1
+Tested up to: 6.5
+Stable tag: 2.13.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -211,42 +211,40 @@ When you use the Spectra along with the free Astra theme, you get a huge library
 
 == Credits ==
 
-Our external packages use [Rating Star Component](https://github.com/n49/react-stars) that are distributed under the terms of the ISC. While [Slick](https://github.com/akiran/react-slick), [Lottie](https://github.com/chenqingspring/react-lottie) and [Striptags](https://github.com/ericnorris/striptags) is distributed under the terms of the MIT.
+Our external packages use [Rating Star Component](https://github.com/n49/react-stars) that are distributed under the terms of the ISC. While [Slick](https://github.com/akiran/react-slick), [Lottie](https://github.com/chenqingspring/react-lottie) and [Striptags](https://github.com/ericnorris/striptags) is distributed under the terms of the MIT. Additionally, we incorporate [dnd kit](https://github.com/clauderic/dnd-kit) licensed under the MIT License.
 
 == Changelog ==
 
-= 2.13.1 - Friday, 3rd May 2024 =
-* Security Fix: Hardened the security of the plugin. Props: Ngô Thiên An (ancorn_).
-* Improvement: Core - Updated asset URL generation logic to prevent caching issues.
-* Improvement: Buttons - Improved the accessibility for better user interaction.
-* Fix: Global - Resolved an issue wherein the sidebar block border not displayed.
+### 2.13.6 - Thursday, 13th June 2024 ###
+* Fix: FAQ - Resolved an issue wherein the FAQ questions could not utilize line breaks or bold text.
 
-= 2.13.0 - Thursday, 25th April 2024 =
-* New: Introducing the Header Title-bar - Make more space for editing!
-* Feature: Container - Added new layout type 'grid'.
-* Improvement: Buttons - Added a flex-wrap toggle for multiple button rows instead of shrink-to-fit buttons.
-* Improvement: Countdown - Modified options to remove days, hours, minutes and seconds fields.
-* Improvement: Call To Action - Modified button text font-size to inherit from theme by default.
-* Improvement: Info Box - Modified CTA padding to inherit padding from theme by default.
-* Improvement: Info Box – Added the inherit-from-theme secondary-button option for Astra child themes.
-* Improvement: Call To Action – Added the inherit-from-theme secondary-button option for Astra child themes.
-* Fix: Heading - Resolved an issue wherein toolbar icon would not appear as indended.
-* Fix: Forms - Resolved an issue wherein the padding unit would not work as expected in responsive devices.
-* Fix: Theme Fonts - Resolved a font rendering issue for some Latin characters in FSE themes.
-* Fix: Testimonial - Resolved an issue wherein the padding would not work as intended in responsive devices.
-* Fix: Global - Resolved an issue wherein the editor sidebar would appear a bit shaky while switching between panels.
+= 2.13.5 - Wednesday, 12th June 2024 =
+* Improvement: FAQ - Implemented the server-side rendering approach for this block.
+* Fix: Container - Resolved an issue wherein the Image block would not display as expected in nested containers.
+* Fix: Taxonomy List - Handled the "Taxonomy Not Available." message on the front-end when using categories from the "Create And Assign Categories For Pages" plugin.
+* Fix: Testimonial - Resolved an issue wherein the image height would not work as intended.
+* Fix: Global - Resolved an issue wherein Custom CSS would not display on editor reload.
 
-= 2.12.9 - Monday, 22nd April 2024 =
-* Security Fix: Hardened the security of the plugin. Props: Wordfence.
+= 2.13.4 - Thursday, 6th June 2024 =
+* Feature: Quick Action Bar - Easily rearrange blocks in the Quick Action Bar for a personalized workflow.
+* Improvement: Info Box - Added an option to set the alt attribute of the image.
+* Improvement: Modal - Added separate units ( default 'px' ) for responsive modal width and height.
+* Improvement: Global - Added the inherit-from-theme primary and secondary-button options in blocks that contain buttons for Astra themes.
+* Improvement: Asset Generation - Regenerating post assets on current post update to avoid any conflicts with the cached version.
+* Fix: Buttons - Resolved an issue wherein the button typography styles would not work when applied from the parent in the Astra theme.
+* Fix: Buttons - Resolved an issue wherein button icon spacing would not work as expected in responsive devices.
+* Fix: Image Gallery - Added accessibility improvements to the lightbox close and gallery pagination buttons.
+* Fix: Quick Action Bar - Removed a console error that would occur in the editor whenever a block was dragged.
+* Fix: Global - Resolved an issue in which the media pickers would not show the selected image in the popup.
 
-= 2.12.8 - Wednesday, 10th April 2024 =
-* Improvement: Google Maps - Added a toggle to switch between Roadmap View and Satellite View.
-* Improvement: Global - Improved the block-name identification for the default fallback attributes.
-* Improvement: Global - Added WPML compatibility to the 'How To', 'Buttons', 'Forms' and 'Marketing Button' blocks.
-* Fix: Container - Resolved an issue wherein the link control content and edit icon would overflow out-of-screen after entering lengthy URLs.
-* Fix: Counter - Resolved an issue wherein the total number resets to default on end number change.
-* Fix: Icon - Resolved an issue wherein a few icons would not load on the frontend.
-* Fix: Global - Resolved an issue that would cause block-styling to break when used for a custom archive template of specific post types in FSE themes.
+= 2.13.3 - Wednesday, 22nd May 2024 =
+* Feature: Post Grid - Introduced new left and right post layouts.
+* Improvement: Forms - Added a separate alignment option for labels.
+* Fix: Image - Resolved an issue wherein the image overlay caption alignment would not work as expected.
+* Fix: Image - Resolved an issue wherein the hover box shadow would not work as intended in the overlay layout.
+* Fix: Forms - Resolved an issue wherein the country code for Czech Republic was incorrect.
+* Fix: Review - Resolved an issue where the Rich result test would throw an error when selecting a course item schema.
+* Fix: Post Masonry - Removed a console error that would say "UAGB Image Gallery" was not defined.
 
 The full changelog is available [here](https://wpspectra.com/whats-new/).
 

@@ -15,7 +15,7 @@ if ( ! class_exists( 'Helper' ) ) {
 
 	/**
 	 * Class Helper.
-	 * 
+	 *
 	 * @since 1.0.1
 	 */
 	final class Helper {
@@ -40,7 +40,7 @@ if ( ! class_exists( 'Helper' ) ) {
 		 * @return boolean
 		 */
 		public static function is_first_word( $str, $originalStr ) {
-			return strlen( html_entity_decode( $str ) ) === strlen( explode( ' ', $originalStr )[0] );
+			return html_entity_decode( $str ) === explode( ' ', $originalStr )[0];
 		}
 
 		/**

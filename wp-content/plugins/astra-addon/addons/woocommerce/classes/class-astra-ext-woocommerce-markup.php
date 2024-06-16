@@ -144,6 +144,9 @@ if ( ! class_exists( 'ASTRA_Ext_WooCommerce_Markup' ) ) {
 			// Check if user exist.
 			add_action( 'wp_ajax_nopriv_astra_woo_check_user_exist', array( $this, 'astra_check_user_exist' ) );
 
+			// Localize single product gallery variables.
+			add_filter( 'astra_addon_js_localize', array( $this, 'single_product_gallery_js_localize' ) );
+
 			// Localize cart variables.
 			add_filter( 'astra_addon_js_localize', array( $this, 'cart_js_localize' ) );
 
@@ -160,6 +163,12 @@ if ( ! class_exists( 'ASTRA_Ext_WooCommerce_Markup' ) ) {
 			add_action( 'template_redirect', array( $this, 'recently_viewed' ), 1 );
 
 			add_action( 'wp', array( $this, 'woocommerce_init' ), 99 );
+
+			// Modify default WooCommerce checkout fields placeholders.
+			add_filter( 'woocommerce_get_country_locale_default', array( $this, 'default_fields_customization' ) );
+
+			// Modify default WooCommerce checkout form fields arguments.
+			add_filter( 'woocommerce_form_field_args', array( $this, 'checkout_form_fields_args_customization' ), 10, 3 );
 		}
 
 		/**
@@ -497,7 +506,21 @@ if ( ! class_exists( 'ASTRA_Ext_WooCommerce_Markup' ) ) {
 			$localize['checkout_url']                    = apply_filters( 'astra_woocommerce_checkout_redirect', wc_get_checkout_url() );
 			$localize['add_to_cart_options_single']      = $rt_add_to_cart;
 			$localize['is_astra_pro']                    = astra_has_pro_woocommerce_addon();
+			$localize['shopRevealEffectEnable']          = astra_addon_check_reveal_effect_condition( 'woocommerce' );
 
+			return $localize;
+		}
+
+		/**
+		 * Cart localize
+		 *
+		 * @since 4.6.5
+		 * @param array $localize   JS localize variables.
+		 * @return array
+		 */
+		public function single_product_gallery_js_localize( $localize ) {
+			$localize['single_product_sticky_product_image']            = astra_get_option( 'single-product-sticky-product-image' );
+			$localize['single_product_sticky_product_image_top_offset'] = astra_get_option( 'single-product-sticky-product-image-top-offset' );
 			return $localize;
 		}
 
@@ -1450,6 +1473,10 @@ if ( ! class_exists( 'ASTRA_Ext_WooCommerce_Markup' ) ) {
 					$classes[] = 'ast-product-tabs-layout-' . astra_get_option( 'single-product-tabs-layout' );
 				}
 
+				if ( astra_addon_check_reveal_effect_condition( 'woocommerce' ) ) {
+					$classes[] = 'ast-fade-up';
+				}
+
 				$qv_enable = astra_get_option( 'shop-quick-view-enable' );
 
 				if ( 'disabled' !== $qv_enable ) {
@@ -1819,6 +1846,10 @@ if ( ! class_exists( 'ASTRA_Ext_WooCommerce_Markup' ) ) {
 				Astra_Minify::add_js( $gen_path . 'single-product-gallery' . $file_prefix . '.js' );
 			}
 
+			if ( astra_get_option( 'single-product-sticky-product-image' ) ) {
+				Astra_Minify::add_js( $gen_path . 'sticky-product-image' . $file_prefix . '.js' );
+			}
+
 			if ( astra_get_option( 'shop-filter-accordion' ) ) {
 				Astra_Minify::add_js( $gen_path . 'shop-filters' . $file_prefix . '.js' );
 			}
@@ -2162,8 +2193,13 @@ if ( ! class_exists( 'ASTRA_Ext_WooCommerce_Markup' ) ) {
 				}
 			}
 
-			// Beaver Builder themer layout.
-			if ( class_exists( 'FLThemeBuilderLoader' ) || class_exists( 'FLThemeBuilderLayoutData' ) ) {
+			// Beaver Builder themer layout.			
+			if ( class_exists( 'FLThemeBuilderLoader' ) ) {
+
+				if ( ! class_exists( 'FLThemeBuilderLayoutData' ) ) {
+					return;
+				}
+				
 				$template_ids = FLThemeBuilderLayoutData::get_current_page_content_ids();
 				if ( ! empty( $template_ids ) ) {
 					$template_id   = $template_ids[0];
@@ -3206,6 +3242,50 @@ if ( ! class_exists( 'ASTRA_Ext_WooCommerce_Markup' ) ) {
 			}
 
 			return $fields;
+		}
+
+		/**
+		 * Modify billing address placeholder.
+		 *
+		 * @param array $fields Checkout fields.
+		 * @since 4.6.8
+		 * @return array
+		 */
+		public function default_fields_customization( $fields ) {
+			if ( is_checkout() && ! is_wc_endpoint_url( 'order-received' ) && 'yes' === get_option( 'woocommerce_checkout_highlight_required_fields' ) && ( astra_get_option( 'checkout-labels-as-placeholders' ) || 'modern' === astra_get_option( 'woo-input-style-type' ) ) ) {
+				if ( isset( $fields['address_1'] ) && $fields['address_1']['required'] ) {
+					$fields['address_1']['placeholder'] .= ' *';
+				}
+
+				if ( isset( $fields['address_2'] ) && $fields['address_2']['required'] ) {
+					$fields['address_2']['placeholder'] .= ' *';
+				}
+			}
+
+			return $fields;
+		}
+
+		/**
+		 * Modify billing country & state placeholder.
+		 *
+		 * @param array $args  Checkout form field arguments.
+		 * @param array $key   Checkout form field key.
+		 * @param array $value Checkout form field value.
+		 * @since 4.6.8
+		 * @return array
+		 */
+		public function checkout_form_fields_args_customization( $args, $key, $value ) {
+			if ( is_checkout() && ! is_wc_endpoint_url( 'order-received' ) && 'yes' === get_option( 'woocommerce_checkout_highlight_required_fields' ) && ( astra_get_option( 'checkout-labels-as-placeholders' ) || 'default' === astra_get_option( 'woo-input-style-type' ) ) ) {
+				if ( 'country' === $args['type'] && 'billing_country' === $key ) {
+					$args['placeholder'] = $args['placeholder'] ? $args['placeholder'] . ' *' : esc_attr__( 'Select a country / region&hellip; *', 'astra-addon' );
+				}
+
+				if ( 'state' === $args['type'] && 'billing_state' === $key ) {
+					$args['placeholder'] = $args['placeholder'] ? $args['placeholder'] . ' *' : esc_attr__( 'Select an option&hellip; *', 'astra-addon' );
+				}
+			}
+
+			return $args;
 		}
 
 		/**

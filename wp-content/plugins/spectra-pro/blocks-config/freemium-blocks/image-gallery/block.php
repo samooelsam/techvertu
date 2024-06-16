@@ -50,6 +50,10 @@ class Block {
 				'lightboxLinkedCaptionHoverColor' => array(
 					'type' => 'string',
 				),
+				'customLinksBehaviour'            => array(
+					'type'    => 'object',
+					'default' => '',
+				),
 			)
 		);
 	}
@@ -73,24 +77,38 @@ class Block {
 					return;
 				}
 
-				const regexCustomURL = new RegExp( '^((http|https)://)(www.)?[a-zA-Z0-9@:%._\\+~#?&//=\\-]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$' );
+				const regexCustomURL = new RegExp( '^((http|https):[\/]{2})(www.)?((?!www)[a-zA-Z0-9@:%._\\+~#?&//=\\-]{2,256})\\.[a-zA-Z]{2,256}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$');
 				const customLinks = <?php echo isset( $attributes['customLinks'] ) ? wp_json_encode( $attributes['customLinks'] ) : '{}'; ?>;
+				const customLinksBehaviour = <?php echo isset( $attributes['customLinksBehaviour'] ) ? wp_json_encode( $attributes['customLinksBehaviour'] ) : '{}'; ?>;
 
 				const getCustomURL = ( image ) => {
 					const imageID = parseInt( image.getAttribute( 'data-spectra-gallery-image-id' ) );
 					return ( regexCustomURL.test( customLinks[ imageID ] ) ? customLinks[ imageID ] : undefined );
 				}
 
-				const openCustomURL = ( customURL ) => {
-					window.open( customURL, '_blank' );
+				const openCustomURL = ( customURL, shouldOpenInNewTab ) => {
+					if ( shouldOpenInNewTab ) { 
+						window.open(customURL, "_blank");
+					} else {
+						window.location.assign( customURL );
+					}
 				}
+
+				const getCustomLinkBehaviour = (caption) => {
+					if (!customLinksBehaviour) {
+						return true;
+					}
+					const imageId = parseInt(caption.getAttribute('data-spectra-gallery-image-id'));
+					return !customLinksBehaviour[imageId] === true;
+				};
 
 				const images = blockScope.querySelectorAll( '.spectra-image-gallery__media-wrapper' );
 				for ( let i = 0; i < images.length; i++ ) {
 					const customURL = getCustomURL( images[ i ] );
+					const shouldOpenInNewTab = getCustomLinkBehaviour( images[ i ] );
 					if ( customURL ) {
 						images[ i ].style.cursor = 'pointer';
-						images[ i ].addEventListener( 'click', () => openCustomURL( customURL ) );
+						images[ i ].addEventListener( 'click', () => openCustomURL( customURL, shouldOpenInNewTab) );
 					}
 				}
 			} );
@@ -112,8 +130,9 @@ class Block {
 	public function render_lightbox_url_frontend_js( $js, $id, $attributes ) {
 		ob_start();
 		?>
-			const regexCustomURL = new RegExp( '^((http|https)://)(www.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$' );
+			const regexCustomURL = new RegExp( '^((http|https)://)(www.)?[a-zA-Z0-9@:%._\\+~#?&//=\\-]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$' );
 			const customLinks = <?php echo isset( $attributes['customLinks'] ) ? wp_json_encode( $attributes['customLinks'] ) : '{}'; ?>;
+			const customLinksBehaviour = <?php echo isset( $attributes['customLinksBehaviour'] ) ? wp_json_encode( $attributes['customLinksBehaviour'] ) : '{}'; ?>;
 
 			const getCustomURL = ( caption ) => {
 				if ( ! customLinks ) {
@@ -123,12 +142,20 @@ class Block {
 				return ( regexCustomURL.test( customLinks[ imageID ] ) ? customLinks[ imageID ] : undefined );
 			}
 
+			const getCustomLinkBehaviour = (caption) => {
+				if (!customLinksBehaviour) {
+					return true;
+				}
+				const imageId = parseInt(caption.getAttribute('data-spectra-gallery-image-id'));
+				return !(customLinksBehaviour[imageId] === true);
+			};
+
 			const captions = lightboxSwiper.el.querySelectorAll( '.spectra-image-gallery__control-lightbox--caption' );
 			for ( let i = 0; i < captions.length; i++ ) {
 				const customURL = getCustomURL( captions[ i ] );
 				if ( customURL ) {
 					const anchor = document.createElement( 'a' );
-					anchor.target = '_blank';
+					anchor.target = getCustomLinkBehaviour( captions[ i ] ) ? '_blank' : '_self';
 					anchor.rel = 'noopener noreferrer';
 					anchor.href = customURL;
 					anchor.innerHTML = captions[ i ].innerHTML;
