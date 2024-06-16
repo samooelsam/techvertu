@@ -282,6 +282,8 @@ return array_merge(
 		'boxShadowBlurHover'              => '',
 		'boxShadowSpreadHover'            => '',
 		'boxShadowPositionHover'          => 'outset',
+		'usernameLabel'                   => __( 'Username or Email Address', 'spectra-pro' ),
+		'passwordLabel'                   => __( 'Password', 'spectra-pro' ),
 	),
 	$form_border_attribute,
 	$fields_border_attribute,

@@ -88,6 +88,8 @@ class PluginLoader {
 	 */
 	public function on_plugin_init() {
 
+		load_plugin_textdomain( 'spectra-pro', false, SPECTRA_PRO_DIR . '/languages' );
+
 		if ( ! defined( 'UAGB_VER' ) ) {
 			add_action( 'admin_notices', array( $this, 'spectra_pro_fail_load' ) );
 			return;

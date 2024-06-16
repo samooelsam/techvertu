@@ -108,11 +108,11 @@ function astra_woocommerce_dynamic_css( $dynamic_css, $dynamic_css_filtered = ''
 	$products_grid_tablet  = ( ! empty( $products_grid['tablet'] ) ) ? $products_grid['tablet'] : 3;
 	$products_grid_mobile  = ( ! empty( $products_grid['mobile'] ) ) ? $products_grid['mobile'] : 2;
 	$load_upsell_grid_css  = ( Astra_Addon_Builder_Helper::apply_flex_based_css() && astra_get_option( 'single-product-up-sells-display' ) ) ? true : false;
+	$related_product       = ( Astra_Addon_Builder_Helper::apply_flex_based_css() && astra_get_option( 'single-product-related-display' ) ) ? true : false;
 
 	// Supporting color setting for default icon as well.
 	$can_update_cart_color  = is_callable( 'astra_cart_color_default_icon_old_header' ) && astra_cart_color_default_icon_old_header();
 	$cart_new_color_setting = astra_get_option( 'woo-header-cart-icon-color', $theme_color );
-
 	// Quantity Plus Minus Button - Vertical Icon.
 	$plusminus_text_normal_color       = esc_attr( astra_get_option( 'plusminus-text-normal-color' ) );
 	$plusminus_background_normal_color = esc_attr( astra_get_option( 'plusminus-background-normal-color' ) );
@@ -326,8 +326,8 @@ function astra_woocommerce_dynamic_css( $dynamic_css, $dynamic_css_filtered = ''
 		);
 	}
 
-	/* Display Desktop Up sell Products */
-	if ( $load_upsell_grid_css ) {
+	/* Display Desktop Up sell & related Products */
+	if ( $load_upsell_grid_css || $related_product ) {
 		$css_output[ '.woocommerce-page.rel-up-columns-' . $products_grid_desktop . ' ul.products' ] = array(
 			'grid-template-columns' => 'repeat(' . $products_grid_desktop . ', minmax(0, 1fr))',
 		);
@@ -349,6 +349,19 @@ function astra_woocommerce_dynamic_css( $dynamic_css, $dynamic_css_filtered = ''
 			),
 		);
 		$css_output               .= astra_parse_css( $shop_product_bg_color_css );
+	}
+
+
+	/* Filter flyout background colour */
+	$filter_background_colour = astra_get_option( 'filter-background-color' );
+
+	if ( $filter_background_colour ) {
+		$filter_background_colour_support = array(
+			' .woocommerce .astra-off-canvas-sidebar-wrapper .astra-off-canvas-sidebar, .woocommerce-page .astra-off-canvas-sidebar-wrapper .astra-off-canvas-sidebar' => array(
+				'background-color' => $filter_background_colour,
+			),
+		);
+		$css_output                      .= astra_parse_css( $filter_background_colour_support );
 	}
 
 	$quick_view_bg_color = astra_get_option( 'quick-view-background-color' );
@@ -1023,27 +1036,25 @@ function astra_woocommerce_dynamic_css( $dynamic_css, $dynamic_css_filtered = ''
 	if ( $is_site_rtl ) {
 		$tablet_min_width = array(
 			'#ast-quick-view-content div.summary form.cart.stick' => array(
-				'position'   => 'absolute',
-				'bottom'     => 0,
-				'background' => '#fff',
-				'margin'     => 0,
-				'padding'    => '20px 0 15px 30px',
-				'width'      => '50%',
-				'width'      => '-webkit-calc(50% - 30px)',
-				'width'      => 'calc(50% - 30px)',
+				'position' => 'absolute',
+				'bottom'   => 0,
+				'margin'   => 0,
+				'padding'  => '20px 0 15px 30px',
+				'width'    => '50%',
+				'width'    => '-webkit-calc(50% - 30px)',
+				'width'    => 'calc(50% - 30px)',
 			),
 		);
 	} else {
 		$tablet_min_width = array(
 			'#ast-quick-view-content div.summary form.cart.stick' => array(
-				'position'   => 'absolute',
-				'bottom'     => 0,
-				'background' => '#fff',
-				'margin'     => 0,
-				'padding'    => '20px 30px 15px 0',
-				'width'      => '50%',
-				'width'      => '-webkit-calc(50% - 30px)',
-				'width'      => 'calc(50% - 30px)',
+				'position' => 'absolute',
+				'bottom'   => 0,
+				'margin'   => 0,
+				'padding'  => '20px 30px 15px 0',
+				'width'    => '50%',
+				'width'    => '-webkit-calc(50% - 30px)',
+				'width'    => 'calc(50% - 30px)',
 			),
 		);
 	}
@@ -1117,8 +1128,8 @@ function astra_woocommerce_dynamic_css( $dynamic_css, $dynamic_css_filtered = ''
 
 	);
 
-	/* Display Tablet Up sell Products */
-	if ( $load_upsell_grid_css ) {
+	/* Display Tablet Up sell & Related Products */
+	if ( $load_upsell_grid_css || $related_product ) {
 		$tablet_css[ '.single-product.woocommerce-page.tablet-rel-up-columns-' . $products_grid_tablet . ' ul.products' ] = array(
 			'grid-template-columns' => 'repeat(' . $products_grid_tablet . ', minmax(0, 1fr))',
 		);
@@ -1643,8 +1654,8 @@ function astra_woocommerce_dynamic_css( $dynamic_css, $dynamic_css_filtered = ''
 		$css_output .= astra_parse_css( $product_single_extras );
 	}
 
-	/* Display Mobile Up sell Products */
-	if ( $load_upsell_grid_css ) {
+	/* Display Mobile Up sell & Related Products */
+	if ( $load_upsell_grid_css || $related_product ) {
 		$mobile_woo_css[ '.single.single-product.woocommerce-page.mobile-rel-up-columns-' . $products_grid_mobile . ' ul.products' ] = array(
 			'grid-template-columns' => 'repeat(' . $products_grid_mobile . ', minmax(0, 1fr))',
 		);
@@ -2880,7 +2891,8 @@ function astra_woocommerce_dynamic_css( $dynamic_css, $dynamic_css_filtered = ''
 	}
 
 	$order_summary_bg_color = astra_get_option( 'order-summary-background-color' );
-
+	$font_style_updates     = Astra_Addon_Update_Filter_Function::astra_update_default_font_styling_addon();
+	
 	if ( is_checkout() && ! is_wc_endpoint_url( 'order-received' ) ) {
 		if ( class_exists( 'WooCommerce_Germanized' ) ) {
 			$germanized_checkout_css = array(
@@ -2893,10 +2905,38 @@ function astra_woocommerce_dynamic_css( $dynamic_css, $dynamic_css_filtered = ''
 				),
 				'form #order_review_heading:not(.elementor-widget-woocommerce-checkout-page #order_review_heading)' => array(
 					'border-width' => '0',
+					'font-size'    => $font_style_updates ? '' : '1.5em',
+					'font-weight'  => $font_style_updates ? '' : '600',
+				),
+				'form #order_review_heading:not(.elementor-widget-woocommerce-checkout-page #order_review_heading),' => array(
+					'padding'       => '0',
+					'margin-top'    => '1em',
+					'margin-bottom' => '0.7em',
+					'border-bottom' => '0',
+					'border'        => '0',
+					'width'         => '100%',
+					'font-size'     => $font_style_updates ? '' : '1.5em',
+					'font-weight'   => $font_style_updates ? '' : '600',
 				),
 				'form #order_review:not(.elementor-widget-woocommerce-checkout-page #order_review)' => array(
 					'padding'      => '0',
 					'border-width' => '0',
+					'font-size'    => $font_style_updates ? '' : '1.5em',
+					'font-weight'  => $font_style_updates ? '' : '600',
+				),
+				'.ast-modern-checkout .woocommerce form #customer_details h3' => array(
+					'padding'       => '0',
+					'margin-top'    => '1em',
+					'margin-bottom' => '0.7em',
+					'border-bottom' => '0',
+					'border'        => '0',
+					'width'         => '100%',
+					'font-size'     => $font_style_updates ? '' : '1.5em',
+					'font-weight'   => $font_style_updates ? '' : '600',
+				),
+				'.ast-modern-checkout .woocommerce form #ast-payment_options_heading' => array(
+					'font-size'   => $font_style_updates ? '' : '1.5em',
+					'font-weight' => $font_style_updates ? '' : '600',
 				),
 			);
 			$css_output             .= astra_parse_css( $germanized_checkout_css );
@@ -3745,6 +3785,19 @@ function astra_woocommerce_dynamic_css( $dynamic_css, $dynamic_css_filtered = ''
 			}
 		} else {
 			$my_account_page_css = '
+					.woocommerce-lost-password .woocommerce {
+						max-width: ' . apply_filters( 'astra_addon_modern_account_form_width', '540px' ) . ';
+						margin: 2em auto;
+						border: 1px solid var(--ast-border-color);
+						padding: 40px;
+						border-radius: 3px;
+					}
+					.woocommerce-lost-password .woocommerce form .form-row-first {
+						width: 100%;
+					}
+					.woocommerce-account .woocommerce form .form-row {
+						margin-bottom: 20px;
+					}
 					.ast-modern-woo-account-page .entry-content {
 						margin: 2em auto;
 					}
@@ -4345,7 +4398,7 @@ function astra_woocommerce_dynamic_css( $dynamic_css, $dynamic_css_filtered = ''
 	if ( $woo_empty_cart_featured_product ) {
 		$woo_empty_cart_featured_product_css = array(
 
-			'.astra-cart-drawer-content .ast-mini-cart-empty .ast-mini-cart-message, #ast-site-header-cart .ast-empty-cart-content' => array(
+			'.astra-cart-drawer-content .ast-mini-cart-empty .ast-mini-cart-message, .ast-site-header-cart .ast-empty-cart-content' => array(
 				'display' => 'none',
 			),
 

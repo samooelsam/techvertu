@@ -62,7 +62,7 @@ class Block {
 				'enableCookies'        => false,
 				'setCookiesOn'         => 'close-action',
 				'hideForDays'          => 2,
-				'iconBGColor'          => '#FFFFFF',
+				'iconBGColor'          => '#aaa',
 				'closeIconType'        => 'none',
 				'closeIconShape'       => 'Circle',
 				'closeIconBorderWidth' => 3,

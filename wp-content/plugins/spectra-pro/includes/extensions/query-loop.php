@@ -123,12 +123,7 @@ class QueryLoop {
 		* Since we use two custom loops, it's safest to always restore.
 		*/
 		wp_reset_postdata();
-
-		return sprintf(
-			'<div id="%1$s" class="uagb-loop-container %2$s">%3$s</div>',
-			"uagb-block-queryid-{$block->context['queryId']}",
-			"uagb-block-{$attributes['block_id']}",
-			$content
-		);
+		$query_id = is_int( $block->context['queryId'] ) ? $block->context['queryId'] : (int) $block->context['queryId'];
+		return '<div id="uagb-block-queryid-' . $query_id . '" class="uagb-loop-container uagb-block-' . esc_attr( $attributes['block_id'] ) . '">' . $content . '</div>';
 	}
 }

@@ -4,8 +4,8 @@ Donate link: https://www.paypal.me/BrainstormForce
 Tags: gutenberg, blocks, gutenberg blocks, editor, block
 Requires at least: 5.6
 Requires PHP: 7.4
-Tested up to: 6.4
-Stable tag: 1.1.1
+Tested up to: 6.5.3
+Stable tag: 1.1.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,57 +97,24 @@ Absolutely not! Spectra Pro is built with ease and performance in mind. Spectra 
 
 == Changelog ==
 
-= 1.1.1 - TUESDAY, 7th NOVEMBER 2023 =
-* Fix: Dynamic Content - Resolved an issue wherein the disable link would not work as intended for the post-terms source.
-* Fix: Dynamic Content - Resolved an issue wherein the dynamic image with the overlay layout in the Loop Builder would redirect to the current page when clicked on.
+= 1.1.7 - Thursday, 6th June 2024 =
+* Improvement: Countdown - Improved script loading logic.
+* Fix: Image Gallery - Resolved an issue wherein Pro options were not visible when translated with Loco Translate.
 
-= 1.1.0 - THURSDAY, 26th OCTOBER 2023 =
-* New: Introducing Global Block Styles - Create global styles and use them for core Spectra blocks across your site!
-* Fix: Dynamic Content - Resolved an issue wherein the Image block would not render correctly on the front end when using Pods.
+= 1.1.6 - Thursday, 9th May 2024 =
+* Improvement: Registration Form - Restricted "New User Role" field only for admin privileged users.
+* Fix: Image Gallery - Resolved an issue wherein custom URLs with hyphen in domain name could appear as invalid in some cases.
+* Fix: Loop Builder - Resolved an issue where the column gap was not working correctly on tablet and mobile devices.
+* Fix: Global - Resolved an issue in which strings would not be translatable with the Loco Translate plugin.
 
-= 1.0.4 - THURSDAY, 12th OCTOBER 2023 =
-* Improvement: Animations - Added a new one-click button in Containers to animate all inner-blocks.
+= 1.1.5 - Monday, 22nd April 2024 =
+* Security Fix: Hardened the security of the plugin. Props: Wordfence, Ngô Thiên An (ancorn_).
+* Fix: Registration Form - Resolved an issue wherein the localization assets would be visible on the frontend without using it.
 
-= 1.0.3 - WEDNESDAY, 27th SEPTEMBER 2023 =
-* Fix: Loop Builder - Resolved an issue wherein the block would encounter an issue within Astra's Custom Layout Archive.
-* Fix: Popup Builder - Resolved an issue in which the visibility modal UI would appear incorrectly.
-* Fix: Dynamic Content - Resolved an issue in which the Read More button on the posts page would not appear when Spectra Pro is enabled.
-* Fix: Global - Resolved an issue in which the Spectra Pro notice would appear when Spectra was not installed.
+= 1.1.4 - Tuesday, 2nd April 2024 =
+* Improvement: Added compatibility with WordPress v6.5.
+* Fix: Login / Registration Form - Handled translation for the input validation strings.
+* Fix: Register - Resolved an issue wherein the user-role settings would not work as intended when used as an inner block.
+* Fix: Dynamic Content - Resolved an issue wherein containers with the 'link' HTML tag would not work as intended with dynamic content.
 
-= 1.0.2 - TUESDAY, 8th AUGUST 2023 =
-* Improvement: Popup Builder - Added a quick-view button in the Popup Builder's admin table.
-* Improvement: Global - Enhanced the reusable block functionality for all Spectra Pro Blocks.
-
-= 1.0.1 - WEDNESDAY, 26th JULY 2023 =
-* Improvement: Instagram - Added grid presets.
-* Improvement: Login - Added the inbuilt `Forgot Password` feature and removed the custom link feature.
-* Improvement: Slider - Added a new `Gap Between Slides` feature and removed the focus mode feature.
-* Improvement: Dynamic Content - Improved the compatibility with the Meta Box plugin to show type-specific custom post meta.
-* Improvement: Dynamic Content - Implemented automatic-append when no replaceable content is selected.
-* Improvement: Dynamic Content - Added Dynamic Content support for the address field in the Google Maps block.
-* Improvement: Dynamic Content - Added custom post meta support for Dynamic Content in FSE templates.
-* Improvement: Dynamic Content - Added character length feature.
-
-= 1.0.0 - THURSDAY, 6th JULY 2023 =
-* New: Introducing the Loop Builder Block - Create custom post loops with tons of customization options.
-* New: Introducing the Instagram Feed Block - Add breathtaking live feeds from your Instagram profile(s) to your website!
-* New: Introducing the Login Form Block - Design beautiful login forms for your returning members|
-* New: Introducing the Registration Form Block - Convert your visitors to members with this customizable Registration block!
-* New: Introducing the Dynamic Content Extension - Display texts and images dynamically across your site with Spectra blocks!
-* Feature: Animations - Now you can set the delay and duration of each animation.
-* Feature: Animations - Now you can change the pacing of the animations with easing options.
-* Feature: Animations - Now you can choose to repeat animations on scroll.
-* Feature: Countdown - Now you can enable the new Evergreen Countdown mode.
-* Feature: Countdown - Now you can hide your Countdown timer once it ends, redirect your users to another URL, or even use it to reveal some hidden content.
-* Feature: Image Gallery - Now you can easily add Custom URLs for every image in your gallery.
-* Feature: Modal - Now you can use Triggers to choose when to display them.
-* Feature: Modal - Now you can add Off-Canvas display options.
-* Feature: Modal - Now you can choose between multiple block entry animations.
-* Feature: Modal - Now you can implement cookies to manage automatic triggering.
-* Feature: Modal - Now you can choose between multiple close icon placements and style settings.
-* Feature: Slider - Now you can alter the Slides Per View.
-* Feature: Slider - Now you can use Focus Mode to draw attention to the active slide.
-* Feature: Slider - Now you can add Custom Navigation to navigate the Slider on click of any other Spectra block.
-* Feature: Slider - Now you can add Navigation Slugs to individual slides.
-* Feature: Popup Builder - Now you can choose how the popups are triggered on a page.
-* Feature: Popup Builder - Now you can choose which posts/pages/CPTs to add or exclude each popup on.
+The full changelog is available [here](https://wpspectra.com/whats-new/).

@@ -17,7 +17,7 @@ window.UAGBModal = {
 		};
 	},
 
-	_addTriggers( mainSelector, args = {} ) {
+	_addTriggers( mainSelector, args = {}, defaultTrigger ) {
 		const { document_element } = UAGBModal._getVariables( mainSelector );
 		const modalWrapper = document_element.querySelectorAll( mainSelector );
 
@@ -28,9 +28,16 @@ window.UAGBModal = {
 					continue;
 				}
 				document.addEventListener( 'keyup', function ( e ) {
+					// If the current modal is not active, then abandon ship.
+					if ( ! innerModal.classList.contains( 'active' ) ) {
+						return;
+					}
 					const closeOnEsc = modalWrapperEl.dataset.escpress;
 					if ( 27 === e.keyCode && 'enable' === closeOnEsc ) {
 						UAGBModal._hide( mainSelector, innerModal );
+						if ( 'button' === args?.modalTrigger ) {
+							defaultTrigger?.focus();
+						}
 					}
 				} );
 
@@ -40,6 +47,9 @@ window.UAGBModal = {
 						UAGBModal._setPopupCookie( mainSelector, args.hideForDays );
 					}
 					UAGBModal._hide( mainSelector, innerModal );
+					if ( 'button' === args?.modalTrigger ) {
+						defaultTrigger?.focus();
+					}
 				} );
 			}
 		}
@@ -78,6 +88,13 @@ window.UAGBModal = {
 		const siteEditTheme = document.getElementsByClassName( 'edit-site' );
 		if ( innerModal && ! innerModal.classList.contains( 'active' ) ) {
 			innerModal.classList.add( 'active' );
+			// Once this modal is active, create a focusable element to add focus onto the modal and then remove it.
+			const focusElement = document.createElement( 'button' );
+			focusElement.style.position = 'absolute';
+			focusElement.style.opacity = '0';
+			const modalFocus = innerModal.insertBefore( focusElement, innerModal.firstChild );
+			modalFocus.focus();
+			modalFocus.remove();
 			if (
 				bodyWrap &&
 				! bodyWrap.classList.contains( 'hide-scroll' ) &&
@@ -146,13 +163,22 @@ window.UAGBModal = {
 					modalTrigger = modalWrapperEl.querySelector( '.uagb-modal-trigger' );
 				}
 				if ( modalTrigger ) {
-					const innerModal = modalWrapperEl?.querySelector( '.uagb-modal-popup' );
+					let innerModal = modalWrapperEl?.querySelector( '.uagb-modal-popup' );
 					const closeOverlayClick = modalWrapperEl.dataset.overlayclick;
 					modalTrigger.style.pointerEvents = 'auto';
+
+					let moveInnerModal = true;
+					if ( ! innerModal && isTriggerCustom ) {
+						// If the modal is moved to a different location, we need to get the modal from the new location because in the first iteration of the loop, we moved the modal to the body.
+						innerModal = document_element.querySelector( '.uagb-modal-popup' + mainSelector );
+						moveInnerModal = false;
+					}
+					
 					if ( ! innerModal ) {
 						continue;
 					}
-					if ( ! isAdmin ) {
+
+					if( ! isAdmin && moveInnerModal ){
 						document.body?.appendChild( innerModal );
 					}
 
@@ -190,7 +216,7 @@ window.UAGBModal = {
 
 		if ( modalWrapper ) {
 			const defaultTrigger = modalWrapper.querySelector( '.uagb-modal-trigger' );
-			UAGBModal._addTriggers( mainSelector, args );
+			UAGBModal._addTriggers( mainSelector, args, defaultTrigger );
 			const innerModal = modalWrapper.querySelector( '.uagb-modal-popup' );
 			switch ( modalTrigger ) {
 				case 'custom-class':
@@ -199,7 +225,6 @@ window.UAGBModal = {
 						break;
 					}
 					const modalTriggerAll = document_element.querySelectorAll( `.${ cssClass }` );
-
 					if ( modalTriggerAll.length > 0 ) {
 						modalTriggerAll.forEach( function ( trigger ) {
 							UAGBModal.triggerAction( mainSelector, trigger, isAdmin, true );

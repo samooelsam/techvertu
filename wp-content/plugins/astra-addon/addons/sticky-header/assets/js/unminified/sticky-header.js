@@ -13,7 +13,7 @@
  * @since  1.0.0
  */
 
-;(function ( $, window, undefined ) {
+ ;(function ( $, window, undefined ) {
 
 	var pluginName    = 'astExtSticky',
 		document      = window.document,
@@ -156,9 +156,6 @@
 				if ( '1' === self.options.hide_on_scroll ) {
 
 					self.hasScrolled( self, 'stick' );
-					fixed_header.addClass( 'ast-desktop-header' ).stop().css({
-						'transform': loginPopup ? 'none' : 'translateY(0)',
-					});
 				}else if ( 'none' == self.options.header_style ) {
 
 					if ( ! stickyHeaderFlag ) {
@@ -181,7 +178,7 @@
 							'top'            : stickyHeaderFlag ? aboveHeaderSelectorValue : 'unset',
 						});
 
-						selector.parent().css( 'min-height', 'unset' );
+						selector.parent().css("min-height", selector.outerHeight());
 					}
 
 					selector.addClass( 'ast-sticky-shrunk' ).stop();

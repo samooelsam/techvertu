@@ -36,7 +36,7 @@ $selectors['.uagb-loop-container > .uagb-loop-post'] = [
 $t_selectors = array(
 	'.uagb-loop-container' => array(
 		'flex-direction' => $attr['numberOfColumnTablet'] > 1 ? 'row' : 'column',
-		'gap'            => UAGB_Helper::get_css_value( $attr['columnGap'], $attr['columnGapType'] ),
+		'gap'            => UAGB_Helper::get_css_value( $attr['columnGapTablet'], $attr['columnGapType'] ),
 	),
 );
 
@@ -54,7 +54,7 @@ $t_selectors['.uagb-loop-container > .uagb-loop-post'] = [
 $m_selectors = array(
 	'.uagb-loop-container' => array(
 		'flex-direction' => $attr['numberOfColumnMobile'] > 1 ? 'row' : 'column',
-		'gap'            => UAGB_Helper::get_css_value( $attr['columnGap'], $attr['columnGapType'] ),
+		'gap'            => UAGB_Helper::get_css_value( $attr['columnGapMobile'], $attr['columnGapType'] ),
 	),
 );
 
