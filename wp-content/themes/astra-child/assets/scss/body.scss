@@ -946,6 +946,9 @@ html .ast-builder-menu .main-navigation{
     display: inline-block;
 }
 .input-box{
+    .wpforms-container.inline-fields{
+        margin-bottom: 0;
+    }
     input[type="email"]{
         width:80%;
         border:1px solid #57B5B4;
@@ -959,10 +962,12 @@ html .ast-builder-menu .main-navigation{
         font-size: 14px;
         
     }
-    input[type="submit"]{
+    input[type="submit"], button[type="submit"]{
         background: linear-gradient(277deg, #020024 0%, #57b5b4 0%, #028dae 100%);
         border-radius: 5px;
-        border:0
+        border:0;
+        padding: 15px;
+        font-weight: bold;
     }
 }
 ::placeholder {

@@ -441,6 +441,9 @@ $mobile: 480px;
     .input-box input, .inline-box{
         margin-top:0;
     }
+    .input-box .wpforms-container .wpforms-form .wpforms-field>*{
+        margin-bottom: 0;
+    }
 }
 @media only screen and (max-width: $mobile) {
     .tutorials-list-block{

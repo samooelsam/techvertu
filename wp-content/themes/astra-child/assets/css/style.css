@@ -794,6 +794,8 @@ html .ast-builder-menu .main-navigation {
 .inline-box {
   display: inline-block; }
 
+.input-box .wpforms-container.inline-fields {
+  margin-bottom: 0; }
 .input-box input[type="email"] {
   width: 80%;
   border: 1px solid #57B5B4;
@@ -805,10 +807,12 @@ html .ast-builder-menu .main-navigation {
   background-position: 97% center;
   background-repeat: no-repeat;
   font-size: 14px; }
-.input-box input[type="submit"] {
+.input-box input[type="submit"], .input-box button[type="submit"] {
   background: linear-gradient(277deg, #020024 0%, #57b5b4 0%, #028dae 100%);
   border-radius: 5px;
-  border: 0; }
+  border: 0;
+  padding: 15px;
+  font-weight: bold; }
 
 ::placeholder {
   color: #57B5B4;
@@ -1404,7 +1408,10 @@ html .ast-builder-menu .main-navigation {
     margin-bottom: 10px; }
 
   .input-box input, .inline-box {
-    margin-top: 0; } }
+    margin-top: 0; }
+
+  .input-box .wpforms-container .wpforms-form .wpforms-field > * {
+    margin-bottom: 0; } }
 @media only screen and (max-width: 480px) {
   .tutorials-list-block {
     column-count: 1; }

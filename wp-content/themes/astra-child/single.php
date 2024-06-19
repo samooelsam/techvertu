@@ -85,30 +85,10 @@ if($solutionTitle || $solutionContent) {
 			<div id="mc_embed_shell">
 	
 				<div id="mc_embed_signup">
-					<form action="https://techvertu.us22.list-manage.com/subscribe/post?u=552f2676904ba1f9d13aef028&id=b0280dad94&f_id=00bccfe1f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_self" novalidate="">
-						<div id="mc_embed_signup_scroll">
-						<div class="mc-field-group input-box">
-							<input type="email" name="EMAIL" placeholder="Enter Your Email" class="required email" id="mce-EMAIL" required="" value="">
-							<div class="optionalParent inline-box">
-								<div class="clear foot">
-									<input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Subscribe">
-									
-								</div>
-							</div>
-						</div>
-						<div hidden="">
-							<input type="hidden" name="tags" value="9349"></div>
-								<div id="mce-responses" class="clear foot">
-									<div class="response" id="mce-error-response" style="display: none;"></div>
-									<div class="response" id="mce-success-response" style="display: none;"></div>
-								</div>
-							<div aria-hidden="true" style="position: absolute; left: -5000px;">
-								/* real people should not fill this in and expect good things - do not remove this or risk form bot signups */
-								<input type="text" name="b_552f2676904ba1f9d13aef028_b0280dad94" tabindex="-1" value="">
-							</div>
-							
-						</div>
-					</form>
+					<div class="mc-field-group input-box">
+						<?php echo do_shortcode('[wpforms id="16"]');?>
+					</div>
+					
 				</div>
 			</div>
 		</div>
