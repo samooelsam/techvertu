@@ -95,6 +95,7 @@ astra_content_bottom(); ?>
     </div>
 </footer>
 </div>
+</div>
 <?php 
 wp_footer(); 
 ?>
