@@ -883,9 +883,10 @@ html .ast-builder-menu .main-navigation{
         display: flex;
         align-items: center;
         justify-content: center;
-        border:8px dashed #F2F3FA;
+        border:4px dashed #F2F3FA;
         background-color: #fafafa;
         margin-bottom: 20px;
+        border-radius: 20px;
         padding: 50px;
         h3{
             position: relative;
