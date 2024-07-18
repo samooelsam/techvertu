@@ -28,7 +28,7 @@ get_header();
 		if(has_post_thumbnail()) {?>
 		<figure class="techvertu-post-image-wrapper clearfix">
 			<?php 
-				the_post_thumbnail('single-post-size');
+				the_post_thumbnail('full');
 			?>
 		</figure>
 		<?php }
