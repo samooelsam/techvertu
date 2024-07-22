@@ -11,7 +11,7 @@
 /**
  * Define Constants
  */
-define( 'CHILD_THEME_ASTRA_CHILD_VERSION', '1.1.8' );
+define( 'CHILD_THEME_ASTRA_CHILD_VERSION', '1.1.9' );
 
 /**
  * Enqueue styles
@@ -19,6 +19,7 @@ define( 'CHILD_THEME_ASTRA_CHILD_VERSION', '1.1.8' );
 function child_enqueue_styles() {
 
 	wp_enqueue_style( 'astra-child-theme-css', get_stylesheet_directory_uri() . '/style.css', array('astra-theme-css'), CHILD_THEME_ASTRA_CHILD_VERSION, 'all' );
+	wp_enqueue_style( 'astra-child-theme-global-css', get_stylesheet_directory_uri() . '/assets/css/global-styles.css', array('astra-theme-css'), CHILD_THEME_ASTRA_CHILD_VERSION, 'all' );
 	wp_enqueue_style( 'astra-child-theme-custom-css', get_stylesheet_directory_uri() . '/assets/css/style.css', array('astra-theme-css'), CHILD_THEME_ASTRA_CHILD_VERSION, 'all' );
 	wp_enqueue_style( 'astra-child-theme-web-font','https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext', array('astra-theme-css'), CHILD_THEME_ASTRA_CHILD_VERSION, 'all' );
 	wp_enqueue_script('astra-child-scrollbar-scripts', get_template_directory_uri() . '-child/assets/js/jquery.scrollbar.min.js', array(), CHILD_THEME_ASTRA_CHILD_VERSION, true);
@@ -26,8 +27,19 @@ function child_enqueue_styles() {
 	
 
 }
-
 add_action( 'wp_enqueue_scripts', 'child_enqueue_styles', 15 );
+
+function techvertu_wp_remove_global_css() {
+   remove_action( 'wp_enqueue_scripts', 'wp_enqueue_global_styles' );
+   remove_action( 'wp_body_open', 'wp_global_styles_render_svg_filters' );
+}
+add_action( 'init', 'techvertu_wp_remove_global_css' );
+
+function techvertu_wp_remove_global_css() {
+	remove_action( 'wp_enqueue_scripts', 'wp_enqueue_global_styles' );
+	remove_action( 'wp_body_open', 'wp_global_styles_render_svg_filters' );
+ }
+ add_action( 'init', 'techvertu_wp_remove_global_css' );
 
 add_action('wp_footer', function () {
 	wp_dequeue_style('core-block-supports');
